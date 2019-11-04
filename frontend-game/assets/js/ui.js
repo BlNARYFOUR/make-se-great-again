@@ -91,8 +91,8 @@ ui = function () {
     };
 
     let resizeCanvas = function (canvas) {
-        let cw = document.documentElement.clientWidth;
-        let ch = document.documentElement.clientHeight;
+        let cw = canvas.clientWidth;
+        let ch = canvas.clientHeight;
         let width = cw < ch ? ch : cw;
         let height = cw < ch ? ch : cw;
         canvas.width = width;
@@ -179,9 +179,25 @@ ui = function () {
         });
     };
 
+    let enableStartButton = function () {
+        components.startScreen.components.playButton.attributes.enabled = true;
+    };
+
+    let disableStartButton = function () {
+        components.startScreen.components.playButton.attributes.enabled = false;
+    };
+
+    let checkButtonBounds = function(canvas, button, mouseX, mouseY) {
+        return button.attributes.left(canvas) <= mouseX && mouseX <= (button.attributes.left(canvas) + button.attributes.width(canvas))
+            && button.attributes.top(canvas) <= mouseY && mouseY <= (button.attributes.top(canvas) + button.attributes.height(canvas));
+    };
+
     return {
         "components": components,
         "resizeCanvas": resizeCanvas,
-        "drawStartScreen": drawStartScreen
+        "drawStartScreen": drawStartScreen,
+        "checkButtonBounds": checkButtonBounds,
+        "enableStartButton": enableStartButton,
+        "disableStartButton": disableStartButton
     }
 }();

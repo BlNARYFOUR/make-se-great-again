@@ -3,12 +3,54 @@
 document.addEventListener("DOMContentLoaded", init);
 
 function init(e) {
-    console.log("Hello World!");
+    const canvas = document.querySelector('#gameEnv');
 
-    let canvas = document.querySelector('#gameEnv');
-    let ctx = canvas.getContext("2d");
+    const buttons = [
+        {
+            "component": ui.components.startScreen.components.playButton,
+            "action": startTheGame
+        },
+    ];
 
     ui.drawStartScreen(canvas, getHighScores());
+    ui.enableStartButton();
+    activateButtonEvents(canvas, buttons);
+}
+
+function startTheGame(canvas) {
+    console.log("GAME STARTED");
+}
+
+function activateButtonEvents(canvas, buttons) {
+    canvas.addEventListener("mousemove", (e) => {
+        let mouseX = e.pageX - canvas.offsetLeft;
+        let mouseY = e.pageY - canvas.offsetTop;
+
+        let isHoveringOverButton = false;
+
+        buttons.forEach((button) => {
+            if(ui.checkButtonBounds(canvas, button.component, mouseX, mouseY) && button.component.attributes.enabled) {
+                isHoveringOverButton = true;
+            }
+        });
+
+        if(isHoveringOverButton) {
+            document.body.style.cursor = "pointer";
+        } else {
+            document.body.style.cursor = "default";
+        }
+    });
+
+    canvas.addEventListener("click", (e) => {
+        let mouseX = e.pageX - canvas.offsetLeft;
+        let mouseY = e.pageY - canvas.offsetTop;
+
+        buttons.forEach((button) => {
+            if(ui.checkButtonBounds(canvas, button.component, mouseX, mouseY) && button.component.attributes.enabled) {
+                button.action(canvas);
+            }
+        });
+    });
 }
 
 function getHighScores() {
