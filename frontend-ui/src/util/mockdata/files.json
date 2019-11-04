@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "name": "File1",
+        "game_id": 1
+    },
+    {
+        "id": 2,
+        "name": "File2",
+        "game_id": 1
+    },
+    {
+        "id": 3,
+        "name": "File3",
+        "game_id": 1
+    }
+]

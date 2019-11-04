@@ -1,28 +1,62 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="files">
+      <tabs>
+        <tab :name="file.name" v-for="file in files" :key="file.id">
+          <File
+          :id="file.id"
+          :name="file.name"
+          :game_id="file.game_id"
+          ></File>
+        </tab>
+      </tabs>
+    </div>
+    <div class="code_fills">yoot</div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import File from "@/components/File";
+import jsonFiles from "@/util/mockdata/files.json"
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    HelloWorld
+    File
+  },
+  data() {
+    return {
+      files: Array
+    }
+  },
+  created() {
+    this.files = jsonFiles;
   }
-}
+};
 </script>
 
-<style>
+<style lang="scss" >
+@import "./styles/tabs.css";
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  width: 98vw;
+  height: 98vh;
+}
+
+.files {
+  background-color: red;
+}
+
+.code_fills {
+  background-color: green;
+}
+
+.files,
+.code_fills {
+  width: 45%;
+  height: 100%;
 }
 </style>

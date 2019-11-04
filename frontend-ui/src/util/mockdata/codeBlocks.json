@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "code": "Dit is een lijn code",
+        "adjustable": false,
+        "file_id": 1
+    },
+    {
+        "id": 2,
+        "code": "Dit is een lijn code",
+        "adjustable": false,
+        "file_id": 1
+    },
+    {
+        "id": 3,
+        "code": "Dit is een lijn code",
+        "adjustable": false,
+        "file_id": 1
+    },
+    {
+        "id": 4,
+        "code": "Dit is een lijn code 2",
+        "adjustable": false,
+        "file_id": 2
+    },
+    {
+        "id": 5,
+        "code": "Dit is een lijn code 2",
+        "adjustable": false,
+        "file_id": 2
+    },
+    {
+        "id": 6,
+        "code": "Dit is een lijn code 2",
+        "adjustable": false,
+        "file_id": 2
+    },
+    {
+        "id": 7,
+        "code": "Dit is een lijn code 3",
+        "adjustable": false,
+        "file_id": 3
+    }
+]
