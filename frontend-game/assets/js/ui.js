@@ -36,6 +36,22 @@ ui = function () {
                         }
                     }
                 },
+                highScoreList: {
+                    attributes: {
+                        width: function (canvas) {
+                            return components.startScreen.attributes.width(canvas) * 0.8;
+                        },
+                        height: function (canvas) {
+                            return components.startScreen.attributes.height(canvas) - components.startScreen.components.title.attributes.fontSize(canvas) - components.startScreen.components.playButton.attributes.height(canvas) - canvas.height * 0.14;
+                        },
+                        left: function (canvas) {
+                            return (canvas.width - components.startScreen.components.highScoreList.attributes.width(canvas)) / 2;
+                        },
+                        top: function (canvas) {
+                            return (canvas.height - components.startScreen.attributes.height(canvas)) / 2 + components.startScreen.components.title.attributes.fontSize(canvas) + canvas.height * 0.065;
+                        }
+                    }
+                },
                 playButton: {
                     attributes: {
                         width: function (canvas) {
@@ -67,22 +83,6 @@ ui = function () {
                                     return components.startScreen.components.playButton.attributes.width(canvas);
                                 }
                             }
-                        }
-                    }
-                },
-                highScoreList: {
-                    attributes: {
-                        width: function (canvas) {
-                            return components.startScreen.attributes.width(canvas) * 0.8;
-                        },
-                        height: function (canvas) {
-                            return components.startScreen.attributes.height(canvas) - components.startScreen.components.title.attributes.fontSize(canvas) - components.startScreen.components.playButton.attributes.height(canvas) - canvas.height * 0.06;
-                        },
-                        left: function (canvas) {
-                            return (canvas.width - components.startScreen.components.highScoreList.attributes.width(canvas)) / 2;
-                        },
-                        top: function (canvas) {
-                            return (canvas.height - components.startScreen.attributes.height(canvas)) / 2 + components.startScreen.components.title.attributes.fontSize(canvas) + canvas.height * 0.025;
                         }
                     }
                 }
@@ -143,15 +143,39 @@ ui = function () {
             components.startScreen.components.playButton.components.title.attributes.maxWidth(canvas)
         );
 
-        ctx.strokeRect(
-            components.startScreen.components.highScoreList.attributes.left(canvas),
-            components.startScreen.components.highScoreList.attributes.top(canvas),
-            components.startScreen.components.highScoreList.attributes.width(canvas),
-            components.startScreen.components.highScoreList.attributes.height(canvas)
-        );
+        // ctx.strokeRect(
+        //     components.startScreen.components.highScoreList.attributes.left(canvas),
+        //     components.startScreen.components.highScoreList.attributes.top(canvas),
+        //     components.startScreen.components.highScoreList.attributes.width(canvas),
+        //     components.startScreen.components.highScoreList.attributes.height(canvas)
+        // );
 
-        highscores.forEach((scoring) => {
+        let itemHeight = components.startScreen.components.highScoreList.attributes.height(canvas) / 10;
+        highscores.forEach((scoring, i) => {
+            ctx.fillStyle = "#000000";
+            ctx.font = itemHeight*0.75 + "px sans-serif";
+            ctx.textAlign = "left";
+            ctx.fillText(
+                "#" + ((i+1) < 10 ? "0" + (i+1) : (i+1)),
+                components.startScreen.components.highScoreList.attributes.left(canvas),
+                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
+                components.startScreen.components.highScoreList.attributes.width(canvas)
+            );
 
+            ctx.fillText(
+                scoring.name,
+                components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas) * 0.25,
+                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
+                components.startScreen.components.highScoreList.attributes.width(canvas) * 0.45
+            );
+
+            ctx.textAlign = "right";
+            ctx.fillText(
+                scoring.score,
+                components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas),
+                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
+                components.startScreen.components.highScoreList.attributes.width(canvas) * 0.5
+            );
         });
     };
 
