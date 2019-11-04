@@ -11,9 +11,17 @@ ui = function () {
         canvas.width = width;
         canvas.height = height;
 
+        let startScreenWidth = width / 1.5;
+        let startScreenHeight = height / 1.2;
+
         ctx.beginPath();
         ctx.fillStyle = "#FF0000";
-        ctx.fillRect(0, 0, width / 2, height / 2);
+        ctx.fillRect(
+            (width - startScreenWidth) / 2,
+            (height - startScreenHeight) / 2,
+            startScreenWidth,
+            startScreenHeight
+        );
     };
 
     return {
