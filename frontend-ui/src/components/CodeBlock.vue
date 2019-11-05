@@ -1,5 +1,5 @@
 <template>
-    <div class="code_block">
+    <div v-on="listener" class="code_block">
         <div class="code"  v-bind:class="{ adjustable: adjustable}">
             {{ code }}
         </div>
@@ -26,6 +26,20 @@ export default {
             type: Number,
             required: true,
         },
+    },
+    computed:{
+       
+    },
+    methods: { 
+        listener() {
+            if(this.adjustable) {
+                return { click: this.selected };
+            }
+            return null;
+        },
+        selected() {
+            this.$emit('selected', this.id);
+        }
     }
 }
 </script>

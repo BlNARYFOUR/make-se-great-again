@@ -19,14 +19,14 @@
     },
     {
         "id": 4,
-        "code": "Dit is een lijn code 2",
-        "adjustable": false,
+        "code": null,
+        "adjustable": true,
         "file_id": 2
     },
     {
         "id": 5,
-        "code": "Dit is een lijn code 2",
-        "adjustable": false,
+        "code": null,
+        "adjustable": true,
         "file_id": 2
     },
     {

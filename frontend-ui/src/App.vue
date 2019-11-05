@@ -3,16 +3,23 @@
     <div class="files">
       <tabs>
         <tab :name="file.name" v-for="file in files" :key="file.id">
-          <File v-bind="file"></File>
+          <File v-on:showCodeFills="showCodeFills" v-bind="file"></File>
         </tab>
       </tabs>
     </div>
-    <div class="code_fills">yoot</div>
+    <div class="code_fills_container">
+      <ul class="code_fills">
+        <li class="code" v-for="code_fill in usable_code_fills" v-bind:key="code_fill.id">
+          <CodeFill v-bind="code_fill"></CodeFill>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 import File from "@/components/File";
+import CodeFill from "@/components/CodeFill";
 import jsonFiles from "@/util/mockdata/files.json";
 import jsonCodefills from "@/util/mockdata/codeFills.json";
 
@@ -20,13 +27,20 @@ import jsonCodefills from "@/util/mockdata/codeFills.json";
 export default {
   name: "app",
   components: {
-    File
+    File,
+    CodeFill
   },
   data() {
     return {
       files: Array,
-      code_fills: Array
+      code_fills: Array,
+      usable_code_fills: Array,
     };
+  },
+  methods: {
+    showCodeFills(id) {
+      this.usable_code_fills = this.code_fills.filter(fill => fill.code_block_id == id);
+    }
   },
   created() {
     this.files = jsonFiles;
@@ -54,12 +68,13 @@ export default {
   background-color: red;
 }
 
-.code_fills {
+.code_fills_container {
   background-color: green;
+  padding: 10em 2em 3em 2em;
 }
 
 .files,
-.code_fills {
+.code_fills_container {
   width: 45%;
   height: 100%;
 }

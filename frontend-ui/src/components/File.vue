@@ -2,7 +2,7 @@
   <div class="file">
     <ul class="codeBlocks">
       <li class="block" v-for="block in code_blocks" :key="block.id">
-        <CodeBlock v-bind="block"></CodeBlock>
+        <CodeBlock v-on:selected="showCodeFills" v-bind="block"></CodeBlock>
       </li>
     </ul>
   </div>
@@ -34,6 +34,11 @@ export default {
   data() {
     return {
       code_blocks: Array
+    }
+  },
+  methods:{
+    showCodeFills(id) {
+      this.$emit('showCodeFills', id);
     }
   },
   created() {

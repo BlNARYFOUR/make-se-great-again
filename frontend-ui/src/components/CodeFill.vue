@@ -31,5 +31,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/codeFill.css"
+@import "../styles/codeFill.css";
 </style>
