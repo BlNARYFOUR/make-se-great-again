@@ -15,26 +15,41 @@ function init(e) {
     const loads = {
         fontRegular: new FontFace('Flappy Regular', 'url(assets/fonts/Flappy-Regular.ttf)'),
         fontTitle: new FontFace('Flappy Title', 'url(assets/fonts/Flappy-Title.ttf)'),
-        fontBetter: new FontFace('Flappy Better', 'url(assets/fonts/Flappy-Better.ttf)')
+        fontBetter: new FontFace('Flappy Better', 'url(assets/fonts/Flappy-Better.ttf)'),
+        skyscrapers: createImageObj("bg-distance.png")
     };
 
     preLoaderAndDrawBeginScreen(loads, canvas, buttons);
 }
 
+function createImageObj(fileName) {
+    let img = new Image();
+    img.src = "assets/media/" + fileName;
+    return img;
+}
+
 function preLoaderAndDrawBeginScreen(loads, canvas, buttons) {
     let loaded = Object.values(loads).length;
 
+    function onLoad(e) {
+        console.log("loaded:", loaded);
+        loaded--;
+        if (loaded === 0) {
+            ui.setLoads(loads);
+            ui.drawStartScreen(canvas, getHighScores());
+            ui.enableStartButton();
+            activateButtonEvents(canvas, buttons);
+        }
+    }
+
     for (let i = 0; i < Object.values(loads).length; i++) {
         console.log(Object.values(loads)[i]);
-        Object.values(loads)[i].load().then(function(loadedObj) {
-            console.log("loaded:", loadedObj);
-            loaded--;
-            if (loaded === 0) {
-                ui.drawStartScreen(canvas, getHighScores());
-                ui.enableStartButton();
-                activateButtonEvents(canvas, buttons);
-            }
-        });
+
+        if(Object.values(loads)[i].load) {
+            Object.values(loads)[i].load().then(onLoad);
+        } else {
+            Object.values(loads)[i].addEventListener("load", onLoad);
+        }
     }
 }
 
@@ -44,8 +59,8 @@ function startTheGame(canvas) {
 
 function activateButtonEvents(canvas, buttons) {
     canvas.addEventListener("mousemove", (e) => {
-        let mouseX = e.pageX - canvas.offsetLeft;
-        let mouseY = e.pageY - canvas.offsetTop;
+        let mouseX = (e.pageX - canvas.offsetLeft) * 2;
+        let mouseY = (e.pageY - canvas.offsetTop) * 2;
 
         let isHoveringOverButton = false;
 
@@ -63,8 +78,8 @@ function activateButtonEvents(canvas, buttons) {
     });
 
     canvas.addEventListener("click", (e) => {
-        let mouseX = e.pageX - canvas.offsetLeft;
-        let mouseY = e.pageY - canvas.offsetTop;
+        let mouseX = (e.pageX - canvas.offsetLeft)* 2;
+        let mouseY = (e.pageY - canvas.offsetTop) * 2;
 
         buttons.forEach((button) => {
             if(ui.checkButtonBounds(canvas, button.component, mouseX, mouseY) && button.component.attributes.enabled) {
