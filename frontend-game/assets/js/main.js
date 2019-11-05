@@ -12,9 +12,30 @@ function init(e) {
         },
     ];
 
-    ui.drawStartScreen(canvas, getHighScores());
-    ui.enableStartButton();
-    activateButtonEvents(canvas, buttons);
+    const loads = {
+        fontRegular: new FontFace('Flappy Regular', 'url(assets/fonts/Flappy-Regular.ttf)'),
+        fontTitle: new FontFace('Flappy Title', 'url(assets/fonts/Flappy-Title.ttf)'),
+        fontBetter: new FontFace('Flappy Better', 'url(assets/fonts/Flappy-Better.ttf)')
+    };
+
+    preLoaderAndDrawBeginScreen(loads, canvas, buttons);
+}
+
+function preLoaderAndDrawBeginScreen(loads, canvas, buttons) {
+    let loaded = Object.values(loads).length;
+
+    for (let i = 0; i < Object.values(loads).length; i++) {
+        console.log(Object.values(loads)[i]);
+        Object.values(loads)[i].load().then(function(loadedObj) {
+            console.log("loaded:", loadedObj);
+            loaded--;
+            if (loaded === 0) {
+                ui.drawStartScreen(canvas, getHighScores());
+                ui.enableStartButton();
+                activateButtonEvents(canvas, buttons);
+            }
+        });
+    }
 }
 
 function startTheGame(canvas) {
@@ -64,12 +85,7 @@ function getHighScores() {
         new HighScore("Bob", 99),
         new HighScore("Maria", 87),
         new HighScore("Jane", 69),
-        new HighScore("Barbara", 50),
         new HighScore("Why is this username so long like wtf just why", 47),
-        new HighScore("Alice", 42),
-        new HighScore("John Doe", 25),
-        new HighScore("Joseph", 5),
-        new HighScore("A", 1)
     ];
 }
 
