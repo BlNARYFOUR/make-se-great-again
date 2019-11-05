@@ -1,5 +1,5 @@
 <template>
-    <div v-on="listener" class="code_block">
+    <div v-on:click="selected" class="code_block">
         <div class="code"  v-bind:class="{ adjustable: adjustable}">
             {{ code }}
         </div>
@@ -27,18 +27,17 @@ export default {
             required: true,
         },
     },
-    computed:{
-       
-    },
-    methods: { 
-        listener() {
-            if(this.adjustable) {
-                return { click: this.selected };
-            }
-            return null;
-        },
+    // watch: {
+    //     code() {
+    //         /*eslint no-console: ["error", { allow: ["log", "error"] }] */
+    //         console.log(this.code);
+    //     }
+    // },
+    methods: {
         selected() {
-            this.$emit('selected', this.id);
+            if(this.adjustable) {
+                this.$emit('selected', this);
+            }
         }
     }
 }

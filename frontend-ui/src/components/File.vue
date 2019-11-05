@@ -37,8 +37,8 @@ export default {
     }
   },
   methods:{
-    showCodeFills(id) {
-      this.$emit('showCodeFills', id);
+    showCodeFills(code_block) {
+      this.$emit('showCodeFills', code_block);
     }
   },
   created() {

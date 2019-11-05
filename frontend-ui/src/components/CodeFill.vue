@@ -1,5 +1,5 @@
 <template>
-    <div class="code_fill">
+    <div v-on:click="select" class="code_fill">
         <div class="code">
             {{ code }}
         </div>
@@ -25,6 +25,11 @@ export default {
         code_block_id: {
             type: Number,
             required: true
+        }
+    },
+    methods: {
+        select() {
+            this.$emit('selectCodeFill', this._props);
         }
     }
 }

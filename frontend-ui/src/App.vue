@@ -10,7 +10,7 @@
     <div class="code_fills_container">
       <ul class="code_fills">
         <li class="code" v-for="code_fill in usable_code_fills" v-bind:key="code_fill.id">
-          <CodeFill v-bind="code_fill"></CodeFill>
+          <CodeFill v-on:selectCodeFill="selectCodeFill" v-bind="code_fill"></CodeFill>
         </li>
       </ul>
     </div>
@@ -35,11 +35,18 @@ export default {
       files: Array,
       code_fills: Array,
       usable_code_fills: Array,
+      selected_code_block: Object
     };
   },
   methods: {
-    showCodeFills(id) {
-      this.usable_code_fills = this.code_fills.filter(fill => fill.code_block_id == id);
+    showCodeFills(code_block) {
+      this.selected_code_block = code_block;
+      this.usable_code_fills = this.code_fills.filter(fill => fill.code_block_id == code_block.id);
+    },
+    selectCodeFill(codeFill) {
+      if(this.selected_code_block.id == codeFill.code_block_id) {
+        this.selected_code_block.code = codeFill.code;
+      }
     }
   },
   created() {
