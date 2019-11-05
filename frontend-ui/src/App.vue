@@ -3,11 +3,7 @@
     <div class="files">
       <tabs>
         <tab :name="file.name" v-for="file in files" :key="file.id">
-          <File
-          :id="file.id"
-          :name="file.name"
-          :game_id="file.game_id"
-          ></File>
+          <File v-bind="file"></File>
         </tab>
       </tabs>
     </div>
@@ -17,7 +13,7 @@
 
 <script>
 import File from "@/components/File";
-import jsonFiles from "@/util/mockdata/files.json"
+import jsonFiles from "@/util/mockdata/files.json";
 
 export default {
   name: "app",
@@ -27,7 +23,7 @@ export default {
   data() {
     return {
       files: Array
-    }
+    };
   },
   created() {
     this.files = jsonFiles;

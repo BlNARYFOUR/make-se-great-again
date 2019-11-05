@@ -1,12 +1,22 @@
 <template>
-  <div class="file">{{ code_blocks }}</div>
+  <div class="file">
+    <ul class="codeBlocs">
+      <li class="block" v-for="block in code_blocks" :key="block.id">
+        <CodeBlock v-bind="block"></CodeBlock>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
 import jsonblocks from "@/util/mockdata/codeBlocks.json"
+import CodeBlock from "@/components/CodeBlock"
 
 export default {
   name: "File",
+  components: {
+    CodeBlock
+  },
   props: {
     id: {
       type: Number,
@@ -33,18 +43,5 @@ export default {
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>

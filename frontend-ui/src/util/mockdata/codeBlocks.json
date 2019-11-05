@@ -1,8 +1,8 @@
 [
     {
         "id": 1,
-        "code": "Dit is een lijn code",
-        "adjustable": false,
+        "code": null,
+        "adjustable": true,
         "file_id": 1
     },
     {
