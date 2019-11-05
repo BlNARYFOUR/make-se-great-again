@@ -1,6 +1,6 @@
 <template>
   <div class="file">
-    <ul class="codeBlocs">
+    <ul class="codeBlocks">
       <li class="block" v-for="block in code_blocks" :key="block.id">
         <CodeBlock v-bind="block"></CodeBlock>
       </li>
@@ -42,6 +42,6 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+@import "../styles/file.css";
 </style>

@@ -34,6 +34,10 @@ export default {
 <style lang="scss" >
 @import "./styles/tabs.css";
 
+* {
+  box-sizing: border-box;
+}
+
 #app {
   display: flex;
   flex-flow: row nowrap;

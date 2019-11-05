@@ -1,6 +1,8 @@
 <template>
     <div class="code_block">
-        {{ code }}
+        <div class="code"  v-bind:class="{ adjustable: adjustable}">
+            {{ code }}
+        </div>
     </div>
 </template>
 
@@ -27,3 +29,12 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+
+.adjustable {
+    height: 5rem;
+    border: 2px solid black;
+    
+}
+</style>
