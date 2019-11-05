@@ -14,6 +14,8 @@
 <script>
 import File from "@/components/File";
 import jsonFiles from "@/util/mockdata/files.json";
+import jsonCodefills from "@/util/mockdata/codeFills.json";
+
 
 export default {
   name: "app",
@@ -22,11 +24,13 @@ export default {
   },
   data() {
     return {
-      files: Array
+      files: Array,
+      code_fills: Array
     };
   },
   created() {
     this.files = jsonFiles;
+    this.code_fills = jsonCodefills;
   }
 };
 </script>

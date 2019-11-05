@@ -31,10 +31,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.adjustable {
-    height: 5rem;
-    border: 2px solid black;
-    
-}
+@import "../styles/codeBlock.css";
 </style>
