@@ -53,8 +53,53 @@ function preLoaderAndDrawBeginScreen(loads, canvas, buttons) {
     }
 }
 
-function startTheGame(canvas) {
+function startTheGame(canvas, highScores) {
+    ui.disableStartButton();
+    document.body.style.cursor = "default";
+
     console.log("GAME STARTED");
+
+    requestAnimationFrame(() => beginOverlayLoop(canvas, new Date().getTime(), 0));
+}
+
+function beginOverlayLoop(canvas, prevTime, opacity) {
+    const time = new Date().getTime();
+    const passedTime = time - prevTime;
+
+    opacity += 1 / (100 / passedTime);
+
+    ui.drawOverlay(canvas, "black", 1 / (150 / passedTime));
+
+    if(1 <= opacity) {
+        requestAnimationFrame(() => getReadyLoop(canvas, new Date().getTime(), new Game(0.4), 1));
+    } else {
+        requestAnimationFrame(() => beginOverlayLoop(canvas, time, opacity));
+    }
+}
+
+function getReadyLoop(canvas, prevTime, game, opacity) {
+    const time = new Date().getTime();
+    const passedTime = time - prevTime;
+
+    opacity -= 1 / (150 / passedTime);
+    opacity = opacity < 0 ? 0 : opacity;
+    game.update(passedTime);
+
+    ui.drawBasicStaticBackground(canvas);
+    ui.drawGround(canvas, game.getGroundX());
+    ui.drawScore(canvas, 0);
+    ui.drawTitle(canvas, "Get Ready");
+
+    ui.drawOverlay(canvas, "black", opacity);
+
+    requestAnimationFrame(() => getReadyLoop(canvas, time, game, opacity));
+}
+
+function gameLoop(canvas, score, prevTime) {
+
+    console.log(prevTime);
+
+    requestAnimationFrame(() => gameLoop(canvas, score, new Date().getTime()));
 }
 
 function activateButtonEvents(canvas, buttons) {

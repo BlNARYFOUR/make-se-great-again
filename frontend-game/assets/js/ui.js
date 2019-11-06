@@ -533,6 +533,64 @@ ui = function () {
         });
     };
 
+    let drawBird = function (canvas, y, wingState) {
+        // Wing state is 0, 1 or 2
+    };
+
+    let drawBirdControlHint = function (canvas, opacity) {
+
+    };
+
+    let drawScore = function (canvas, score) {
+        let ctx = canvas.getContext("2d");
+
+        ctx.textAlign = "center";
+        ctx.font = (canvas.height*0.06) + "px Flappy Better, sans-serif";
+        ctx.fillStyle = "black";
+        ctx.fillText(
+            score,
+            canvas.width * 0.497,
+            canvas.height * 0.097,
+            canvas.width
+        );
+        ctx.fillText(
+            score,
+            canvas.width * 0.497,
+            canvas.height * 0.103,
+            canvas.width
+        );
+        ctx.fillText(
+            score,
+            canvas.width * 0.503,
+            canvas.height * 0.097,
+            canvas.width
+        );
+        ctx.fillText(
+            score,
+            canvas.width * 0.503,
+            canvas.height * 0.103,
+            canvas.width
+        );
+
+        ctx.fillStyle = "white";
+        ctx.fillText(
+            score,
+            canvas.width * 0.5,
+            canvas.height * 0.1,
+            canvas.width
+        );
+    };
+
+    let drawOverlay = function (canvas, color, opacity) {
+        let ctx = canvas.getContext("2d");
+
+        ctx.globalAlpha = opacity;
+        ctx.fillStyle = color;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.globalAlpha = 1;
+    };
+
     let enableStartButton = function () {
         components.startScreen.components.playButton.attributes.enabled = true;
     };
@@ -549,13 +607,20 @@ ui = function () {
     return {
         "components": components,
         "resizeCanvas": resizeCanvas,
-        "drawStartScreen": drawStartScreen,
         "checkButtonBounds": checkButtonBounds,
         "enableStartButton": enableStartButton,
         "disableStartButton": disableStartButton,
         "setLoads": setLoads,
+        "drawStartScreen": drawStartScreen,
+        "drawGroundPatch": drawGroundPatch,
         "drawGround": drawGround,
-        "drawTube": drawTube
+        "drawTube": drawTube,
+        "drawBasicStaticBackground": drawBasicStaticBackground,
+        "drawTitle": drawTitle,
+        "drawBird": drawBird,
+        "drawBirdControlHint": drawBirdControlHint,
+        "drawScore": drawScore,
+        "drawOverlay": drawOverlay
     }
 }();
 
