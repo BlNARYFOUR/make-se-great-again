@@ -1,6 +1,5 @@
 .tabs-component {
-    height: calc(100% - 10em);
-    margin-top: 5rem;
+    height: 95%;
 }
 
 .tabs-component-tabs {
@@ -28,23 +27,16 @@
 }
 
 .tabs-component-tab-a {
-align-items: center;
-color: inherit;
-display: flex;
-padding: .5em 1em;
-text-decoration: none;
+    align-items: center;
+    color: inherit;
+    display: flex;
+    padding: .5em 1em;
+    text-decoration: none;
 }
 
 .tabs-component-panels {
-padding: 4em 0;
-height: 100%;
-background-color: map-get($color, background--dark);
-border: 1px solid map-get($color, text--light);
-z-index: 10;
-}
-
-@media (min-width: 700px) {
-    .tabs-component-panels {
-        padding: 4em 2em;
-    }
+    padding: 2em;
+    height: 100%;
+    background-color: map-get($color, background--dark);
+    border: 1px solid map-get($color, text--light);
 }

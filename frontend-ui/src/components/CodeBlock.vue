@@ -2,7 +2,7 @@
   <div v-on:click="selected" class="code_block">
     <div
       class="code"
-      v-bind:class="{ adjustable: adjustable, empty: !code, selected: is_selected }"
+      :class="{ adjustable: adjustable, empty: !code, selected: is_selected }"
     >{{ code }}</div>
   </div>
 </template>

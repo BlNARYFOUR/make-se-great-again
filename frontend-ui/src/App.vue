@@ -8,6 +8,10 @@
         <option disabled="disabled" value="breakout">Breakout</option>
       </select>
     </div>
+    <div class="action_buttons">
+      <button class="button__reset">Reset</button>
+      <button class="button__deploy">Deploy</button>
+    </div>
     <div class="container">
       <div class="files">
         <tabs v-on:changed="tabChanged">
@@ -17,6 +21,7 @@
         </tabs>
       </div>
       <div class="code_fills_container">
+        <div class="title_code_fill">{{ tabTitle }}</div>
         <ul class="code_fills">
           <li class="code" v-for="code_fill in usable_code_fills" v-bind:key="code_fill.id">
             <CodeFill v-on:selectCodeFill="selectCodeFill" v-bind="code_fill"></CodeFill>
@@ -44,23 +49,34 @@ export default {
       files: [],
       code_fills: [],
       usable_code_fills: [],
-      selected_code_block: {}
+      selected_code_block: {},
+      selected_code_fill: {},
+      selected_tab: '',
     };
+  },
+  computed: {
+    tabTitle() {
+      return Object.keys(this.selected_code_block).length !== 0 ? this.selected_tab : 'Select a CodeBlock!';
+    }
   },
   methods: {
     showCodeFills(codeBlock) {
+      console.log(1);
       this.selected_code_block = codeBlock;
       this.usable_code_fills = this.code_fills.filter(
         fill => fill.code_block_id === codeBlock.id
       );
     },
     selectCodeFill(codeFill) {
+      this.selected_code_fill = codeFill;
       if (this.selected_code_block.id === codeFill.code_block_id) {
         this.selected_code_block.code = codeFill.code;
       }
     },
-    tabChanged() {
+    tabChanged(selectedTab) {
       this.usable_code_fills = null;
+      this.selected_tab = selectedTab.tab.name;
+      this.selected_code_block = {};
     }
   },
   created() {

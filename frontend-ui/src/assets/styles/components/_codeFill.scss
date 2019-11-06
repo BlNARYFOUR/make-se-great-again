@@ -1,5 +1,22 @@
 .code_fill .code {
     height: 5rem;
-    border: 2px solid black;
-    margin: 1rem 0;
+    border: 2px solid map-get($color, text--light);
+    background-color: map-get($color, primary);
+    color: map-get($color, text--light);
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 1rem;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &.selected {
+        border-color: map-get($color, secondary);
+    }
 }
+
+
+
