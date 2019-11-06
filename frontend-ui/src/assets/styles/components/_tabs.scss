@@ -1,0 +1,50 @@
+.tabs-component {
+    height: calc(100% - 10em);
+    margin-top: 5rem;
+}
+
+.tabs-component-tabs {
+    align-items: stretch;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.tabs-component-tab {
+    font-size: 1rem;
+    list-style: none;
+}
+
+.tabs-component-tab {
+    background-color: map-get($color, background--dark);
+    border-radius: 0 10px 0 0;
+}
+
+.tabs-component-tab.is-active {
+    background-color: map-get($color, primary);
+}
+
+.tabs-component-tab:hover {
+    transform: translateY(-2px);
+}
+
+.tabs-component-tab-a {
+align-items: center;
+color: inherit;
+display: flex;
+padding: .5em 1em;
+text-decoration: none;
+}
+
+.tabs-component-panels {
+padding: 4em 0;
+height: 100%;
+background-color: map-get($color, background--dark);
+border: 1px solid map-get($color, text--light);
+z-index: 10;
+}
+
+@media (min-width: 700px) {
+    .tabs-component-panels {
+        padding: 4em 2em;
+    }
+}

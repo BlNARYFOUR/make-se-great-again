@@ -1,0 +1,21 @@
+.adjustable {
+    height: 5rem;
+    border: 2px solid white;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 1rem;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:not(.empty) {
+        background-color: map-get($color, primary);
+    }
+}
+
+.selected {
+    border-color: map-get($color, secondary);
+}

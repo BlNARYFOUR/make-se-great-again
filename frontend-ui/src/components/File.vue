@@ -2,7 +2,7 @@
   <div class="file">
     <ul class="codeBlocks">
       <li class="block" v-for="block in code_blocks" :key="block.id">
-        <CodeBlock v-on:selected="showCodeFills" v-bind="block"></CodeBlock>
+        <CodeBlock v-on:selected="showCodeFills" v-bind="block" :selected_code_block_id="selected_code_block_id"></CodeBlock>
       </li>
     </ul>
   </div>
@@ -33,6 +33,10 @@ export default {
     selected_fill_block: {
       type: Object,
       required: false
+    },
+    selected_code_block_id: {
+      type: Number,
+      required: false
     }
   },
   data() {
@@ -56,5 +60,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/file.css";
+@import "../assets/styles/components/file";
 </style>
