@@ -102,6 +102,7 @@ ui = function () {
         let height = cw < ch ? ch : cw;
         canvas.width = width;
         canvas.height = height;
+        canvas.getContext("2d").imageSmoothingEnabled = false;
     };
 
     let drawBasicStaticBackground = function (canvas) {
@@ -123,7 +124,7 @@ ui = function () {
             canvas.height * 0.85
         );
 
-        ctx.drawImage(loads.skyscrapers, 0, canvas.height*0.56, canvas.width, canvas.width * loads.skyscrapers.height / loads.skyscrapers.width);
+        ctx.drawImage(loads.skyscrapers, 0, canvas.height*0.565, canvas.width, canvas.width * loads.skyscrapers.height / loads.skyscrapers.width);
 
         ctx.fillStyle = "rgb(78,68,58)";
         ctx.fillRect(
@@ -195,7 +196,7 @@ ui = function () {
     };
 
     let drawGround = function (canvas, x) {
-        x = canvas.width * 0.05 - x % (canvas.width * 0.05);
+        x = /*canvas.width * 0.05 -*/ x % (canvas.width * 0.05);
 
         let ctx = canvas.getContext("2d");
         ctx.fillStyle = "rgb(118,190,44)";
@@ -206,7 +207,7 @@ ui = function () {
             canvas.height * 0.025
         );
 
-        for(let i = -1; i < canvas.width / (canvas.width * 0.05); i++){
+        for(let i = -1; i <= (canvas.width / (canvas.width * 0.05)) + 1; i++){
             drawGroundPatch(canvas, x + i * canvas.width * 0.05);
         }
         return canvas.width * 0.05;
@@ -339,6 +340,12 @@ ui = function () {
         );
     };
 
+    let drawTubes = function (canvas, tubes) {
+        tubes.forEach((tube) => {
+            drawTube(canvas, tube.x * canvas.width, tube.y * canvas.height, tube.isTopOrientation);
+        });
+    };
+
     let drawTitle = function (canvas, text) {
         let ctx = canvas.getContext("2d");
 
@@ -391,7 +398,7 @@ ui = function () {
         );
     };
 
-    let drawStartScreen = function (canvas, highscores) {
+    let drawStartScreen = function (canvas, highScores) {
         resizeCanvas(canvas);
 
         let ctx = canvas.getContext("2d");
@@ -473,7 +480,7 @@ ui = function () {
         );
 
         let itemHeight = components.startScreen.components.highScoreList.attributes.height(canvas) / 5;
-        highscores.forEach((scoring, i) => {
+        highScores.forEach((scoring, i) => {
             ctx.fillStyle = "rgb(207,189,107)";
             ctx.font = itemHeight*0.99 + "px Flappy Regular, sans-serif";
             ctx.textAlign = "left";
@@ -535,10 +542,16 @@ ui = function () {
 
     let drawBird = function (canvas, y, wingState) {
         // Wing state is 0, 1 or 2
+        // ctx.drawImage(loads["bird_"+wingState], 0, canvas.height*0.56, canvas.width, canvas.width * loads["bird_"+wingState].height / loads["bird_"+wingState].width);
     };
 
     let drawBirdControlHint = function (canvas, opacity) {
+        let ctx = canvas.getContext("2d");
 
+        ctx.globalAlpha = opacity;
+        let width = canvas.width * 0.2275;
+        let height = width * loads.birdHint.height / loads.birdHint.width;
+        ctx.drawImage(loads.birdHint, (canvas.width - width/2) / 2, canvas.height*0.35, width, height);
     };
 
     let drawScore = function (canvas, score) {
@@ -620,7 +633,8 @@ ui = function () {
         "drawBird": drawBird,
         "drawBirdControlHint": drawBirdControlHint,
         "drawScore": drawScore,
-        "drawOverlay": drawOverlay
+        "drawOverlay": drawOverlay,
+        "drawTubes": drawTubes
     }
 }();
 

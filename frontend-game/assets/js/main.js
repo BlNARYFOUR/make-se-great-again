@@ -16,7 +16,11 @@ function init(e) {
         fontRegular: new FontFace('Flappy Regular', 'url(assets/fonts/Flappy-Regular.ttf)'),
         fontTitle: new FontFace('Flappy Title', 'url(assets/fonts/Flappy-Title.ttf)'),
         fontBetter: new FontFace('Flappy Better', 'url(assets/fonts/Flappy-Better.ttf)'),
-        skyscrapers: createImageObj("bg-distance.png")
+        skyscrapers: createImageObj("bg-distance.png"),
+        bird_0: createImageObj("bird_00.png"),
+        bird_1: createImageObj("bird_01.png"),
+        bird_2: createImageObj("bird_02.png"),
+        birdHint: createImageObj("hint.png")
     };
 
     preLoaderAndDrawBeginScreen(loads, canvas, buttons);
@@ -71,7 +75,7 @@ function beginOverlayLoop(canvas, prevTime, opacity) {
     ui.drawOverlay(canvas, "black", 1 / (150 / passedTime));
 
     if(1 <= opacity) {
-        requestAnimationFrame(() => getReadyLoop(canvas, new Date().getTime(), new Game(0.4), 1));
+        requestAnimationFrame(() => getReadyLoop(canvas, new Date().getTime(), new Game(0.0004), 1));
     } else {
         requestAnimationFrame(() => beginOverlayLoop(canvas, time, opacity));
     }
@@ -85,10 +89,21 @@ function getReadyLoop(canvas, prevTime, game, opacity) {
     opacity = opacity < 0 ? 0 : opacity;
     game.update(passedTime);
 
+    ui.resizeCanvas(canvas);
     ui.drawBasicStaticBackground(canvas);
-    ui.drawGround(canvas, game.getGroundX());
+    ui.drawGround(canvas, canvas.width * game.getGroundX());
+    ui.drawTubes(canvas, game.getTubes());
     ui.drawScore(canvas, 0);
     ui.drawTitle(canvas, "Get Ready");
+    ui.drawBird(canvas, canvas.height*0.4);
+    ui.drawBirdControlHint(canvas, 1);
+
+    // DEBUG
+    if(game.getTubes().length === 0) {
+        game.spawnTube(0.275, true);
+        game.spawnTube(0.45, false);
+    }
+    // END DEBUG
 
     ui.drawOverlay(canvas, "black", opacity);
 
