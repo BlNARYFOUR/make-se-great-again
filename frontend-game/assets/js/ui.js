@@ -182,12 +182,161 @@ ui = function () {
         );
     };
 
-    let drawGround = function (canvas, x) {
-        // TODO
+    let drawGroundPatch = function (canvas, x) {
+        let ctx = canvas.getContext("2d");
+
+        ctx.beginPath();
+        ctx.moveTo(x, canvas.height * 0.85);
+        ctx.lineTo(x + canvas.width * 0.025, canvas.height * 0.85);
+        ctx.lineTo(x + canvas.width * 0.045, canvas.height * 0.825);
+        ctx.lineTo(x + canvas.width * 0.02, canvas.height * 0.825);
+        ctx.fillStyle = "rgb(165,230,86)";
+        ctx.fill();
     };
 
-    let drawGroundPatch = function (canvas, x) {
-        // TODO
+    let drawGround = function (canvas, x) {
+        x = canvas.width * 0.05 - x % (canvas.width * 0.05);
+
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = "rgb(118,190,44)";
+        ctx.fillRect(
+            0,
+            canvas.height * 0.825,
+            canvas.width,
+            canvas.height * 0.025
+        );
+
+        for(let i = -1; i < canvas.width / (canvas.width * 0.05); i++){
+            drawGroundPatch(canvas, x + i * canvas.width * 0.05);
+        }
+        return canvas.width * 0.05;
+    };
+
+    let drawTube = function (canvas, x, y, isTopOrientation) {
+        let ctx = canvas.getContext("2d");
+
+        // Bottom Orientation
+        let startY = y;
+        let height = canvas.height * 0.8198 - startY;
+
+        if(isTopOrientation) {
+            startY = - 0.005 * canvas.height;
+            height = y + 0.005 * canvas.height;
+        }
+
+        ctx.fillStyle = "rgb(78,68,58)";
+        ctx.fillRect(
+            x,
+            startY,
+            canvas.width * 0.125,
+            height
+        );
+
+        ctx.fillStyle = "rgb(209,241,132)";
+        ctx.fillRect(
+            x + canvas.width * 0.005,
+            startY + canvas.height * 0.005,
+            canvas.width * 0.115,
+            height - canvas.height * 0.01
+        );
+
+        ctx.fillStyle = "rgb(153,230,92)";
+        ctx.fillRect(
+            x + canvas.width * 0.0125,
+            startY + canvas.height * 0.005,
+            canvas.width * 0.1075,
+            height - canvas.height * 0.01
+        );
+
+        ctx.fillStyle = "rgb(85,128,38)";
+        ctx.fillRect(
+            x + canvas.width * 0.06,
+            startY + canvas.height * 0.005,
+            canvas.width * 0.06,
+            height - canvas.height * 0.01
+        );
+
+        ctx.fillStyle = "rgb(113,193,46)";
+        ctx.fillRect(
+            x + canvas.width * 0.0425,
+            startY + canvas.height * 0.005,
+            canvas.width * 0.05275,
+            height - canvas.height * 0.01
+        );
+        ctx.fillRect(
+            x + canvas.width * 0.03,
+            startY + canvas.height * 0.005,
+            canvas.width * 0.0065,
+            height - canvas.height * 0.01
+        );
+
+        ctx.fillRect(
+            x + canvas.width * 0.1025,
+            startY + canvas.height * 0.005,
+            canvas.width * 0.0065,
+            height - canvas.height * 0.01
+        );
+
+        // Bottom Orientation
+        startY = y;
+        height = canvas.height * 0.06;
+
+        if(isTopOrientation) {
+            startY = y - height;
+        }
+
+        ctx.fillStyle = "rgb(78,68,58)";
+        ctx.fillRect(
+            x - canvas.width * 0.006,
+            startY,
+            canvas.width * 0.137,
+            height
+        );
+
+        ctx.fillStyle = "rgb(209,241,132)";
+        ctx.fillRect(
+            x - canvas.width * 0.001,
+            startY + canvas.height * 0.005,
+            canvas.width * 0.127,
+            height - canvas.height * 0.01
+        );
+
+        ctx.fillStyle = "rgb(153,230,92)";
+        ctx.fillRect(
+            x + canvas.width * 0.0065,
+            startY + canvas.height * 0.005,
+            canvas.width * 0.1195,
+            height - canvas.height * 0.01
+        );
+
+        ctx.fillStyle = "rgb(85,128,38)";
+        ctx.fillRect(
+            x + canvas.width * 0.06,
+            startY + canvas.height * 0.005,
+            canvas.width * 0.067,
+            height - canvas.height * 0.01
+        );
+
+        ctx.fillStyle = "rgb(113,193,46)";
+        ctx.fillRect(
+            x + canvas.width * 0.0365,
+            startY + canvas.height * 0.005,
+            canvas.width * 0.06475,
+            height - canvas.height * 0.01
+        );
+        ctx.fillRect(
+            x + canvas.width * 0.024,
+            startY + canvas.height * 0.005,
+            canvas.width * 0.0065,
+            height - canvas.height * 0.01
+        );
+
+        ctx.fillRect(
+            x + canvas.width * 0.1085,
+            startY + canvas.height * 0.005,
+            canvas.width * 0.0065,
+            height - canvas.height * 0.01
+        );
     };
 
     let drawTitle = function (canvas, text) {
@@ -251,6 +400,8 @@ ui = function () {
         ctx.fillRect(0,0,canvas.width, canvas.height);
 
         drawBasicStaticBackground(canvas);
+
+        drawGround(canvas, 0);
 
         drawTitle(canvas, "Howest Bird");
 
@@ -402,7 +553,9 @@ ui = function () {
         "checkButtonBounds": checkButtonBounds,
         "enableStartButton": enableStartButton,
         "disableStartButton": disableStartButton,
-        "setLoads": setLoads
+        "setLoads": setLoads,
+        "drawGround": drawGround,
+        "drawTube": drawTube
     }
 }();
 
