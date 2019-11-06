@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="files">
-      <tabs>
+      <tabs v-on:changed="tabChanged">
         <tab :name="file.name" v-for="file in files" :key="file.id">
           <File v-on:showCodeFills="showCodeFills" v-bind="file"></File>
         </tab>
@@ -32,21 +32,24 @@ export default {
   },
   data() {
     return {
-      files: Array,
-      code_fills: Array,
-      usable_code_fills: Array,
-      selected_code_block: Object
+      files: [],
+      code_fills: [],
+      usable_code_fills: [],
+      selected_code_block: {}
     };
   },
   methods: {
-    showCodeFills(code_block) {
-      this.selected_code_block = code_block;
-      this.usable_code_fills = this.code_fills.filter(fill => fill.code_block_id == code_block.id);
+    showCodeFills(codeBlock) {
+      this.selected_code_block = codeBlock;
+      this.usable_code_fills = this.code_fills.filter(fill => fill.code_block_id === codeBlock.id);
     },
     selectCodeFill(codeFill) {
-      if(this.selected_code_block.id == codeFill.code_block_id) {
+      if(this.selected_code_block.id === codeFill.code_block_id) {
         this.selected_code_block.code = codeFill.code;
       }
+    },
+    tabChanged() {
+      this.usable_code_fills = null;
     }
   },
   created() {
@@ -61,6 +64,8 @@ export default {
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 #app {

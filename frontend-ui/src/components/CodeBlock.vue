@@ -36,7 +36,7 @@ export default {
     methods: {
         selected() {
             if(this.adjustable) {
-                this.$emit('selected', this);
+                this.$emit('selected', this.id);
             }
         }
     }

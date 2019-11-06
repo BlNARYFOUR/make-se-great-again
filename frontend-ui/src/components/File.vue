@@ -29,6 +29,10 @@ export default {
     game_id: {
       type: Number,
       required: true,
+    },
+    selected_fill_block: {
+      type: Object,
+      required: false
     }
   },
   data() {
@@ -37,8 +41,12 @@ export default {
     }
   },
   methods:{
-    showCodeFills(code_block) {
-      this.$emit('showCodeFills', code_block);
+    showCodeFills(id) {
+      this.code_blocks.forEach(block => {
+        if(block.id === id) {
+          this.$emit('showCodeFills', block);
+        }
+      });
     }
   },
   created() {
