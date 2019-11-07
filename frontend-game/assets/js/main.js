@@ -96,13 +96,15 @@ function gameLoop(canvas, prevTime, passedFlyTime, prevGroundX) {
     game.update(passedTime);
 
     if(game.enabled) {
+        const width = 0.136 + 0.1 * (game.level * 0.001);
         let groundDiff = prevGroundX - game.getGroundX();
-        if(0.8 / game.level < groundDiff) {
-            const thickerPart = 0.075;
-            const spaceBetween = 0.05 + 0.1 / (game.level * 0.25 + 0.25);
-            let height = thickerPart + Math.random() * (game.getGroundY() - thickerPart * 2 - spaceBetween);
-            game.spawnTube(height, true, 0.137);
-            game.spawnTube(height + spaceBetween, false, 0.137);
+        if(width*1.5 + (0.5 / (game.level * 0.01 + 0.99)) < groundDiff) {
+
+            const minHeight = 0.075;
+            const spaceBetween = 0.125 + 0.1 / (game.level * 0.001 + 0.999);
+            let height = minHeight + Math.random() * (game.getGroundY() - minHeight * 2 - spaceBetween);
+            game.spawnTube(height, true, width);
+            game.spawnTube(height + spaceBetween, false, width);
             prevGroundX = game.getGroundX();
         }
     } else if(620 < passedFlyTime) {
