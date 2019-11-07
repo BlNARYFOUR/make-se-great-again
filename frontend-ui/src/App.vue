@@ -9,22 +9,22 @@
       </select>
     </div>
     <div class="action_buttons">
-      <button class="button__reset">Reset</button>
+      <button class="button__reset" @click="reset">Reset</button>
       <button class="button__deploy">Deploy</button>
     </div>
     <div class="container">
       <div class="files">
-        <tabs v-on:changed="tabChanged">
+        <tabs @changed="tabChanged">
           <tab :name="file.name" v-for="file in files" :key="file.id">
-            <File v-on:showCodeFills="showCodeFills" v-bind="file" :selected_code_block_id="selected_code_block.id"></File>
+            <File @showCodeFills="showCodeFills" v-bind="file" :selected_code_block_id="selected_code_block.id"></File>
           </tab>
         </tabs>
       </div>
       <div class="code_fills_container">
         <div class="title_code_fill">{{ tabTitle }}</div>
         <ul class="code_fills">
-          <li class="code" v-for="code_fill in usable_code_fills" v-bind:key="code_fill.id">
-            <CodeFill v-on:selectCodeFill="selectCodeFill" v-bind="code_fill" :selected_code_fill_id="selected_code_fill_id"></CodeFill>
+          <li class="code" v-for="code_fill in usable_code_fills" :key="code_fill.id">
+            <CodeFill @selectCodeFill="selectCodeFill" v-bind="code_fill" :selected_code_fill_id="selected_code_fill_id"></CodeFill>
           </li>
         </ul>
       </div>
@@ -82,11 +82,17 @@ export default {
       this.usable_code_fills = null;
       this.selected_tab = selectedTab.tab.name;
       this.selected_code_block = {};
+    },
+    reset() {
+      location.reload();
     }
   },
   created() {
     this.files = jsonFiles;
     this.code_fills = jsonCodefills;
+    window.onbeforeunload = function() {
+      return "Are you sure you want to reset the game?";
+    };
   }
 };
 </script>

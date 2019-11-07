@@ -1,5 +1,5 @@
 <template>
-  <div v-on:click="selected" class="code_block">
+  <div @click="selected" class="code_block">
     <div
       class="code"
       :class="{ adjustable: adjustable, empty: !code, selected: is_selected }"

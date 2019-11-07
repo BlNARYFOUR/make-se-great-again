@@ -2,7 +2,7 @@
   <div class="file">
     <ul class="codeBlocks">
       <li class="block" v-for="block in code_blocks" :key="block.id">
-        <CodeBlock v-on:selected="showCodeFills" v-bind="block" :selected_code_block_id="selected_code_block_id"></CodeBlock>
+        <CodeBlock @selected="showCodeFills" v-bind="block" :selected_code_block_id="selected_code_block_id"></CodeBlock>
       </li>
     </ul>
   </div>
