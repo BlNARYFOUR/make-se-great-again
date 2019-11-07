@@ -134,7 +134,7 @@ function doUiStuff(canvas, opacity, gameActivated) {
     ui.resizeCanvas(canvas);
     ui.drawBasicStaticBackground(canvas, game.getGroundY());
     ui.drawTubes(canvas, game.getTubes(), groundY);
-    ui.drawScore(canvas, 0);
+    ui.drawScore(canvas, game.score);
     ui.drawTitle(canvas, ui.components.readyScreen.title, opacity);
     ui.drawBird(canvas, birdBeginX, game.getBirdY(), game.getBirdSize());
     ui.drawGround(canvas, canvas.width * game.getGroundX(), game.getGroundY());

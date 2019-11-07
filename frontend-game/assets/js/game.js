@@ -91,6 +91,9 @@ class Game {
 
             if(this.tubes[i].x < (-this.tubes[i].size)) {
                 this.tubes.splice(i, 1);
+            } else if((this.tubes[i].x + this.tubes[i].size * 0.5) < (this.bird.x + this.bird.size * 0.5) && !this.tubes[i].hasScored) {
+                this.score += 0.5;
+                this.tubes[i].hasScored = true;
             }
         }
     }
@@ -126,4 +129,5 @@ function Tube(y, isTopOrientation, size) {
     this.y = y;
     this.isTopOrientation = isTopOrientation;
     this.x = 1;
+    this.hasScored = false;
 }
