@@ -204,10 +204,27 @@ ui = function () {
     };
 
     let drawGround = function (canvas, x, y) {
-        x = /*canvas.width * 0.05 -*/ x % (canvas.width * 0.05);
+        x = x % (canvas.width * 0.05);
 
         let beginY = canvas.height * y;
         let ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "rgb(78,68,58)";
+        ctx.fillRect(
+            0,
+            canvas.height * groundY,
+            canvas.width,
+            canvas.height * 0.032
+        );
+
+        ctx.fillStyle = "rgb(205,223,147)";
+        ctx.fillRect(
+            0,
+            canvas.height * groundY + canvas.height * 0.005,
+            canvas.width,
+            canvas.height * 0.032
+        );
+
         ctx.fillStyle = "rgb(118,190,44)";
         ctx.fillRect(
             0,
@@ -576,7 +593,7 @@ ui = function () {
             components.gameScreen.bird.startedFlying = new Date().getTime();
     };
 
-    let drawBird = function (canvas, y, birdSize) {
+    let drawBird = function (canvas, x, y, birdSize) {
         // Wing state is 0, 1 or 2
         let time = new Date().getTime();
 
@@ -601,7 +618,7 @@ ui = function () {
 
         let ctx = canvas.getContext("2d");
         let width = canvas.width * birdSize; // 0.0865;
-        ctx.drawImage(loads["bird_"+components.gameScreen.bird.wingState], canvas.width * 0.31, canvas.height * y, width, width * loads["bird_"+components.gameScreen.bird.wingState].height / loads["bird_"+components.gameScreen.bird.wingState].width);
+        ctx.drawImage(loads["bird_"+components.gameScreen.bird.wingState], canvas.width * x, canvas.height * y, width, width * loads["bird_"+components.gameScreen.bird.wingState].height / loads["bird_"+components.gameScreen.bird.wingState].width);
     };
 
     let drawBirdControlHint = function (canvas, birdSize, opacity) {

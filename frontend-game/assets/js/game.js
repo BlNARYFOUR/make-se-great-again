@@ -1,16 +1,16 @@
 class Game {
     // every X, Y, width and height value needs to be stored as value in from 0 to 1
-    constructor(speed, gravity, birdY, birdSize, groundY) {
+    constructor(speed, gravity, birdX, birdY, birdSize, groundY) {
         this.speed = 0.0001 * speed;
         this.groundX = 0;
         this.gravity = 0.00001 * gravity;
         this.tubes = new Array(0);
-        this.bird = new Bird(birdY, birdSize);
+        this.bird = new Bird(birdX, birdY, birdSize);
         this.groundY = groundY;
         this.score = 0;
         this.enabled = false;
-        this.flyRequest = false;
         this.level = 1;
+        this.gameOver = false;
     }
 
     getBirdSize() {
@@ -32,12 +32,53 @@ class Game {
     }
 
     updateBird(passedTime) {
-        if(this.bird.y < this.groundY - this.bird.size * this.bird.sizeRatio) {
+        if(this.isBirdAboveGround()) {
             this.bird.force += this.gravity * passedTime;
             this.bird.y += this.bird.force;
         } else {
+            this.bird.y = this.groundY + 0.005 - this.bird.height;
             this.bird.force = 0;
+            this.speed = 0;
+            this.gameOver = true;
         }
+
+        if(this.didBirdCollide()) {
+            this.speed = 0;
+            this.gravity *= 1.125;
+            this.gameOver = true;
+        }
+    }
+
+    isBirdAboveGround() {
+        return this.bird.y < this.groundY - this.bird.size * this.bird.sizeRatio;
+    }
+
+    didBirdCollide() {
+        for(let i = 0; i < this.tubes.length; i++) {
+            let birdX1 = this.bird.x;
+            let birdY1 = this.bird.y;
+            let birdX2 = this.bird.x + this.bird.size;
+            let birdY2 = this.bird.y + this.bird.height;
+            let tubeX1 = this.tubes[i].x;
+            let tubeY1 = this.tubes[i].isTopOrientation ? 0 : this.tubes[i].y;
+            let tubeX2 = this.tubes[i].x + this.tubes[i].size;
+            let tubeY2 = this.tubes[i].isTopOrientation ? this.tubes[i].y : this.groundY;
+
+            console.log("TUBE_1", tubeX1 + " " + tubeY1);
+            console.log("TUBE_2", tubeX2 + " " + tubeY2);
+            console.log("BIRD_1", birdX1 + " " + birdY1);
+            console.log("BIRD_2", birdX2 + " " + birdY2);
+
+            if(
+                (tubeX1 <= birdX2)
+                && (birdX1 <= tubeX2)
+                && (tubeY1 <= birdY2)
+                && (birdY1 <= tubeY2)
+            ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     updateGroundX(passedTime) {
@@ -71,11 +112,13 @@ class Game {
     }
 }
 
-function Bird(y, size) {
+function Bird(x, y, size) {
     this.size = size;
+    this.x = x;
     this.y = y;
     this.force = 0;
     this.sizeRatio = 12 / 17;
+    this.height = this.size * this.sizeRatio;
 }
 
 function Tube(y, isTopOrientation, size) {

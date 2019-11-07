@@ -10,6 +10,7 @@ const speed = 4;
 const gravity = 2.5;
 const birdSize = 0.0865;
 const groundY = 0.815;
+const birdBeginX = 0.31;
 const birdBeginY = (groundY - 0.015) * 0.5;
 
 function init(e) {
@@ -80,7 +81,7 @@ function beginOverlayLoop(canvas, prevTime, opacity) {
     ui.drawOverlay(canvas, "black", 1 / (150 / passedTime));
 
     if(1 <= opacity) {
-        game = new Game(speed, gravity, birdBeginY, birdSize, groundY);
+        game = new Game(speed, gravity, birdBeginX, birdBeginY, birdSize, groundY);
         opacity = 1;
         requestAnimationFrame(() => gameLoop(canvas, new Date().getTime(), 500, 0));
     } else {
@@ -132,11 +133,11 @@ function doUiStuff(canvas, opacity, gameActivated) {
 
     ui.resizeCanvas(canvas);
     ui.drawBasicStaticBackground(canvas, game.getGroundY());
-    ui.drawGround(canvas, canvas.width * game.getGroundX(), game.getGroundY());
     ui.drawTubes(canvas, game.getTubes(), groundY);
     ui.drawScore(canvas, 0);
     ui.drawTitle(canvas, ui.components.readyScreen.title, opacity);
-    ui.drawBird(canvas, game.getBirdY(), game.getBirdSize());
+    ui.drawBird(canvas, birdBeginX, game.getBirdY(), game.getBirdSize());
+    ui.drawGround(canvas, canvas.width * game.getGroundX(), game.getGroundY());
     ui.drawBirdControlHint(canvas, game.getBirdSize(), opacity);
     ui.drawBorder(canvas);
 }
@@ -175,10 +176,14 @@ function activateInputEvents(canvas, buttons) {
 
         if(action !== null) {
             action(canvas);
-        } else if(game !== null) {
+        } else if(game !== null && !game.gameOver) {
             game.enabled = true;
             game.applyBirdFlying();
             ui.startBirdAnimation();
+        } else {
+            ui.components.gameScreen.bird.isFlying = false;
+            ui.components.gameScreen.bird.wingState = 2;
+            ui.components.gameScreen.bird.wingFlapCount = 10;
         }
     });
 
@@ -193,13 +198,17 @@ function onKeyDown(e) {
     e.stopPropagation();
     document.removeEventListener("keydown", onKeyDown);
 
-    if((game !== null) && (e.code === "Space")) {
+    if(game !== null && !game.gameOver && e.code === "Space") {
         if(!game.enabled) {
             game.enabled = true;
             opacity = 1;
         }
         game.applyBirdFlying();
         ui.startBirdAnimation();
+    } else {
+        ui.components.gameScreen.bird.isFlying = false;
+        ui.components.gameScreen.bird.wingState = 2;
+        ui.components.gameScreen.bird.wingFlapCount = 10;
     }
 }
 
