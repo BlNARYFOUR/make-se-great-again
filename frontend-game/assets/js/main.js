@@ -36,7 +36,6 @@ function preLoaderAndDrawBeginScreen(loads, canvas, buttons) {
     let loaded = Object.values(loads).length;
 
     function onLoad(e) {
-        console.log("loaded:", loaded);
         loaded--;
         if (loaded === 0) {
             ui.setLoads(loads);
@@ -47,8 +46,6 @@ function preLoaderAndDrawBeginScreen(loads, canvas, buttons) {
     }
 
     for (let i = 0; i < Object.values(loads).length; i++) {
-        console.log(Object.values(loads)[i]);
-
         if(Object.values(loads)[i].load) {
             Object.values(loads)[i].load().then(onLoad);
         } else {
@@ -60,8 +57,6 @@ function preLoaderAndDrawBeginScreen(loads, canvas, buttons) {
 function startTheGame(canvas, highScores) {
     ui.disableStartButton();
     document.body.style.cursor = "default";
-
-    console.log("GAME STARTED");
 
     requestAnimationFrame(() => beginOverlayLoop(canvas, new Date().getTime(), 0));
 }
@@ -97,13 +92,6 @@ function getReadyLoop(canvas, prevTime, game, opacity) {
     ui.drawTitle(canvas, ui.components.readyScreen.title);
     ui.drawBird(canvas, canvas.height*0.4);
     ui.drawBirdControlHint(canvas, 1);
-
-    // DEBUG
-    if(game.getTubes().length === 0) {
-        game.spawnTube(0.275, true);
-        game.spawnTube(0.45, false);
-    }
-    // END DEBUG
 
     ui.drawOverlay(canvas, "black", opacity);
 
