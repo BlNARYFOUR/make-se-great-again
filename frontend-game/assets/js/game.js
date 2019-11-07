@@ -7,6 +7,10 @@ class Game {
         this.tubes = new Array(0);
         this.bird = new Bird(birdY, birdSize);
         this.groundY = groundY;
+        this.score = 0;
+        this.enabled = false;
+        this.flyRequest = false;
+        this.level = 1;
     }
 
     getBirdSize() {
@@ -17,8 +21,8 @@ class Game {
         return this.bird.y;
     }
 
-    applyBirdFlying(passedTime) {
-        this.bird.force = - 20 * this.gravity * passedTime;
+    applyBirdFlying() {
+        this.bird.force = - 20 * this.gravity * 16;
     }
 
     update(passedTime) {
@@ -45,7 +49,7 @@ class Game {
             this.tubes[i].x -= passedTime * this.speed;
 
             if(this.tubes[i].x < (-this.tubes[i].size)) {
-                this.tubes.splice(i);
+                this.tubes.splice(i, 1);
             }
         }
     }

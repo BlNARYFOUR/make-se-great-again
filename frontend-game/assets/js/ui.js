@@ -355,10 +355,11 @@ ui = function () {
         });
     };
 
-    let drawTitle = function (canvas, component) {
+    let drawTitle = function (canvas, component, opacity = 1) {
         let ctx = canvas.getContext("2d");
-
         let fontSize = canvas.height * 0.06;
+
+        ctx.globalAlpha = opacity;
         ctx.fillStyle = "white";
         ctx.font = fontSize + "px Flappy Better, sans-serif";
         ctx.textAlign = "center";
@@ -405,6 +406,7 @@ ui = function () {
             canvas.height * 0.255,
             canvas.width
         );
+        ctx.globalAlpha = 1;
     };
 
     let drawButton = function (canvas, component) {
@@ -589,8 +591,8 @@ ui = function () {
                     components.gameScreen.bird.wingState = 0;
                     components.gameScreen.bird.wingFlapCount++;
 
-                    if(3 < components.gameScreen.bird.wingFlapCount) {
-                        components.gameScreen.bird.wingState = 0;
+                    if(2 < components.gameScreen.bird.wingFlapCount) {
+                        components.gameScreen.bird.wingState = 1;
                         components.gameScreen.bird.isFlying = false;
                     }
                 }
@@ -609,6 +611,7 @@ ui = function () {
         let width = canvas.width * 2.63 * birdSize;
         let height = width * loads.birdHint.height / loads.birdHint.width;
         ctx.drawImage(loads.birdHint, (canvas.width - width/2) / 2, canvas.height*0.35, width, height);
+        ctx.globalAlpha = 1;
     };
 
     let drawScore = function (canvas, score) {
@@ -657,7 +660,6 @@ ui = function () {
         ctx.globalAlpha = opacity;
         ctx.fillStyle = color;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
         ctx.globalAlpha = 1;
     };
 

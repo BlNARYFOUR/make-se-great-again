@@ -2,6 +2,10 @@
 
 document.addEventListener("DOMContentLoaded", init);
 
+let game = null;
+
+let opacity = 1;
+
 const speed = 4;
 const gravity = 2.5;
 const birdSize = 0.0865;
@@ -47,7 +51,7 @@ function preLoaderAndDrawBeginScreen(loads, canvas, buttons) {
             ui.setLoads(loads);
             ui.drawStartScreen(canvas, getHighScores(), groundY);
             ui.enableStartButton();
-            activateButtonEvents(canvas, buttons);
+            activateInputEvents(canvas, buttons);
         }
     }
 
@@ -76,51 +80,66 @@ function beginOverlayLoop(canvas, prevTime, opacity) {
     ui.drawOverlay(canvas, "black", 1 / (150 / passedTime));
 
     if(1 <= opacity) {
-        requestAnimationFrame(() => getReadyLoop(canvas, new Date().getTime(), new Game(speed, gravity, birdBeginY, birdSize, groundY), 1, 500));
+        game = new Game(speed, gravity, birdBeginY, birdSize, groundY);
+        opacity = 1;
+        requestAnimationFrame(() => gameLoop(canvas, new Date().getTime(), 500, 0));
     } else {
         requestAnimationFrame(() => beginOverlayLoop(canvas, time, opacity));
     }
 }
 
-function getReadyLoop(canvas, prevTime, game, opacity, passedFlyTime) {
+function gameLoop(canvas, prevTime, passedFlyTime, prevGroundX) {
+
     const time = new Date().getTime();
     const passedTime = time - prevTime;
 
-    opacity -= 1 / (150 / passedTime);
-    opacity = opacity < 0 ? 0 : opacity;
     game.update(passedTime);
+
+    if(game.enabled) {
+        let groundDiff = prevGroundX - game.getGroundX();
+        if(0.8 / game.level < groundDiff) {
+            const thickerPart = 0.075;
+            const spaceBetween = 0.05 + 0.1 / (game.level * 0.25 + 0.25);
+            let height = thickerPart + Math.random() * (game.getGroundY() - thickerPart * 2 - spaceBetween);
+            game.spawnTube(height, true, 0.137);
+            game.spawnTube(height + spaceBetween, false, 0.137);
+            prevGroundX = game.getGroundX();
+        }
+    } else if(620 < passedFlyTime) {
+        game.applyBirdFlying(passedTime);
+        passedFlyTime = 0;
+        ui.startBirdAnimation();
+    }
+
+    opacity -= 1 / (160 / passedTime);
+    opacity = opacity < 0 ? 0 : opacity;
+
+    doUiStuff(canvas, opacity, game.enabled);
+
+    passedFlyTime += passedTime;
+
+    if(!game.enabled) {
+        ui.drawOverlay(canvas, "black", opacity);
+    }
+
+    requestAnimationFrame(() => gameLoop(canvas, time, passedFlyTime, prevGroundX));
+}
+
+function doUiStuff(canvas, opacity, gameActivated) {
+    opacity = gameActivated ? opacity : 1;
 
     ui.resizeCanvas(canvas);
     ui.drawBasicStaticBackground(canvas, game.getGroundY());
     ui.drawGround(canvas, canvas.width * game.getGroundX(), game.getGroundY());
     ui.drawTubes(canvas, game.getTubes(), groundY);
     ui.drawScore(canvas, 0);
-    ui.drawTitle(canvas, ui.components.readyScreen.title);
+    ui.drawTitle(canvas, ui.components.readyScreen.title, opacity);
     ui.drawBird(canvas, game.getBirdY(), game.getBirdSize());
-    ui.drawBirdControlHint(canvas, game.getBirdSize(), 1);
+    ui.drawBirdControlHint(canvas, game.getBirdSize(), opacity);
     ui.drawBorder(canvas);
-
-    passedFlyTime += passedTime;
-
-    if(645 < passedFlyTime) {
-        game.applyBirdFlying(passedTime);
-        passedFlyTime = 0;
-        ui.startBirdAnimation();
-    }
-
-    ui.drawOverlay(canvas, "black", opacity);
-
-    requestAnimationFrame(() => getReadyLoop(canvas, time, game, opacity, passedFlyTime));
 }
 
-function gameLoop(canvas, score, prevTime) {
-
-    console.log(prevTime);
-
-    requestAnimationFrame(() => gameLoop(canvas, score, new Date().getTime()));
-}
-
-function activateButtonEvents(canvas, buttons) {
+function activateInputEvents(canvas, buttons) {
     canvas.addEventListener("mousemove", (e) => {
         let mouseX = (e.pageX - canvas.offsetLeft) * 2;
         let mouseY = (e.pageY - canvas.offsetTop) * 2;
@@ -144,12 +163,42 @@ function activateButtonEvents(canvas, buttons) {
         let mouseX = (e.pageX - canvas.offsetLeft)* 2;
         let mouseY = (e.pageY - canvas.offsetTop) * 2;
 
+        let action = null;
+
         buttons.forEach((button) => {
             if(ui.checkButtonBounds(canvas, button.component, mouseX, mouseY) && button.component.enabled) {
-                button.action(canvas);
+                action = button.action;
             }
         });
+
+        if(action !== null) {
+            action(canvas);
+        } else if(game !== null) {
+            game.enabled = true;
+            game.applyBirdFlying();
+            ui.startBirdAnimation();
+        }
     });
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("keyup", (e) => {
+        e.stopPropagation();
+        document.addEventListener("keydown", onKeyDown);
+    });
+}
+
+function onKeyDown(e) {
+    e.stopPropagation();
+    document.removeEventListener("keydown", onKeyDown);
+
+    if((game !== null) && (e.code === "Space")) {
+        if(!game.enabled) {
+            game.enabled = true;
+            opacity = 1;
+        }
+        game.applyBirdFlying();
+        ui.startBirdAnimation();
+    }
 }
 
 function getHighScores() {
