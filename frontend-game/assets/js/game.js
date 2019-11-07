@@ -67,8 +67,9 @@ class Game {
             if(
                 (tubeX1 <= birdX2)
                 && (birdX1 <= tubeX2)
-                && (tubeY1 <= birdY2)
-                && (birdY1 <= tubeY2)
+                && (((tubeY1 <= birdY2)
+                && (birdY1 <= tubeY2))
+                    || birdY2 <= 0)
             ) {
                 return true;
             }

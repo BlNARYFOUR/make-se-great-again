@@ -78,6 +78,55 @@ ui = function () {
                 maxWingFlaps: 3,
                 startedFlying: null,
             }
+        },
+        gameOverScreen: {
+            pane: {
+                width: function (canvas) {
+                    return canvas.width * 0.465;
+                },
+                height: function (canvas) {
+                    return canvas.height * 0.2475;
+                },
+                left: function (canvas) {
+                    return (canvas.width - components.startScreen.highScoreList.width(canvas)) * 0.5;
+                },
+                top: function (canvas) {
+                    return canvas.height * 0.345;
+                }
+            },
+            submitScoreButton: {
+                text: "Submit Score",
+                width: function (canvas) {
+                    return canvas.width * 0.325;
+                },
+                height: function (canvas) {
+                    return canvas.height * 0.105;
+                },
+                left: function (canvas) {
+                    return (canvas.width - components.startScreen.playButton.width(canvas)) * 0.5;
+                },
+                top: function (canvas) {
+                    return canvas.height * 0.66;
+                },
+                fontSize: function (canvas) {
+                    return canvas.height * 0.08;
+                }
+            },
+            title: {
+                text: "Game Over",
+                fontSize: function (canvas) {
+                    return canvas.height * 0.06;
+                },
+                left: function (canvas) {
+                    return canvas.width * 0.5;
+                },
+                top: function (canvas) {
+                    return canvas.height * 0.255;
+                },
+                maxWidth: function (canvas) {
+                    return canvas.width;
+                }
+            }
         }
     };
 
@@ -383,25 +432,25 @@ ui = function () {
         ctx.fillText(
             component.text,
             - canvas.width * 0.006 + component.left(canvas),
-            canvas.height * 0.249,
+            - canvas.height * 0.006 + component.top(canvas),
             canvas.width
         );
         ctx.fillText(
             component.text,
             - canvas.width * 0.006 + component.left(canvas),
-            canvas.height * 0.261,
+            canvas.height * 0.006 + component.top(canvas),
             canvas.width
         );
         ctx.fillText(
             component.text,
             canvas.width * 0.006 + component.left(canvas),
-            canvas.height * 0.261,
+            canvas.height * 0.006 + component.top(canvas),
             canvas.width
         );
         ctx.fillText(
             component.text,
             canvas.width * 0.006 + component.left(canvas),
-            canvas.height * 0.249,
+            - canvas.height * 0.006 + component.top(canvas),
             canvas.width
         );
 
@@ -411,7 +460,7 @@ ui = function () {
         ctx.fillText(
             component.text,
             component.left(canvas),
-            canvas.height * 0.255,
+            component.top(canvas),
             canvas.width
         );
 
@@ -420,7 +469,7 @@ ui = function () {
         ctx.strokeText(
             component.text,
             component.left(canvas),
-            canvas.height * 0.255,
+            component.top(canvas),
             canvas.width
         );
         ctx.globalAlpha = 1;
