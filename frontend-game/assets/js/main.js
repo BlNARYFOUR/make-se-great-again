@@ -7,7 +7,7 @@ function init(e) {
 
     const buttons = [
         {
-            "component": ui.components.startScreen.components.playButton,
+            "component": ui.components.startScreen.playButton,
             "action": startTheGame
         },
     ];
@@ -94,7 +94,7 @@ function getReadyLoop(canvas, prevTime, game, opacity) {
     ui.drawGround(canvas, canvas.width * game.getGroundX());
     ui.drawTubes(canvas, game.getTubes());
     ui.drawScore(canvas, 0);
-    ui.drawTitle(canvas, ui.components.readyScreen.components.title);
+    ui.drawTitle(canvas, ui.components.readyScreen.title);
     ui.drawBird(canvas, canvas.height*0.4);
     ui.drawBirdControlHint(canvas, 1);
 
@@ -125,7 +125,7 @@ function activateButtonEvents(canvas, buttons) {
         let isHoveringOverButton = false;
 
         buttons.forEach((button) => {
-            if(ui.checkButtonBounds(canvas, button.component, mouseX, mouseY) && button.component.attributes.enabled) {
+            if(ui.checkButtonBounds(canvas, button.component, mouseX, mouseY) && button.component.enabled) {
                 isHoveringOverButton = true;
             }
         });
@@ -142,7 +142,7 @@ function activateButtonEvents(canvas, buttons) {
         let mouseY = (e.pageY - canvas.offsetTop) * 2;
 
         buttons.forEach((button) => {
-            if(ui.checkButtonBounds(canvas, button.component, mouseX, mouseY) && button.component.attributes.enabled) {
+            if(ui.checkButtonBounds(canvas, button.component, mouseX, mouseY) && button.component.enabled) {
                 button.action(canvas);
             }
         });
@@ -156,11 +156,11 @@ function getHighScores() {
     }
 
     return [
-        new HighScore("Why is this username so long like wtf just why", 9999),
-        new HighScore("Bob", 99),
-        new HighScore("Maria", 87),
-        new HighScore("Jane", 69),
-        new HighScore("Jesus", 47),
+        new HighScore("Why is this username so long like wtf just why", 1098),
+        new HighScore("Bob", 76),
+        new HighScore("Maria", 54),
+        new HighScore("Jane", 32),
+        new HighScore("Jesus", 10),
     ];
 }
 

@@ -5,94 +5,68 @@ let ui;
 ui = function () {
     let components = {
         startScreen: {
-            attributes: {
-                width: function (canvas) {
-                    return canvas.width * 0.58;
-                },
-                height: function (canvas) {
-                    return canvas.height * 0.675;
+            title: {
+                text: "Howest Bird",
+                fontSize: function (canvas) {
+                    return canvas.height * 0.06;
                 },
                 left: function (canvas) {
-                    return (canvas.width - components.startScreen.attributes.width(canvas)) * 0.5;
+                    return canvas.width * 0.5;
                 },
                 top: function (canvas) {
-                    return (canvas.height - components.startScreen.attributes.height(canvas)) * 0.5;
+                    return canvas.height * 0.255;
                 },
+                maxWidth: function (canvas) {
+                    return canvas.width;
+                }
             },
-            components: {
-                title: {
-                    attributes: {
-                        text: "Howest Bird",
-                        fontSize: function (canvas) {
-                            return canvas.height * 0.06;
-                        },
-                        left: function (canvas) {
-                            return canvas.width * 0.5;
-                        },
-                        top: function (canvas) {
-                            return canvas.height * 0.255;
-                        },
-                        maxWidth: function (canvas) {
-                            return canvas.width;
-                        }
-                    }
+            highScoreList: {
+                width: function (canvas) {
+                    return canvas.width * 0.465;
                 },
-                highScoreList: {
-                    attributes: {
-                        width: function (canvas) {
-                            return canvas.width * 0.465;
-                        },
-                        height: function (canvas) {
-                            return canvas.height * 0.2475;
-                        },
-                        left: function (canvas) {
-                            return (canvas.width - components.startScreen.components.highScoreList.attributes.width(canvas)) * 0.5;
-                        },
-                        top: function (canvas) {
-                            return canvas.height * 0.345;
-                        }
-                    }
+                height: function (canvas) {
+                    return canvas.height * 0.2475;
                 },
-                playButton: {
-                    attributes: {
-                        text: "PLAY",
-                        width: function (canvas) {
-                            return canvas.width * 0.325;
-                        },
-                        height: function (canvas) {
-                            return canvas.height * 0.105;
-                        },
-                        left: function (canvas) {
-                            return (canvas.width - components.startScreen.components.playButton.attributes.width(canvas)) * 0.5;
-                        },
-                        top: function (canvas) {
-                            return canvas.height * 0.66;
-                        },
-                        fontSize: function (canvas) {
-                            return canvas.height * 0.08;
-                        }
-                    }
+                left: function (canvas) {
+                    return (canvas.width - components.startScreen.highScoreList.width(canvas)) * 0.5;
+                },
+                top: function (canvas) {
+                    return canvas.height * 0.345;
+                }
+            },
+            playButton: {
+                text: "PLAY",
+                width: function (canvas) {
+                    return canvas.width * 0.325;
+                },
+                height: function (canvas) {
+                    return canvas.height * 0.105;
+                },
+                left: function (canvas) {
+                    return (canvas.width - components.startScreen.playButton.width(canvas)) * 0.5;
+                },
+                top: function (canvas) {
+                    return canvas.height * 0.66;
+                },
+                fontSize: function (canvas) {
+                    return canvas.height * 0.08;
                 }
             }
         },
         readyScreen: {
-            components: {
-                title: {
-                    attributes: {
-                        text: "Get Ready",
-                        fontSize: function (canvas) {
-                            return canvas.height * 0.06;
-                        },
-                        left: function (canvas) {
-                            return canvas.width * 0.5;
-                        },
-                        top: function (canvas) {
-                            return canvas.height * 0.255;
-                        },
-                        maxWidth: function (canvas) {
-                            return canvas.width;
-                        }
-                    }
+            title: {
+                text: "Get Ready",
+                fontSize: function (canvas) {
+                    return canvas.height * 0.06;
+                },
+                left: function (canvas) {
+                    return canvas.width * 0.5;
+                },
+                top: function (canvas) {
+                    return canvas.height * 0.255;
+                },
+                maxWidth: function (canvas) {
+                    return canvas.width;
                 }
             }
         }
@@ -368,26 +342,26 @@ ui = function () {
         ctx.font = fontSize + "px Flappy Better, sans-serif";
         ctx.textAlign = "center";
         ctx.fillText(
-            component.attributes.text,
-            - canvas.width * 0.006 + component.attributes.left(canvas),
+            component.text,
+            - canvas.width * 0.006 + component.left(canvas),
             canvas.height * 0.249,
             canvas.width
         );
         ctx.fillText(
-            component.attributes.text,
-            - canvas.width * 0.006 + component.attributes.left(canvas),
+            component.text,
+            - canvas.width * 0.006 + component.left(canvas),
             canvas.height * 0.261,
             canvas.width
         );
         ctx.fillText(
-            component.attributes.text,
-            canvas.width * 0.006 + component.attributes.left(canvas),
+            component.text,
+            canvas.width * 0.006 + component.left(canvas),
             canvas.height * 0.261,
             canvas.width
         );
         ctx.fillText(
-            component.attributes.text,
-            canvas.width * 0.006 + component.attributes.left(canvas),
+            component.text,
+            canvas.width * 0.006 + component.left(canvas),
             canvas.height * 0.249,
             canvas.width
         );
@@ -396,8 +370,8 @@ ui = function () {
         ctx.font = fontSize + "px Flappy Better, sans-serif";
         ctx.textAlign = "center";
         ctx.fillText(
-            component.attributes.text,
-            component.attributes.left(canvas),
+            component.text,
+            component.left(canvas),
             canvas.height * 0.255,
             canvas.width
         );
@@ -405,8 +379,8 @@ ui = function () {
         ctx.lineWidth = fontSize*0.05;
         ctx.strokeStyle = "rgb(78,68,58)";
         ctx.strokeText(
-            component.attributes.text,
-            component.attributes.left(canvas),
+            component.text,
+            component.left(canvas),
             canvas.height * 0.255,
             canvas.width
         );
@@ -417,37 +391,37 @@ ui = function () {
 
         ctx.fillStyle = "rgb(78,68,58)";
         ctx.fillRect(
-            component.attributes.left(canvas),
-            component.attributes.top(canvas),
-            component.attributes.width(canvas),
-            component.attributes.height(canvas)
+            component.left(canvas),
+            component.top(canvas),
+            component.width(canvas),
+            component.height(canvas)
         );
 
         ctx.fillStyle = "rgb(223,216,144)";
         ctx.fillRect(
-            component.attributes.left(canvas) + canvas.width * 0.0075,
-            component.attributes.top(canvas) + canvas.width * 0.0075,
-            component.attributes.width(canvas) - canvas.width * 0.015,
-            component.attributes.height(canvas) - canvas.width * 0.015
+            component.left(canvas) + canvas.width * 0.0075,
+            component.top(canvas) + canvas.width * 0.0075,
+            component.width(canvas) - canvas.width * 0.015,
+            component.height(canvas) - canvas.width * 0.015
         );
 
         ctx.fillStyle = "rgb(242,96,0)";
         ctx.fillRect(
-            component.attributes.left(canvas) + canvas.width * 0.015,
-            component.attributes.top(canvas) + canvas.width * 0.015,
-            component.attributes.width(canvas) - canvas.width * 0.03,
-            component.attributes.height(canvas) - canvas.width * 0.03
+            component.left(canvas) + canvas.width * 0.015,
+            component.top(canvas) + canvas.width * 0.015,
+            component.width(canvas) - canvas.width * 0.03,
+            component.height(canvas) - canvas.width * 0.03
         );
 
-        let fontSize = component.attributes.fontSize(canvas);
+        let fontSize = component.fontSize(canvas);
         ctx.fillStyle = "rgb(223,216,144)";
         ctx.font = fontSize + "px Flappy Regular, sans-serif";
         ctx.textAlign = "center";
         ctx.fillText(
-            component.attributes.text,
-            component.attributes.left(canvas) + component.attributes.width(canvas) * 0.5,
-            component.attributes.top(canvas) + component.attributes.height(canvas) * 0.5 + component.attributes.fontSize(canvas) * 0.25,
-            component.attributes.width(canvas)
+            component.text,
+            component.left(canvas) + component.width(canvas) * 0.5,
+            component.top(canvas) + component.height(canvas) * 0.5 + component.fontSize(canvas) * 0.25,
+            component.width(canvas)
         );
     };
 
@@ -456,34 +430,34 @@ ui = function () {
 
         ctx.fillStyle = "rgb(78,68,58)";
         ctx.fillRect(
-            component.attributes.left(canvas) - canvas.width * 0.0275,
-            component.attributes.top(canvas) - canvas.width * 0.0275,
-            component.attributes.width(canvas) + canvas.width * 0.055,
-            component.attributes.height(canvas)+ canvas.width * 0.055
+            component.left(canvas) - canvas.width * 0.0275,
+            component.top(canvas) - canvas.width * 0.0275,
+            component.width(canvas) + canvas.width * 0.055,
+            component.height(canvas)+ canvas.width * 0.055
         );
 
         ctx.fillStyle = "rgb(223,216,144)";
         ctx.fillRect(
-            component.attributes.left(canvas) - canvas.width * 0.02,
-            component.attributes.top(canvas) - canvas.width * 0.02,
-            component.attributes.width(canvas) + canvas.width * 0.04,
-            component.attributes.height(canvas)+ canvas.width * 0.04
+            component.left(canvas) - canvas.width * 0.02,
+            component.top(canvas) - canvas.width * 0.02,
+            component.width(canvas) + canvas.width * 0.04,
+            component.height(canvas)+ canvas.width * 0.04
         );
 
         ctx.fillStyle = "rgb(207,189,107)";
         ctx.fillRect(
-            component.attributes.left(canvas) - canvas.width * 0.014,
-            component.attributes.top(canvas) - canvas.width * 0.014,
-            component.attributes.width(canvas) + canvas.width * 0.028,
-            component.attributes.height(canvas)+ canvas.width * 0.028
+            component.left(canvas) - canvas.width * 0.014,
+            component.top(canvas) - canvas.width * 0.014,
+            component.width(canvas) + canvas.width * 0.028,
+            component.height(canvas)+ canvas.width * 0.028
         );
 
         ctx.fillStyle = "rgb(223,216,144)";
         ctx.fillRect(
-            component.attributes.left(canvas) - canvas.width * 0.008,
-            component.attributes.top(canvas) - canvas.width * 0.008,
-            component.attributes.width(canvas) + canvas.width * 0.016,
-            component.attributes.height(canvas) + canvas.width * 0.016
+            component.left(canvas) - canvas.width * 0.008,
+            component.top(canvas) - canvas.width * 0.008,
+            component.width(canvas) + canvas.width * 0.016,
+            component.height(canvas) + canvas.width * 0.016
         );
     };
 
@@ -497,28 +471,28 @@ ui = function () {
 
         drawBasicStaticBackground(canvas);
         drawGround(canvas, 0);
-        drawTitle(canvas, components.startScreen.components.title);
-        drawButton(canvas, components.startScreen.components.playButton);
-        drawPane(canvas, components.startScreen.components.highScoreList);
+        drawTitle(canvas, components.startScreen.title);
+        drawButton(canvas, components.startScreen.playButton);
+        drawPane(canvas, components.startScreen.highScoreList);
 
-        let itemHeight = components.startScreen.components.highScoreList.attributes.height(canvas) / 5;
+        let itemHeight = components.startScreen.highScoreList.height(canvas) / 5;
         highScores.forEach((scoring, i) => {
             ctx.fillStyle = "rgb(207,189,107)";
             ctx.font = itemHeight*0.99 + "px Flappy Regular, sans-serif";
             ctx.textAlign = "left";
             ctx.fillText(
                 "#" + ((i+1) < 10 ? "0" + (i+1) : (i+1)),
-                components.startScreen.components.highScoreList.attributes.left(canvas) + canvas.width * 0.015,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
-                components.startScreen.components.highScoreList.attributes.width(canvas)
+                components.startScreen.highScoreList.left(canvas) + canvas.width * 0.011,
+                components.startScreen.highScoreList.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
+                components.startScreen.highScoreList.width(canvas)
             );
 
             ctx.fillStyle = "rgb(78,68,58)";
             ctx.fillText(
                 truncateString(scoring.name, 13),
-                components.startScreen.components.highScoreList.attributes.left(canvas) + canvas.width * 0.12,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
-                components.startScreen.components.highScoreList.attributes.width(canvas) * 0.52
+                components.startScreen.highScoreList.left(canvas) + canvas.width * 0.12,
+                components.startScreen.highScoreList.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
+                components.startScreen.highScoreList.width(canvas) * 0.52
             );
 
             ctx.font = itemHeight*0.925 + "px Flappy Regular, sans-serif";
@@ -526,38 +500,50 @@ ui = function () {
             ctx.textAlign = "right";
             ctx.fillText(
                 scoring.score,
-                components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas)*0.9725,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
-                components.startScreen.components.highScoreList.attributes.width(canvas) * 0.41
+                components.startScreen.highScoreList.left(canvas) + components.startScreen.highScoreList.width(canvas) - canvas.width * 0.008,
+                components.startScreen.highScoreList.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25 - canvas.width * 0.003,
+                components.startScreen.highScoreList.width(canvas) * 0.41
             );
 
             ctx.fillText(
                 scoring.score,
-                components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas)*0.985,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
-                components.startScreen.components.highScoreList.attributes.width(canvas) * 0.48
+                components.startScreen.highScoreList.left(canvas) + components.startScreen.highScoreList.width(canvas) - canvas.width * 0.008,
+                components.startScreen.highScoreList.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25 + canvas.width * 0.003,
+                components.startScreen.highScoreList.width(canvas) * 0.41
             );
 
             ctx.fillText(
                 scoring.score,
-                components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas)*0.985,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.3235,
-                components.startScreen.components.highScoreList.attributes.width(canvas) * 0.48
+                components.startScreen.highScoreList.left(canvas) + components.startScreen.highScoreList.width(canvas) - canvas.width * 0.014,
+                components.startScreen.highScoreList.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25 - canvas.width * 0.003,
+                components.startScreen.highScoreList.width(canvas) * 0.41
             );
 
             ctx.fillText(
                 scoring.score,
-                components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas)*0.9725,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.335,
-                components.startScreen.components.highScoreList.attributes.width(canvas) * 0.48
+                components.startScreen.highScoreList.left(canvas) + components.startScreen.highScoreList.width(canvas) - canvas.width * 0.014,
+                components.startScreen.highScoreList.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25 + canvas.width * 0.003,
+                components.startScreen.highScoreList.width(canvas) * 0.41
+            );
+            ctx.fillText(
+                scoring.score,
+                components.startScreen.highScoreList.left(canvas) + components.startScreen.highScoreList.width(canvas) - canvas.width * 0.011,
+                components.startScreen.highScoreList.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25 - canvas.width * 0.003,
+                components.startScreen.highScoreList.width(canvas) * 0.41
+            );
+            ctx.fillText(
+                scoring.score,
+                components.startScreen.highScoreList.left(canvas) + components.startScreen.highScoreList.width(canvas) - canvas.width * 0.011,
+                components.startScreen.highScoreList.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25 + canvas.width * 0.003,
+                components.startScreen.highScoreList.width(canvas) * 0.41
             );
 
             ctx.fillStyle = "white";
             ctx.fillText(
                 scoring.score,
-                components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas)*0.98,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.29,
-                components.startScreen.components.highScoreList.attributes.width(canvas) * 0.48
+                components.startScreen.highScoreList.left(canvas) + components.startScreen.highScoreList.width(canvas) - canvas.width * 0.011,
+                components.startScreen.highScoreList.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
+                components.startScreen.highScoreList.width(canvas) * 0.41
             );
         });
     };
@@ -627,16 +613,16 @@ ui = function () {
     };
 
     let enableStartButton = function () {
-        components.startScreen.components.playButton.attributes.enabled = true;
+        components.startScreen.playButton.enabled = true;
     };
 
     let disableStartButton = function () {
-        components.startScreen.components.playButton.attributes.enabled = false;
+        components.startScreen.playButton.enabled = false;
     };
 
     let checkButtonBounds = function(canvas, button, mouseX, mouseY) {
-        return button.attributes.left(canvas) <= mouseX && mouseX <= (button.attributes.left(canvas) + button.attributes.width(canvas))
-            && button.attributes.top(canvas) <= mouseY && mouseY <= (button.attributes.top(canvas) + button.attributes.height(canvas));
+        return button.left(canvas) <= mouseX && mouseX <= (button.left(canvas) + button.width(canvas))
+            && button.top(canvas) <= mouseY && mouseY <= (button.top(canvas) + button.height(canvas));
     };
 
     return {
