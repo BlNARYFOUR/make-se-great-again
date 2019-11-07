@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", init);
 
 let game = null;
 
-let opacity = 1;
+let opacity = 1.0;
+let flash = 1.0;
 
 const speed = 4;
 const gravity = 2.5;
@@ -78,11 +79,12 @@ function beginOverlayLoop(canvas, prevTime, opacity) {
 
     opacity += 1 / (100 / passedTime);
 
-    ui.drawOverlay(canvas, "black", 1 / (150 / passedTime));
+    ui.drawOverlay(canvas, "black", 1 / (200 / passedTime));
 
     if(1 <= opacity) {
         game = new Game(speed, gravity, birdBeginX, birdBeginY, birdSize, groundY);
-        opacity = 1;
+        opacity = 1.0;
+        flash = 1.0;
         requestAnimationFrame(() => gameLoop(canvas, new Date().getTime(), 500, 0));
     } else {
         requestAnimationFrame(() => beginOverlayLoop(canvas, time, opacity));
@@ -108,13 +110,13 @@ function gameLoop(canvas, prevTime, passedFlyTime, prevGroundX) {
             game.spawnTube(height + spaceBetween, false, width);
             prevGroundX = game.getGroundX();
         }
-    } else if(620 < passedFlyTime) {
+    } else if(620 < passedFlyTime && !game.gameOver) {
         game.applyBirdFlying(passedTime);
         passedFlyTime = 0;
         ui.startBirdAnimation();
     }
 
-    opacity -= 1 / (160 / passedTime);
+    opacity -= 1 / (200 / passedTime);
     opacity = opacity < 0 ? 0 : opacity;
 
     doUiStuff(canvas, opacity, game.enabled);
@@ -125,8 +127,22 @@ function gameLoop(canvas, prevTime, passedFlyTime, prevGroundX) {
         ui.drawOverlay(canvas, "black", opacity);
     }
 
+    if(game.gameOver) {
+        ui.drawOverlay(canvas, "white", flash);
+        flash -= 1 / (100 / passedTime);
+        flash = flash < 0 ? 0 : flash;
+
+        if(game.groundY <= game.getBirdY() && game.speed === 0 ) {
+            console.log("GAME OVER");
+
+            return;
+        }
+    }
+
     requestAnimationFrame(() => gameLoop(canvas, time, passedFlyTime, prevGroundX));
 }
+
+
 
 function doUiStuff(canvas, opacity, gameActivated) {
     opacity = gameActivated ? opacity : 1;

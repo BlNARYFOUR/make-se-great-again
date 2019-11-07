@@ -32,10 +32,9 @@ class Game {
     }
 
     updateBird(passedTime) {
-        if(this.isBirdAboveGround()) {
-            this.bird.force += this.gravity * passedTime;
-            this.bird.y += this.bird.force;
-        } else {
+        this.bird.force += this.gravity * passedTime;
+        this.bird.y += this.bird.force;
+        if(!this.isBirdAboveGround()) {
             this.bird.y = this.groundY + 0.005 - this.bird.height;
             this.bird.force = 0;
             this.speed = 0;
@@ -43,6 +42,7 @@ class Game {
         }
 
         if(this.didBirdCollide()) {
+            this.bird.x += 0.006;
             this.speed = 0;
             this.gravity *= 1.125;
             this.gameOver = true;
@@ -63,11 +63,6 @@ class Game {
             let tubeY1 = this.tubes[i].isTopOrientation ? 0 : this.tubes[i].y;
             let tubeX2 = this.tubes[i].x + this.tubes[i].size;
             let tubeY2 = this.tubes[i].isTopOrientation ? this.tubes[i].y : this.groundY;
-
-            console.log("TUBE_1", tubeX1 + " " + tubeY1);
-            console.log("TUBE_2", tubeX2 + " " + tubeY2);
-            console.log("BIRD_1", birdX1 + " " + birdY1);
-            console.log("BIRD_2", birdX2 + " " + birdY2);
 
             if(
                 (tubeX1 <= birdX2)
@@ -91,7 +86,7 @@ class Game {
 
             if(this.tubes[i].x < (-this.tubes[i].size)) {
                 this.tubes.splice(i, 1);
-            } else if((this.tubes[i].x + this.tubes[i].size * 0.5) < (this.bird.x + this.bird.size * 0.5) && !this.tubes[i].hasScored) {
+            } else if((this.tubes[i].x + this.tubes[i].size * 0.5) < (this.bird.x + this.bird.size * 0.5) && !this.tubes[i].hasScored && !this.gameOver) {
                 this.score += 0.5;
                 this.tubes[i].hasScored = true;
             }
