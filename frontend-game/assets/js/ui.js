@@ -642,7 +642,9 @@ ui = function () {
         "drawBirdControlHint": drawBirdControlHint,
         "drawScore": drawScore,
         "drawOverlay": drawOverlay,
-        "drawTubes": drawTubes
+        "drawTubes": drawTubes,
+        "drawPane": drawPane,
+        "drawButton": drawButton
     }
 }();
 
