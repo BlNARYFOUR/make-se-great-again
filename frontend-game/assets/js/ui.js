@@ -69,8 +69,18 @@ ui = function () {
                     return canvas.width;
                 }
             }
+        },
+        gameScreen: {
+            bird: {
+                wingState: 1,
+                isFlying: false,
+                wingFlapCount: 0,
+                maxWingFlaps: 3,
+                startedFlying: null,
+            }
         }
     };
+
     let loads;
 
     let setLoads = function (loadedFiles) {
@@ -87,15 +97,25 @@ ui = function () {
         canvas.getContext("2d").imageSmoothingEnabled = false;
     };
 
-    let drawBasicStaticBackground = function (canvas) {
+    let drawBorder = function (canvas) {
+        let ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width * 0.004, canvas.height);
+        ctx.fillRect(canvas.width * 0.996, 0, canvas.width * 0.004, canvas.height);
+        ctx.fillRect(0, 0, canvas.width, canvas.height * 0.004);
+        ctx.fillRect(0, canvas.height * 0.996, canvas.width, canvas.height * 0.004);
+    };
+
+    let drawBasicStaticBackground = function (canvas, groundY) {
         let ctx = canvas.getContext("2d");
 
         ctx.fillStyle = "rgb(221,218,147)";
         ctx.fillRect(
             0,
-            canvas.height * 0.85,
+            canvas.height * groundY + canvas.height * 0.025,
             canvas.width,
-            canvas.height * 0.15
+            canvas.height * (1 - groundY - 0.025)
         );
 
         ctx.fillStyle = "rgb(111,198,207)";
@@ -103,13 +123,13 @@ ui = function () {
             0,
             0,
             canvas.width,
-            canvas.height * 0.85
+            canvas.height * groundY + canvas.height * 0.025
         );
 
         ctx.drawImage(
             loads.skyscrapers,
             0,
-            canvas.height*0.565,
+            canvas.height * groundY - canvas.height * 0.25,
             canvas.width,
             canvas.width * loads.skyscrapers.height / loads.skyscrapers.width
         );
@@ -117,7 +137,7 @@ ui = function () {
         ctx.fillStyle = "rgb(78,68,58)";
         ctx.fillRect(
             0,
-            canvas.height * 0.815,
+            canvas.height * groundY,
             canvas.width,
             canvas.height * 0.032
         );
@@ -125,7 +145,7 @@ ui = function () {
         ctx.fillStyle = "rgb(205,223,147)";
         ctx.fillRect(
             0,
-            canvas.height * 0.82,
+            canvas.height * groundY + canvas.height * 0.005,
             canvas.width,
             canvas.height * 0.032
         );
@@ -133,7 +153,7 @@ ui = function () {
         ctx.fillStyle = "rgb(209,242,137)";
         ctx.fillRect(
             0,
-            canvas.height * 0.82125,
+            canvas.height * groundY + canvas.height * 0.00625,
             canvas.width,
             canvas.height * 0.032
         );
@@ -141,7 +161,7 @@ ui = function () {
         ctx.fillStyle = "rgb(202,185,103)";
         ctx.fillRect(
             0,
-            canvas.height * 0.825,
+            canvas.height * groundY + canvas.height * 0.01,
             canvas.width,
             canvas.height * 0.032
         );
@@ -149,7 +169,7 @@ ui = function () {
         ctx.fillStyle = "rgb(125,137,39)";
         ctx.fillRect(
             0,
-            canvas.height * 0.825,
+            canvas.height * groundY + canvas.height * 0.01,
             canvas.width,
             canvas.height * 0.028
         );
@@ -157,7 +177,7 @@ ui = function () {
         ctx.fillStyle = "rgb(100,134,22)";
         ctx.fillRect(
             0,
-            canvas.height * 0.825,
+            canvas.height * groundY + canvas.height * 0.01,
             canvas.width,
             canvas.height * 0.027
         );
@@ -165,48 +185,49 @@ ui = function () {
         ctx.fillStyle = "rgb(118,190,44)";
         ctx.fillRect(
             0,
-            canvas.height * 0.825,
+            canvas.height * groundY + canvas.height * 0.01,
             canvas.width,
             canvas.height * 0.025
         );
     };
 
-    let drawGroundPatch = function (canvas, x) {
+    let drawGroundPatch = function (canvas, x, y) {
         let ctx = canvas.getContext("2d");
 
         ctx.beginPath();
-        ctx.moveTo(x, canvas.height * 0.85);
-        ctx.lineTo(x + canvas.width * 0.025, canvas.height * 0.85);
-        ctx.lineTo(x + canvas.width * 0.045, canvas.height * 0.825);
-        ctx.lineTo(x + canvas.width * 0.02, canvas.height * 0.825);
+        ctx.moveTo(x, y + canvas.height * 0.035); // 0.85
+        ctx.lineTo(x + canvas.width * 0.025, y + canvas.height * 0.035);
+        ctx.lineTo(x + canvas.width * 0.045, y + canvas.height * 0.01);
+        ctx.lineTo(x + canvas.width * 0.02, y + canvas.height * 0.01);
         ctx.fillStyle = "rgb(165,230,86)";
         ctx.fill();
     };
 
-    let drawGround = function (canvas, x) {
+    let drawGround = function (canvas, x, y) {
         x = /*canvas.width * 0.05 -*/ x % (canvas.width * 0.05);
 
+        let beginY = canvas.height * y;
         let ctx = canvas.getContext("2d");
         ctx.fillStyle = "rgb(118,190,44)";
         ctx.fillRect(
             0,
-            canvas.height * 0.825,
+            beginY + canvas.height * 0.01, // 0.825,
             canvas.width,
             canvas.height * 0.025
         );
 
         for(let i = -1; i <= (canvas.width / (canvas.width * 0.05)) + 1; i++){
-            drawGroundPatch(canvas, x + i * canvas.width * 0.05);
+            drawGroundPatch(canvas, x + i * canvas.width * 0.05, beginY);
         }
         return canvas.width * 0.05;
     };
 
-    let drawTube = function (canvas, x, y, isTopOrientation) {
+    let drawTube = function (canvas, x, y, isTopOrientation, size, groundY) {
         let ctx = canvas.getContext("2d");
 
         // Bottom Orientation
-        let startY = y;
-        let height = canvas.height * 0.8198 - startY;
+        let startY = y; // 0.8198
+        let height = canvas.height * groundY + canvas.height * 0.0048 - startY;
 
         if(isTopOrientation) {
             startY = - 0.005 * canvas.height;
@@ -217,7 +238,7 @@ ui = function () {
         ctx.fillRect(
             x,
             startY,
-            canvas.width * 0.125,
+            canvas.width * size - canvas.width * 0.012,
             height
         );
 
@@ -225,7 +246,7 @@ ui = function () {
         ctx.fillRect(
             x + canvas.width * 0.005,
             startY + canvas.height * 0.005,
-            canvas.width * 0.115,
+            canvas.width * size * 0.5,
             height - canvas.height * 0.01
         );
 
@@ -233,15 +254,15 @@ ui = function () {
         ctx.fillRect(
             x + canvas.width * 0.0125,
             startY + canvas.height * 0.005,
-            canvas.width * 0.1075,
+            canvas.width * size * 0.5,
             height - canvas.height * 0.01
         );
 
         ctx.fillStyle = "rgb(85,128,38)";
         ctx.fillRect(
-            x + canvas.width * 0.06,
+            x + canvas.width * size * 0.5,
             startY + canvas.height * 0.005,
-            canvas.width * 0.06,
+            canvas.width * size * 0.5 - canvas.width * 0.016,
             height - canvas.height * 0.01
         );
 
@@ -249,7 +270,7 @@ ui = function () {
         ctx.fillRect(
             x + canvas.width * 0.0425,
             startY + canvas.height * 0.005,
-            canvas.width * 0.05275,
+            canvas.width * size - canvas.width * 0.08425,
             height - canvas.height * 0.01
         );
         ctx.fillRect(
@@ -260,7 +281,7 @@ ui = function () {
         );
 
         ctx.fillRect(
-            x + canvas.width * 0.1025,
+            x + canvas.width * size - canvas.width * 0.0345,
             startY + canvas.height * 0.005,
             canvas.width * 0.0065,
             height - canvas.height * 0.01
@@ -278,7 +299,7 @@ ui = function () {
         ctx.fillRect(
             x - canvas.width * 0.006,
             startY,
-            canvas.width * 0.137,
+            canvas.width * size, // 0.137,
             height
         );
 
@@ -286,7 +307,7 @@ ui = function () {
         ctx.fillRect(
             x - canvas.width * 0.001,
             startY + canvas.height * 0.005,
-            canvas.width * 0.127,
+            canvas.width * size * 0.5,
             height - canvas.height * 0.01
         );
 
@@ -294,15 +315,15 @@ ui = function () {
         ctx.fillRect(
             x + canvas.width * 0.0065,
             startY + canvas.height * 0.005,
-            canvas.width * 0.1195,
+            canvas.width * size * 0.5,
             height - canvas.height * 0.01
         );
 
         ctx.fillStyle = "rgb(85,128,38)";
         ctx.fillRect(
-            x + canvas.width * 0.06,
+            x + canvas.width * size * 0.5,
             startY + canvas.height * 0.005,
-            canvas.width * 0.067,
+            canvas.width * size * 0.5 - canvas.width * 0.01,
             height - canvas.height * 0.01
         );
 
@@ -310,7 +331,7 @@ ui = function () {
         ctx.fillRect(
             x + canvas.width * 0.0365,
             startY + canvas.height * 0.005,
-            canvas.width * 0.06475,
+            canvas.width * size - canvas.width * 0.07225,
             height - canvas.height * 0.01
         );
         ctx.fillRect(
@@ -321,16 +342,16 @@ ui = function () {
         );
 
         ctx.fillRect(
-            x + canvas.width * 0.1085,
+            x + canvas.width * size - canvas.width * 0.0285,
             startY + canvas.height * 0.005,
             canvas.width * 0.0065,
             height - canvas.height * 0.01
         );
     };
 
-    let drawTubes = function (canvas, tubes) {
+    let drawTubes = function (canvas, tubes, groundY) {
         tubes.forEach((tube) => {
-            drawTube(canvas, tube.x * canvas.width, tube.y * canvas.height, tube.isTopOrientation);
+            drawTube(canvas, tube.x * canvas.width, tube.y * canvas.height, tube.isTopOrientation, tube.size, groundY);
         });
     };
 
@@ -461,19 +482,17 @@ ui = function () {
         );
     };
 
-    let drawStartScreen = function (canvas, highScores) {
+    let drawStartScreen = function (canvas, highScores, groundY) {
         resizeCanvas(canvas);
 
         let ctx = canvas.getContext("2d");
 
-        ctx.fillStyle = "red";
-        ctx.fillRect(0,0,canvas.width, canvas.height);
-
-        drawBasicStaticBackground(canvas);
-        drawGround(canvas, 0);
+        drawBasicStaticBackground(canvas, groundY);
+        drawGround(canvas, 0, groundY);
         drawTitle(canvas, components.startScreen.title);
         drawButton(canvas, components.startScreen.playButton);
         drawPane(canvas, components.startScreen.highScoreList);
+        drawBorder(canvas);
 
         let itemHeight = components.startScreen.highScoreList.height(canvas) / 5;
         highScores.forEach((scoring, i) => {
@@ -548,16 +567,46 @@ ui = function () {
         });
     };
 
-    let drawBird = function (canvas, y, wingState) {
-        // Wing state is 0, 1 or 2
-        // ctx.drawImage(loads["bird_"+wingState], 0, canvas.height*0.56, canvas.width, canvas.width * loads["bird_"+wingState].height / loads["bird_"+wingState].width);
+    let startBirdAnimation = function () {
+            components.gameScreen.bird.isFlying = true;
+            components.gameScreen.bird.wingState = 0;
+            components.gameScreen.bird.wingFlapCount = 0;
+            components.gameScreen.bird.startedFlying = new Date().getTime();
     };
 
-    let drawBirdControlHint = function (canvas, opacity) {
+    let drawBird = function (canvas, y, birdSize) {
+        // Wing state is 0, 1 or 2
+        let time = new Date().getTime();
+
+        if(components.gameScreen.bird.isFlying) {
+            let passedTime = time - components.gameScreen.bird.startedFlying;
+
+            if(75 < passedTime) {
+                components.gameScreen.bird.wingState++;
+                components.gameScreen.bird.startedFlying = time;
+
+                if(2 < components.gameScreen.bird.wingState) {
+                    components.gameScreen.bird.wingState = 0;
+                    components.gameScreen.bird.wingFlapCount++;
+
+                    if(3 < components.gameScreen.bird.wingFlapCount) {
+                        components.gameScreen.bird.wingState = 0;
+                        components.gameScreen.bird.isFlying = false;
+                    }
+                }
+            }
+        }
+
+        let ctx = canvas.getContext("2d");
+        let width = canvas.width * birdSize; // 0.0865;
+        ctx.drawImage(loads["bird_"+components.gameScreen.bird.wingState], canvas.width * 0.31, canvas.height * y, width, width * loads["bird_"+components.gameScreen.bird.wingState].height / loads["bird_"+components.gameScreen.bird.wingState].width);
+    };
+
+    let drawBirdControlHint = function (canvas, birdSize, opacity) {
         let ctx = canvas.getContext("2d");
 
         ctx.globalAlpha = opacity;
-        let width = canvas.width * 0.2275;
+        let width = canvas.width * 2.63 * birdSize;
         let height = width * loads.birdHint.height / loads.birdHint.width;
         ctx.drawImage(loads.birdHint, (canvas.width - width/2) / 2, canvas.height*0.35, width, height);
     };
@@ -632,6 +681,7 @@ ui = function () {
         "enableStartButton": enableStartButton,
         "disableStartButton": disableStartButton,
         "setLoads": setLoads,
+        "startBirdAnimation": startBirdAnimation,
         "drawStartScreen": drawStartScreen,
         "drawGroundPatch": drawGroundPatch,
         "drawGround": drawGround,
@@ -644,7 +694,8 @@ ui = function () {
         "drawOverlay": drawOverlay,
         "drawTubes": drawTubes,
         "drawPane": drawPane,
-        "drawButton": drawButton
+        "drawButton": drawButton,
+        "drawBorder": drawBorder
     }
 }();
 

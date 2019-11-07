@@ -2,6 +2,12 @@
 
 document.addEventListener("DOMContentLoaded", init);
 
+const speed = 4;
+const gravity = 2.5;
+const birdSize = 0.0865;
+const groundY = 0.815;
+const birdBeginY = (groundY - 0.015) * 0.5;
+
 function init(e) {
     const canvas = document.querySelector('#gameEnv');
 
@@ -39,7 +45,7 @@ function preLoaderAndDrawBeginScreen(loads, canvas, buttons) {
         loaded--;
         if (loaded === 0) {
             ui.setLoads(loads);
-            ui.drawStartScreen(canvas, getHighScores());
+            ui.drawStartScreen(canvas, getHighScores(), groundY);
             ui.enableStartButton();
             activateButtonEvents(canvas, buttons);
         }
@@ -70,13 +76,13 @@ function beginOverlayLoop(canvas, prevTime, opacity) {
     ui.drawOverlay(canvas, "black", 1 / (150 / passedTime));
 
     if(1 <= opacity) {
-        requestAnimationFrame(() => getReadyLoop(canvas, new Date().getTime(), new Game(0.0004), 1));
+        requestAnimationFrame(() => getReadyLoop(canvas, new Date().getTime(), new Game(speed, gravity, birdBeginY, birdSize, groundY), 1, 500));
     } else {
         requestAnimationFrame(() => beginOverlayLoop(canvas, time, opacity));
     }
 }
 
-function getReadyLoop(canvas, prevTime, game, opacity) {
+function getReadyLoop(canvas, prevTime, game, opacity, passedFlyTime) {
     const time = new Date().getTime();
     const passedTime = time - prevTime;
 
@@ -85,17 +91,26 @@ function getReadyLoop(canvas, prevTime, game, opacity) {
     game.update(passedTime);
 
     ui.resizeCanvas(canvas);
-    ui.drawBasicStaticBackground(canvas);
-    ui.drawGround(canvas, canvas.width * game.getGroundX());
-    ui.drawTubes(canvas, game.getTubes());
+    ui.drawBasicStaticBackground(canvas, game.getGroundY());
+    ui.drawGround(canvas, canvas.width * game.getGroundX(), game.getGroundY());
+    ui.drawTubes(canvas, game.getTubes(), groundY);
     ui.drawScore(canvas, 0);
     ui.drawTitle(canvas, ui.components.readyScreen.title);
-    ui.drawBird(canvas, canvas.height*0.4);
-    ui.drawBirdControlHint(canvas, 1);
+    ui.drawBird(canvas, game.getBirdY(), game.getBirdSize());
+    ui.drawBirdControlHint(canvas, game.getBirdSize(), 1);
+    ui.drawBorder(canvas);
+
+    passedFlyTime += passedTime;
+
+    if(645 < passedFlyTime) {
+        game.applyBirdFlying(passedTime);
+        passedFlyTime = 0;
+        ui.startBirdAnimation();
+    }
 
     ui.drawOverlay(canvas, "black", opacity);
 
-    requestAnimationFrame(() => getReadyLoop(canvas, time, game, opacity));
+    requestAnimationFrame(() => getReadyLoop(canvas, time, game, opacity, passedFlyTime));
 }
 
 function gameLoop(canvas, score, prevTime) {
