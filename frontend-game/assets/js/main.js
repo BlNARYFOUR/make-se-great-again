@@ -94,7 +94,7 @@ function getReadyLoop(canvas, prevTime, game, opacity) {
     ui.drawGround(canvas, canvas.width * game.getGroundX());
     ui.drawTubes(canvas, game.getTubes());
     ui.drawScore(canvas, 0);
-    ui.drawTitle(canvas, "Get Ready");
+    ui.drawTitle(canvas, ui.components.readyScreen.components.title);
     ui.drawBird(canvas, canvas.height*0.4);
     ui.drawBirdControlHint(canvas, 1);
 
@@ -156,11 +156,11 @@ function getHighScores() {
     }
 
     return [
-        new HighScore("Jesus", 999999),
+        new HighScore("Why is this username so long like wtf just why", 9999),
         new HighScore("Bob", 99),
         new HighScore("Maria", 87),
         new HighScore("Jane", 69),
-        new HighScore("Why is this username so long like wtf just why", 47),
+        new HighScore("Jesus", 47),
     ];
 }
 

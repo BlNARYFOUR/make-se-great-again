@@ -7,87 +7,95 @@ ui = function () {
         startScreen: {
             attributes: {
                 width: function (canvas) {
-                    return canvas.width / 1.75;
+                    return canvas.width * 0.58;
                 },
                 height: function (canvas) {
-                    return canvas.height / 1.5;
+                    return canvas.height * 0.675;
                 },
                 left: function (canvas) {
-                    return (canvas.width - components.startScreen.attributes.width(canvas)) / 2;
+                    return (canvas.width - components.startScreen.attributes.width(canvas)) * 0.5;
                 },
                 top: function (canvas) {
-                    return (canvas.height - components.startScreen.attributes.height(canvas)) / 2;
+                    return (canvas.height - components.startScreen.attributes.height(canvas)) * 0.5;
                 },
             },
             components: {
                 title: {
                     attributes: {
+                        text: "Howest Bird",
                         fontSize: function (canvas) {
                             return canvas.height * 0.06;
                         },
                         left: function (canvas) {
-                            return canvas.width / 2;
+                            return canvas.width * 0.5;
                         },
                         top: function (canvas) {
-                            return (canvas.height - components.startScreen.attributes.height(canvas)) / 2 + components.startScreen.components.title.attributes.fontSize(canvas) + canvas.height * 0.03;
+                            return canvas.height * 0.255;
                         },
                         maxWidth: function (canvas) {
-                            return components.startScreen.attributes.width(canvas);
+                            return canvas.width;
                         }
                     }
                 },
                 highScoreList: {
                     attributes: {
                         width: function (canvas) {
-                            return components.startScreen.attributes.width(canvas) * 0.8;
+                            return canvas.width * 0.465;
                         },
                         height: function (canvas) {
-                            return components.startScreen.attributes.height(canvas) - components.startScreen.components.title.attributes.fontSize(canvas) - components.startScreen.components.playButton.attributes.height(canvas) - canvas.height * 0.26;
+                            return canvas.height * 0.2475;
                         },
                         left: function (canvas) {
-                            return (canvas.width - components.startScreen.components.highScoreList.attributes.width(canvas)) / 2;
+                            return (canvas.width - components.startScreen.components.highScoreList.attributes.width(canvas)) * 0.5;
                         },
                         top: function (canvas) {
-                            return (canvas.height - components.startScreen.attributes.height(canvas)) / 2 + components.startScreen.components.title.attributes.fontSize(canvas) + canvas.height * 0.12;
+                            return canvas.height * 0.345;
                         }
                     }
                 },
                 playButton: {
                     attributes: {
+                        text: "PLAY",
                         width: function (canvas) {
-                            return canvas.width / 2.75;
+                            return canvas.width * 0.325;
                         },
                         height: function (canvas) {
-                            return canvas.height / 9;
+                            return canvas.height * 0.105;
                         },
                         left: function (canvas) {
-                            return (canvas.width - components.startScreen.components.playButton.attributes.width(canvas)) / 2;
+                            return (canvas.width - components.startScreen.components.playButton.attributes.width(canvas)) * 0.5;
                         },
                         top: function (canvas) {
-                            return (canvas.height + components.startScreen.attributes.height(canvas)) / 2 - components.startScreen.components.playButton.attributes.height(canvas) - canvas.height * 0.075;
-                        }
-                    },
-                    components: {
-                        title: {
-                            attributes: {
-                                fontSize: function (canvas) {
-                                    return canvas.height * 0.08;
-                                },
-                                left: function (canvas) {
-                                    return canvas.width / 2;
-                                },
-                                top: function (canvas) {
-                                    return (canvas.height + components.startScreen.attributes.height(canvas)) / 2 - canvas.height * 0.08 - components.startScreen.components.playButton.attributes.height(canvas) / 2 + components.startScreen.components.playButton.components.title.attributes.fontSize(canvas) / 3.25;
-                                },
-                                maxWidth: function (canvas) {
-                                    return components.startScreen.components.playButton.attributes.width(canvas);
-                                }
-                            }
+                            return canvas.height * 0.66;
+                        },
+                        fontSize: function (canvas) {
+                            return canvas.height * 0.08;
                         }
                     }
                 }
             }
         },
+        readyScreen: {
+            components: {
+                title: {
+                    attributes: {
+                        text: "Get Ready",
+                        fontSize: function (canvas) {
+                            return canvas.height * 0.06;
+                        },
+                        left: function (canvas) {
+                            return canvas.width * 0.5;
+                        },
+                        top: function (canvas) {
+                            return canvas.height * 0.255;
+                        },
+                        maxWidth: function (canvas) {
+                            return canvas.width;
+                        }
+                    }
+                }
+            }
+        }
     };
     let loads;
 
@@ -124,7 +132,13 @@ ui = function () {
             canvas.height * 0.85
         );
 
-        ctx.drawImage(loads.skyscrapers, 0, canvas.height*0.565, canvas.width, canvas.width * loads.skyscrapers.height / loads.skyscrapers.width);
+        ctx.drawImage(
+            loads.skyscrapers,
+            0,
+            canvas.height*0.565,
+            canvas.width,
+            canvas.width * loads.skyscrapers.height / loads.skyscrapers.width
+        );
 
         ctx.fillStyle = "rgb(78,68,58)";
         ctx.fillRect(
@@ -346,55 +360,130 @@ ui = function () {
         });
     };
 
-    let drawTitle = function (canvas, text) {
+    let drawTitle = function (canvas, component) {
         let ctx = canvas.getContext("2d");
 
-        let fontSize = components.startScreen.components.title.attributes.fontSize(canvas);
+        let fontSize = canvas.height * 0.06;
         ctx.fillStyle = "white";
         ctx.font = fontSize + "px Flappy Better, sans-serif";
         ctx.textAlign = "center";
         ctx.fillText(
-            text,
-            components.startScreen.components.title.attributes.left(canvas)*0.988,
-            components.startScreen.components.title.attributes.top(canvas)*0.975,
-            components.startScreen.components.title.attributes.maxWidth(canvas)
+            component.attributes.text,
+            - canvas.width * 0.006 + component.attributes.left(canvas),
+            canvas.height * 0.249,
+            canvas.width
         );
         ctx.fillText(
-            text,
-            components.startScreen.components.title.attributes.left(canvas)*0.988,
-            components.startScreen.components.title.attributes.top(canvas)*1.03,
-            components.startScreen.components.title.attributes.maxWidth(canvas)
+            component.attributes.text,
+            - canvas.width * 0.006 + component.attributes.left(canvas),
+            canvas.height * 0.261,
+            canvas.width
         );
         ctx.fillText(
-            text,
-            components.startScreen.components.title.attributes.left(canvas)*1.0125,
-            components.startScreen.components.title.attributes.top(canvas)*1.03,
-            components.startScreen.components.title.attributes.maxWidth(canvas)
+            component.attributes.text,
+            canvas.width * 0.006 + component.attributes.left(canvas),
+            canvas.height * 0.261,
+            canvas.width
         );
         ctx.fillText(
-            text,
-            components.startScreen.components.title.attributes.left(canvas)*1.0125,
-            components.startScreen.components.title.attributes.top(canvas)*0.975,
-            components.startScreen.components.title.attributes.maxWidth(canvas)
+            component.attributes.text,
+            canvas.width * 0.006 + component.attributes.left(canvas),
+            canvas.height * 0.249,
+            canvas.width
         );
 
         ctx.fillStyle = "rgb(243,180,4)";
-        ctx.font = fontSize*1 + "px Flappy Better, sans-serif";
+        ctx.font = fontSize + "px Flappy Better, sans-serif";
         ctx.textAlign = "center";
         ctx.fillText(
-            text,
-            components.startScreen.components.title.attributes.left(canvas),
-            components.startScreen.components.title.attributes.top(canvas),
-            components.startScreen.components.title.attributes.maxWidth(canvas)
+            component.attributes.text,
+            component.attributes.left(canvas),
+            canvas.height * 0.255,
+            canvas.width
         );
 
         ctx.lineWidth = fontSize*0.05;
         ctx.strokeStyle = "rgb(78,68,58)";
         ctx.strokeText(
-            text,
-            components.startScreen.components.title.attributes.left(canvas),
-            components.startScreen.components.title.attributes.top(canvas),
-            components.startScreen.components.title.attributes.maxWidth(canvas)
+            component.attributes.text,
+            component.attributes.left(canvas),
+            canvas.height * 0.255,
+            canvas.width
+        );
+    };
+
+    let drawButton = function (canvas, component) {
+        let ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "rgb(78,68,58)";
+        ctx.fillRect(
+            component.attributes.left(canvas),
+            component.attributes.top(canvas),
+            component.attributes.width(canvas),
+            component.attributes.height(canvas)
+        );
+
+        ctx.fillStyle = "rgb(223,216,144)";
+        ctx.fillRect(
+            component.attributes.left(canvas) + canvas.width * 0.0075,
+            component.attributes.top(canvas) + canvas.width * 0.0075,
+            component.attributes.width(canvas) - canvas.width * 0.015,
+            component.attributes.height(canvas) - canvas.width * 0.015
+        );
+
+        ctx.fillStyle = "rgb(242,96,0)";
+        ctx.fillRect(
+            component.attributes.left(canvas) + canvas.width * 0.015,
+            component.attributes.top(canvas) + canvas.width * 0.015,
+            component.attributes.width(canvas) - canvas.width * 0.03,
+            component.attributes.height(canvas) - canvas.width * 0.03
+        );
+
+        let fontSize = component.attributes.fontSize(canvas);
+        ctx.fillStyle = "rgb(223,216,144)";
+        ctx.font = fontSize + "px Flappy Regular, sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(
+            component.attributes.text,
+            component.attributes.left(canvas) + component.attributes.width(canvas) * 0.5,
+            component.attributes.top(canvas) + component.attributes.height(canvas) * 0.5 + component.attributes.fontSize(canvas) * 0.25,
+            component.attributes.width(canvas)
+        );
+    };
+
+    let drawPane = function (canvas, component) {
+        let ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "rgb(78,68,58)";
+        ctx.fillRect(
+            component.attributes.left(canvas) - canvas.width * 0.0275,
+            component.attributes.top(canvas) - canvas.width * 0.0275,
+            component.attributes.width(canvas) + canvas.width * 0.055,
+            component.attributes.height(canvas)+ canvas.width * 0.055
+        );
+
+        ctx.fillStyle = "rgb(223,216,144)";
+        ctx.fillRect(
+            component.attributes.left(canvas) - canvas.width * 0.02,
+            component.attributes.top(canvas) - canvas.width * 0.02,
+            component.attributes.width(canvas) + canvas.width * 0.04,
+            component.attributes.height(canvas)+ canvas.width * 0.04
+        );
+
+        ctx.fillStyle = "rgb(207,189,107)";
+        ctx.fillRect(
+            component.attributes.left(canvas) - canvas.width * 0.014,
+            component.attributes.top(canvas) - canvas.width * 0.014,
+            component.attributes.width(canvas) + canvas.width * 0.028,
+            component.attributes.height(canvas)+ canvas.width * 0.028
+        );
+
+        ctx.fillStyle = "rgb(223,216,144)";
+        ctx.fillRect(
+            component.attributes.left(canvas) - canvas.width * 0.008,
+            component.attributes.top(canvas) - canvas.width * 0.008,
+            component.attributes.width(canvas) + canvas.width * 0.016,
+            component.attributes.height(canvas) + canvas.width * 0.016
         );
     };
 
@@ -407,77 +496,10 @@ ui = function () {
         ctx.fillRect(0,0,canvas.width, canvas.height);
 
         drawBasicStaticBackground(canvas);
-
         drawGround(canvas, 0);
-
-        drawTitle(canvas, "Howest Bird");
-
-        ctx.fillStyle = "rgb(78,68,58)";
-        ctx.fillRect(
-            components.startScreen.components.playButton.attributes.left(canvas),
-            components.startScreen.components.playButton.attributes.top(canvas),
-            components.startScreen.components.playButton.attributes.width(canvas),
-            components.startScreen.components.playButton.attributes.height(canvas)
-        );
-
-        ctx.fillStyle = "rgb(223,216,144)";
-        ctx.fillRect(
-            components.startScreen.components.playButton.attributes.left(canvas)*1.025,
-            components.startScreen.components.playButton.attributes.top(canvas)*1.01,
-            components.startScreen.components.playButton.attributes.width(canvas)/1.0475,
-            components.startScreen.components.playButton.attributes.height(canvas)/1.15
-        );
-
-        ctx.fillStyle = "rgb(242,96,0)";
-        ctx.fillRect(
-            components.startScreen.components.playButton.attributes.left(canvas)*1.05,
-            components.startScreen.components.playButton.attributes.top(canvas)*1.02,
-            components.startScreen.components.playButton.attributes.width(canvas)/1.0975,
-            components.startScreen.components.playButton.attributes.height(canvas)/1.34
-        );
-
-        let fontSize = components.startScreen.components.playButton.components.title.attributes.fontSize(canvas);
-        ctx.fillStyle = "rgb(223,216,144)";
-        ctx.font = fontSize + "px Flappy Regular, sans-serif";
-        ctx.textAlign = "center";
-        ctx.fillText(
-            "PLAY",
-            components.startScreen.components.playButton.components.title.attributes.left(canvas),
-            components.startScreen.components.playButton.components.title.attributes.top(canvas),
-            components.startScreen.components.playButton.components.title.attributes.maxWidth(canvas)
-        );
-
-        ctx.fillStyle = "rgb(78,68,58)";
-        ctx.fillRect(
-            components.startScreen.components.highScoreList.attributes.left(canvas)*0.91,
-            components.startScreen.components.highScoreList.attributes.top(canvas)*0.915,
-            components.startScreen.components.highScoreList.attributes.width(canvas)/0.905,
-            components.startScreen.components.highScoreList.attributes.height(canvas)/0.842
-        );
-
-        ctx.fillStyle = "rgb(223,216,144)";
-        ctx.fillRect(
-            components.startScreen.components.highScoreList.attributes.left(canvas)*0.935,
-            components.startScreen.components.highScoreList.attributes.top(canvas)*0.935,
-            components.startScreen.components.highScoreList.attributes.width(canvas)/0.93,
-            components.startScreen.components.highScoreList.attributes.height(canvas)/0.885
-        );
-
-        ctx.fillStyle = "rgb(207,189,107)";
-        ctx.fillRect(
-            components.startScreen.components.highScoreList.attributes.left(canvas)*0.9525,
-            components.startScreen.components.highScoreList.attributes.top(canvas)*0.955,
-            components.startScreen.components.highScoreList.attributes.width(canvas)/0.95,
-            components.startScreen.components.highScoreList.attributes.height(canvas)/0.93
-        );
-
-        ctx.fillStyle = "rgb(223,216,144)";
-        ctx.fillRect(
-            components.startScreen.components.highScoreList.attributes.left(canvas)*0.9725,
-            components.startScreen.components.highScoreList.attributes.top(canvas)*0.97,
-            components.startScreen.components.highScoreList.attributes.width(canvas)/0.9725,
-            components.startScreen.components.highScoreList.attributes.height(canvas)/0.97
-        );
+        drawTitle(canvas, components.startScreen.components.title);
+        drawButton(canvas, components.startScreen.components.playButton);
+        drawPane(canvas, components.startScreen.components.highScoreList);
 
         let itemHeight = components.startScreen.components.highScoreList.attributes.height(canvas) / 5;
         highScores.forEach((scoring, i) => {
@@ -486,17 +508,17 @@ ui = function () {
             ctx.textAlign = "left";
             ctx.fillText(
                 "#" + ((i+1) < 10 ? "0" + (i+1) : (i+1)),
-                components.startScreen.components.highScoreList.attributes.left(canvas)*1.03,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.35,
+                components.startScreen.components.highScoreList.attributes.left(canvas) + canvas.width * 0.015,
+                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
                 components.startScreen.components.highScoreList.attributes.width(canvas)
             );
 
             ctx.fillStyle = "rgb(78,68,58)";
             ctx.fillText(
                 truncateString(scoring.name, 13),
-                components.startScreen.components.highScoreList.attributes.left(canvas)*1.4,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.35,
-                components.startScreen.components.highScoreList.attributes.width(canvas) * 0.45
+                components.startScreen.components.highScoreList.attributes.left(canvas) + canvas.width * 0.12,
+                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
+                components.startScreen.components.highScoreList.attributes.width(canvas) * 0.52
             );
 
             ctx.font = itemHeight*0.925 + "px Flappy Regular, sans-serif";
@@ -505,28 +527,28 @@ ui = function () {
             ctx.fillText(
                 scoring.score,
                 components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas)*0.9725,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.35,
+                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
+                components.startScreen.components.highScoreList.attributes.width(canvas) * 0.41
+            );
+
+            ctx.fillText(
+                scoring.score,
+                components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas)*0.985,
+                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.25,
                 components.startScreen.components.highScoreList.attributes.width(canvas) * 0.48
             );
 
             ctx.fillText(
                 scoring.score,
                 components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas)*0.985,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.35,
-                components.startScreen.components.highScoreList.attributes.width(canvas) * 0.48
-            );
-
-            ctx.fillText(
-                scoring.score,
-                components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas)*0.985,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.4235,
+                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.3235,
                 components.startScreen.components.highScoreList.attributes.width(canvas) * 0.48
             );
 
             ctx.fillText(
                 scoring.score,
                 components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas)*0.9725,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.435,
+                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.335,
                 components.startScreen.components.highScoreList.attributes.width(canvas) * 0.48
             );
 
@@ -534,7 +556,7 @@ ui = function () {
             ctx.fillText(
                 scoring.score,
                 components.startScreen.components.highScoreList.attributes.left(canvas) + components.startScreen.components.highScoreList.attributes.width(canvas)*0.98,
-                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.39,
+                components.startScreen.components.highScoreList.attributes.top(canvas) + (i+1) * itemHeight - itemHeight * 0.29,
                 components.startScreen.components.highScoreList.attributes.width(canvas) * 0.48
             );
         });
