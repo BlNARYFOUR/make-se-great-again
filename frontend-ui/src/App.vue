@@ -24,7 +24,7 @@
         <div class="title_code_fill">{{ tabTitle }}</div>
         <ul class="code_fills">
           <li class="code" v-for="code_fill in usable_code_fills" v-bind:key="code_fill.id">
-            <CodeFill v-on:selectCodeFill="selectCodeFill" v-bind="code_fill"></CodeFill>
+            <CodeFill v-on:selectCodeFill="selectCodeFill" v-bind="code_fill" :selected_code_fill_id="selected_code_fill_id"></CodeFill>
           </li>
         </ul>
       </div>
@@ -52,6 +52,7 @@ export default {
       selected_code_block: {},
       selected_code_fill: {},
       selected_tab: '',
+      selected_code_fill_id: 0
     };
   },
   computed: {
@@ -61,16 +62,20 @@ export default {
   },
   methods: {
     showCodeFills(codeBlock) {
-      console.log(1);
       this.selected_code_block = codeBlock;
       this.usable_code_fills = this.code_fills.filter(
         fill => fill.code_block_id === codeBlock.id
       );
+      if(typeof this.selected_code_block.code_fill_id !== 'undefined') {
+            this.selected_code_fill_id = this.selected_code_block.code_fill_id;
+        }
     },
     selectCodeFill(codeFill) {
       this.selected_code_fill = codeFill;
       if (this.selected_code_block.id === codeFill.code_block_id) {
         this.selected_code_block.code = codeFill.code;
+        this.selected_code_block.code_fill_id = codeFill.id;
+        this.selected_code_fill_id = this.selected_code_block.code_fill_id;
       }
     },
     tabChanged(selectedTab) {

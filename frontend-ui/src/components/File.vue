@@ -37,7 +37,7 @@ export default {
     selected_code_block_id: {
       type: Number,
       required: false
-    }
+    },
   },
   data() {
     return {

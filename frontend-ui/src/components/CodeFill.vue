@@ -29,10 +29,25 @@ export default {
       type: Number,
       required: true
     },
+    selected_code_fill_id: Number,
+  },
+  watch: {
+      selected_code_fill_id(id) {
+          if(id === this.id) {
+              this.is_selected = true;
+          } else if (this.is_selected) {
+              this.is_selected = false;
+          }
+      }
   },
   methods: {
     select() {
       this.$emit("selectCodeFill", this._props);
+    }
+  },
+  created() {
+    if(this.selected_code_fill_id === this.id) {
+      this.is_selected = true;
     }
   }
 };

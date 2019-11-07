@@ -12,7 +12,7 @@ export default {
   name: "CodeBlock",
   data() {
     return {
-      is_selected: false
+      is_selected: false,
     };
   },
   props: {
@@ -32,7 +32,8 @@ export default {
       type: Number,
       required: true
     },
-    selected_code_block_id: Number
+      code_fill_id: Number,
+      selected_code_block_id: Number
   },
   watch: {
       selected_code_block_id(id) {
