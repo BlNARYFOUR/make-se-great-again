@@ -626,9 +626,14 @@ ui = function () {
             components.gameScreen.bird.startedFlying = new Date().getTime();
     };
 
-    let drawBird = function (canvas, x, y, birdSize) {
+    let drawBird = function (canvas, x, y, birdSize, isGameOver) {
         // Wing state is 0, 1 or 2
         let time = new Date().getTime();
+
+        if(isGameOver) {
+            components.gameScreen.bird.isFlying = false;
+            components.gameScreen.bird.wingState = 1;
+        }
 
         if(components.gameScreen.bird.isFlying) {
             let passedTime = time - components.gameScreen.bird.startedFlying;

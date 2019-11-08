@@ -154,7 +154,7 @@ function gameOverLoop(canvas, prevTime, flashContinue, animationStarted = false)
     ui.resizeCanvas(canvas);
     ui.drawBasicStaticBackground(canvas, game.getGroundY());
     ui.drawTubes(canvas, game.getTubes(), groundY);
-    ui.drawBird(canvas, birdBeginX, game.getBirdY(), game.getBirdSize());
+    ui.drawBird(canvas, birdBeginX, game.getBirdY(), game.getBirdSize(), game.gameOver);
     ui.drawGround(canvas, canvas.width * game.getGroundX(), game.getGroundY());
     ui.drawBorder(canvas);
     ui.drawOverlay(canvas, "white", flashContinue);
@@ -184,7 +184,7 @@ function doUiStuff(canvas, opacity, gameActivated) {
     ui.drawTubes(canvas, game.getTubes(), groundY);
     ui.drawScore(canvas, game.score);
     ui.drawTitle(canvas, ui.components.readyScreen.title, opacity);
-    ui.drawBird(canvas, birdBeginX, game.getBirdY(), game.getBirdSize());
+    ui.drawBird(canvas, birdBeginX, game.getBirdY(), game.getBirdSize(), game.gameOver);
     ui.drawGround(canvas, canvas.width * game.getGroundX(), game.getGroundY());
     ui.drawBirdControlHint(canvas, game.getBirdSize(), opacity);
     ui.drawBorder(canvas);
@@ -228,10 +228,6 @@ function activateInputEvents(canvas, buttons) {
             game.enabled = true;
             game.applyBirdFlying();
             ui.startBirdAnimation();
-        } else if(ui.components.gameScreen.bird.isFlying) {
-            ui.components.gameScreen.bird.isFlying = false;
-            ui.components.gameScreen.bird.wingState = 2;
-            ui.components.gameScreen.bird.wingFlapCount = 10;
         }
     });
 
@@ -243,20 +239,17 @@ function activateInputEvents(canvas, buttons) {
 }
 
 function onKeyDown(e) {
-    e.stopPropagation();
     document.removeEventListener("keydown", onKeyDown);
 
-    if(game !== null && !game.gameOver && e.code === "Space") {
+    if(game !== null && !game.gameOver) {
         if(!game.enabled) {
             game.enabled = true;
             opacity = 1;
         }
-        game.applyBirdFlying();
-        ui.startBirdAnimation();
-    } else if(ui.components.gameScreen.bird.isFlying) {
-        ui.components.gameScreen.bird.isFlying = false;
-        ui.components.gameScreen.bird.wingState = 2;
-        ui.components.gameScreen.bird.wingFlapCount = 10;
+        if(e.code === "Space") {
+            game.applyBirdFlying();
+            ui.startBirdAnimation();
+        }
     }
 }
 
