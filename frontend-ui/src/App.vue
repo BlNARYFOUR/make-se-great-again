@@ -93,6 +93,10 @@ export default {
     window.onbeforeunload = function() {
       return "Are you sure you want to reset the game?";
     };
+
+    fetch('http://localhost:8000/api/highscores')
+    .then(respone => respone.json())
+    .then(json => console.log(json.data));
   }
 };
 </script>
