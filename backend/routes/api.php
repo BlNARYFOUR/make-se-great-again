@@ -14,5 +14,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/highscores', [HighscoreController::class, 'get']);
-Route::post('/highscores', [HighscoreController::class, 'post']);
+Route::get('/highscores', [HighscoreController::class, 'get'])->name('highscores.get');
+Route::post('/highscores', [HighscoreController::class, 'post'])->name('highscores.post');
+
+Route::get('/games', [GamesController::class, 'get'])->name('games.get');
