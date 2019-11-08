@@ -8,11 +8,22 @@ let opacity = 1.0;
 let flash = 1.0;
 
 const speed = 4;
-const gravity = 3;
+const gravity = 3.5;
 const birdSize = 0.0865;
 const groundY = 0.815;
 const birdBeginX = 0.31;
 const birdBeginY = (groundY - 0.015) * 0.5;
+
+const loads = {
+    fontRegular: new FontFace('Flappy Regular', 'url(assets/fonts/Flappy-Regular.ttf)'),
+    fontTitle: new FontFace('Flappy Title', 'url(assets/fonts/Flappy-Title.ttf)'),
+    fontBetter: new FontFace('Flappy Better', 'url(assets/fonts/Flappy-Better.ttf)'),
+    skyscrapers: createImageObj("bg-distance.png"),
+    bird_0: createImageObj("bird_00.png"),
+    bird_1: createImageObj("bird_01.png"),
+    bird_2: createImageObj("bird_02.png"),
+    birdHint: createImageObj("hint.png")
+};
 
 function init(e) {
     const canvas = document.querySelector('#gameEnv');
@@ -23,17 +34,6 @@ function init(e) {
             "action": startTheGame
         },
     ];
-
-    const loads = {
-        fontRegular: new FontFace('Flappy Regular', 'url(assets/fonts/Flappy-Regular.ttf)'),
-        fontTitle: new FontFace('Flappy Title', 'url(assets/fonts/Flappy-Title.ttf)'),
-        fontBetter: new FontFace('Flappy Better', 'url(assets/fonts/Flappy-Better.ttf)'),
-        skyscrapers: createImageObj("bg-distance.png"),
-        bird_0: createImageObj("bird_00.png"),
-        bird_1: createImageObj("bird_01.png"),
-        bird_2: createImageObj("bird_02.png"),
-        birdHint: createImageObj("hint.png")
-    };
 
     preLoaderAndDrawBeginScreen(loads, canvas, buttons);
 }

@@ -646,7 +646,7 @@ ui = function () {
                     components.gameScreen.bird.wingState = 0;
                     components.gameScreen.bird.wingFlapCount++;
 
-                    if(2 < components.gameScreen.bird.wingFlapCount) {
+                    if(1 < components.gameScreen.bird.wingFlapCount) {
                         components.gameScreen.bird.wingState = 1;
                         components.gameScreen.bird.isFlying = false;
                     }
