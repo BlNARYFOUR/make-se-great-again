@@ -151,7 +151,6 @@ function gameOverLoop(canvas, prevTime, flashContinue, animationStarted = false)
     const time = new Date().getTime();
     const passedTime = time - prevTime;
     let timeToPass = time;
-
     ui.resizeCanvas(canvas);
     ui.drawBasicStaticBackground(canvas, game.getGroundY());
     ui.drawTubes(canvas, game.getTubes(), groundY);
@@ -229,7 +228,7 @@ function activateInputEvents(canvas, buttons) {
             game.enabled = true;
             game.applyBirdFlying();
             ui.startBirdAnimation();
-        } else {
+        } else if(ui.components.gameScreen.bird.isFlying) {
             ui.components.gameScreen.bird.isFlying = false;
             ui.components.gameScreen.bird.wingState = 2;
             ui.components.gameScreen.bird.wingFlapCount = 10;
@@ -254,7 +253,7 @@ function onKeyDown(e) {
         }
         game.applyBirdFlying();
         ui.startBirdAnimation();
-    } else {
+    } else if(ui.components.gameScreen.bird.isFlying) {
         ui.components.gameScreen.bird.isFlying = false;
         ui.components.gameScreen.bird.wingState = 2;
         ui.components.gameScreen.bird.wingFlapCount = 10;
