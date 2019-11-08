@@ -8,7 +8,7 @@ use phpDocumentor\Reflection\Types\Integer;
 
 $factory->define(Highscore::class, function (Faker $faker) {
     return [
-        'player_name' => $faker->name,
+        'name' => $faker->name,
         'score' => $faker->randomNumber(2)
     ];
 });

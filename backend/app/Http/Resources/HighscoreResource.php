@@ -15,7 +15,7 @@ class HighscoreResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'player_name'=> $this->player_name,
+            'name'=> $this->name,
             'score' => $this->score
         ];
     }

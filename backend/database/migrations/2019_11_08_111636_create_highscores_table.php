@@ -15,7 +15,7 @@ class CreateHighscoresTable extends Migration
     {
         Schema::create('highscores', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('player_name');
+            $table->string('name');
             $table->integer('score');
             $table->timestamps();
         });
