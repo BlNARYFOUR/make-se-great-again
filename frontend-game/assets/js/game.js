@@ -21,8 +21,16 @@ class Game {
         return this.bird.y;
     }
 
+    static getForceMultiplier() {
+        return 320;
+    }
+
+    static getIdleFlyTime() {
+        return Game.getForceMultiplier() * 31/16;
+    }
+
     applyBirdFlying() {
-        this.bird.force = - 20 * this.gravity * 16;
+        this.bird.force = - Game.getForceMultiplier() * this.gravity;
     }
 
     update(passedTime) {
@@ -90,6 +98,7 @@ class Game {
             } else if((this.tubes[i].x + this.tubes[i].size * 0.5) < (this.bird.x + this.bird.size * 0.5) && !this.tubes[i].hasScored && !this.gameOver) {
                 this.score += 0.5;
                 this.tubes[i].hasScored = true;
+                this.level += 1;
             }
         }
     }

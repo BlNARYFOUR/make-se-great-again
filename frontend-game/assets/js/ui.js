@@ -258,22 +258,6 @@ ui = function () {
         let beginY = canvas.height * y;
         let ctx = canvas.getContext("2d");
 
-        ctx.fillStyle = "rgb(78,68,58)";
-        ctx.fillRect(
-            0,
-            canvas.height * groundY,
-            canvas.width,
-            canvas.height * 0.032
-        );
-
-        ctx.fillStyle = "rgb(205,223,147)";
-        ctx.fillRect(
-            0,
-            canvas.height * groundY + canvas.height * 0.005,
-            canvas.width,
-            canvas.height * 0.032
-        );
-
         ctx.fillStyle = "rgb(118,190,44)";
         ctx.fillRect(
             0,
@@ -768,11 +752,8 @@ ui = function () {
 }();
 
 function truncateString(str, num) {
-    // If the length of str is less than or equal to num
-    // just return str--don't truncate it.
     if (str.length <= num) {
-        return str
+        return str;
     }
-    // Return str truncated with '...' concatenated to the end of str.
-    return str.slice(0, num) + '...'
+    return str.slice(0, num) + '...';
 }

@@ -8,7 +8,7 @@ let opacity = 1.0;
 let flash = 1.0;
 
 const speed = 4;
-const gravity = 2.5;
+const gravity = 3;
 const birdSize = 0.0865;
 const groundY = 0.815;
 const birdBeginX = 0.31;
@@ -110,7 +110,7 @@ function gameLoop(canvas, prevTime, passedTimeAnimation, prevGroundX) {
             game.spawnTube(height + spaceBetween, false, width);
             prevGroundX = game.getGroundX();
         }
-    } else if(620 < passedTimeAnimation && !game.gameOver) {
+    } else if(Game.getIdleFlyTime() < passedTimeAnimation && !game.gameOver) {
         game.applyBirdFlying(passedTime);
         passedTimeAnimation = 0;
         ui.startBirdAnimation();
@@ -131,16 +131,15 @@ function gameLoop(canvas, prevTime, passedTimeAnimation, prevGroundX) {
         ui.drawOverlay(canvas, "white", flash);
         if(flash === 1) {
             passedTimeAnimation = new Date().getTime();
-            console.log(passedTimeAnimation);
         }
 
-        flash -= 1 / (100 / passedTime);
+        flash -= 1 / (250 / passedTime);
         flash = flash < 0 ? 0 : flash;
 
         if(game.getGroundY() <= (game.getBirdY() + game.bird.height) && game.speed === 0 ) {
             console.log("GAME OVER");
             opacity = 0;
-            requestAnimationFrame(() => gameOverLoop(canvas, passedTimeAnimation));
+            requestAnimationFrame(() => gameOverLoop(canvas, passedTimeAnimation, flash));
             return;
         }
     }
@@ -148,7 +147,7 @@ function gameLoop(canvas, prevTime, passedTimeAnimation, prevGroundX) {
     requestAnimationFrame(() => gameLoop(canvas, time, passedTimeAnimation, prevGroundX));
 }
 
-function gameOverLoop(canvas, prevTime, animationStarted = false) {
+function gameOverLoop(canvas, prevTime, flashContinue, animationStarted = false) {
     const time = new Date().getTime();
     const passedTime = time - prevTime;
     let timeToPass = time;
@@ -159,6 +158,10 @@ function gameOverLoop(canvas, prevTime, animationStarted = false) {
     ui.drawBird(canvas, birdBeginX, game.getBirdY(), game.getBirdSize());
     ui.drawGround(canvas, canvas.width * game.getGroundX(), game.getGroundY());
     ui.drawBorder(canvas);
+    ui.drawOverlay(canvas, "white", flashContinue);
+
+    flashContinue -= 1 / (250 / passedTime);
+    flashContinue = flashContinue < 0 ? 0 : flashContinue;
 
     if(passedTime < 500 && !animationStarted) {
         timeToPass = prevTime;
@@ -166,13 +169,12 @@ function gameOverLoop(canvas, prevTime, animationStarted = false) {
         ui.components.gameOverScreen.title.topToHave = ui.components.gameOverScreen.title.top;
     } else if(!animationStarted) {
         animationStarted = true;
-        console.log(passedTime);
     } else {
         ui.drawTitle(canvas, ui.components.gameOverScreen.title, opacity);
-        opacity += 1 / (100 / passedTime);
+        opacity += 1 / (500 / passedTime);
     }
 
-    requestAnimationFrame(() => gameOverLoop(canvas, timeToPass, animationStarted));
+    requestAnimationFrame(() => gameOverLoop(canvas, timeToPass, flashContinue, animationStarted));
 }
 
 function doUiStuff(canvas, opacity, gameActivated) {
