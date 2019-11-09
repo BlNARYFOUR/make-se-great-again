@@ -258,6 +258,22 @@ ui = function () {
         let beginY = canvas.height * y;
         let ctx = canvas.getContext("2d");
 
+        ctx.fillStyle = "rgb(78,68,58)";
+        ctx.fillRect(
+            0,
+            canvas.height * groundY,
+            canvas.width,
+            canvas.height * 0.032
+        );
+
+        ctx.fillStyle = "rgb(205,223,147)";
+        ctx.fillRect(
+            0,
+            canvas.height * groundY + canvas.height * 0.005,
+            canvas.width,
+            canvas.height * 0.02
+        );
+
         ctx.fillStyle = "rgb(118,190,44)";
         ctx.fillRect(
             0,
@@ -626,7 +642,7 @@ ui = function () {
             components.gameScreen.bird.startedFlying = new Date().getTime();
     };
 
-    let drawBird = function (canvas, x, y, birdSize, isGameOver) {
+    let drawBird = function (canvas, x, y, birdSize, tiltRadAngle, isGameOver, showCollisionBox = false) {
         // Wing state is 0, 1 or 2
         let time = new Date().getTime();
 
@@ -656,7 +672,30 @@ ui = function () {
 
         let ctx = canvas.getContext("2d");
         let width = canvas.width * birdSize; // 0.0865;
-        ctx.drawImage(loads["bird_"+components.gameScreen.bird.wingState], canvas.width * x, canvas.height * y, width, width * loads["bird_"+components.gameScreen.bird.wingState].height / loads["bird_"+components.gameScreen.bird.wingState].width);
+        let height = width * loads["bird_"+components.gameScreen.bird.wingState].height / loads["bird_"+components.gameScreen.bird.wingState].width;
+        let rotateTransform = Game.getRotateTransform(tiltRadAngle, width, height);
+
+        if(showCollisionBox) {
+            ctx.fillStyle = "red";
+            ctx.fillRect(
+                canvas.width * x + rotateTransform,
+                canvas.height * y - rotateTransform,
+                width - rotateTransform * 2,
+                height + rotateTransform * 2
+            );
+        }
+
+        ctx.save();
+        ctx.translate(canvas.width * x + width * 0.5, canvas.height * y + height * 0.5);
+        ctx.rotate(tiltRadAngle);
+        ctx.drawImage(
+            loads["bird_"+components.gameScreen.bird.wingState],
+            -width * 0.5,
+            -height * 0.5,
+            width,
+            height
+        );
+        ctx.restore();
     };
 
     let drawBirdControlHint = function (canvas, birdSize, opacity) {

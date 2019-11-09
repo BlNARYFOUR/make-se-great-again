@@ -7,7 +7,7 @@ let game = null;
 let opacity = 1.0;
 let flash = 1.0;
 
-const speed = 4;
+const speed = 40;
 const gravity = 3.5;
 const birdSize = 0.0865;
 const groundY = 0.815;
@@ -136,7 +136,7 @@ function gameLoop(canvas, prevTime, passedTimeAnimation, prevGroundX) {
         flash -= 1 / (250 / passedTime);
         flash = flash < 0 ? 0 : flash;
 
-        if(game.getGroundY() <= (game.getBirdY() + game.bird.height) && game.speed === 0 ) {
+        if(game.getGroundY() <= (game.getBirdY() + game.bird.height + Game.getRotateTransform(game.getBirdAngle(), game.bird.size, game.bird.height)) && game.speed === 0 ) {
             console.log("GAME OVER");
             opacity = 0;
             requestAnimationFrame(() => gameOverLoop(canvas, passedTimeAnimation, flash));
@@ -154,7 +154,7 @@ function gameOverLoop(canvas, prevTime, flashContinue, animationStarted = false)
     ui.resizeCanvas(canvas);
     ui.drawBasicStaticBackground(canvas, game.getGroundY());
     ui.drawTubes(canvas, game.getTubes(), groundY);
-    ui.drawBird(canvas, birdBeginX, game.getBirdY(), game.getBirdSize(), game.gameOver);
+    ui.drawBird(canvas, birdBeginX, game.getBirdY(), game.getBirdSize(), game.getBirdAngle(), game.gameOver);
     ui.drawGround(canvas, canvas.width * game.getGroundX(), game.getGroundY());
     ui.drawBorder(canvas);
     ui.drawOverlay(canvas, "white", flashContinue);
@@ -184,7 +184,7 @@ function doUiStuff(canvas, opacity, gameActivated) {
     ui.drawTubes(canvas, game.getTubes(), groundY);
     ui.drawScore(canvas, game.score);
     ui.drawTitle(canvas, ui.components.readyScreen.title, opacity);
-    ui.drawBird(canvas, birdBeginX, game.getBirdY(), game.getBirdSize(), game.gameOver);
+    ui.drawBird(canvas, birdBeginX, game.getBirdY(), game.getBirdSize(), game.getBirdAngle(), game.gameOver);
     ui.drawGround(canvas, canvas.width * game.getGroundX(), game.getGroundY());
     ui.drawBirdControlHint(canvas, game.getBirdSize(), opacity);
     ui.drawBorder(canvas);
@@ -242,11 +242,12 @@ function onKeyDown(e) {
     document.removeEventListener("keydown", onKeyDown);
 
     if(game !== null && !game.gameOver) {
-        if(!game.enabled) {
-            game.enabled = true;
-            opacity = 1;
-        }
         if(e.code === "Space") {
+            if(!game.enabled) {
+                game.enabled = true;
+                opacity = 1;
+            }
+
             game.applyBirdFlying();
             ui.startBirdAnimation();
         }

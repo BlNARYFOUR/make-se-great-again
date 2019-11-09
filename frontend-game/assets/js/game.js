@@ -1,8 +1,9 @@
 class Game {
     // every X, Y, width and height value needs to be stored as value in from 0 to 1
     constructor(speed, gravity, birdX, birdY, birdSize, groundY) {
-        this.speed = 0.0001 * speed;
-        this.groundX = 0;
+        this.speed = 0.00001 * speed;
+        this.speedBuf = this.speed;
+            this.groundX = 0;
         this.gravity = 0.00001 * gravity;
         this.tubes = new Array(0);
         this.bird = new Bird(birdX, birdY, birdSize);
@@ -11,6 +12,7 @@ class Game {
         this.enabled = false;
         this.level = 1;
         this.gameOver = false;
+        this.forceOnGameOver = 0;
     }
 
     getBirdSize() {
@@ -43,30 +45,40 @@ class Game {
         this.bird.force += this.gravity * passedTime;
         this.bird.y += this.bird.force;
         if(!this.isBirdAboveGround()) {
-            this.bird.y = this.groundY + 0.005 - this.bird.height;
+            this.bird.y = this.groundY + 0.01 - this.bird.height - Game.getRotateTransform(this.getBirdAngle(), this.bird.size, this.bird.height);
             this.bird.force = 0;
             this.speed = 0;
             this.gameOver = true;
+        } else {
+            this.forceOnGameOver = this.bird.force;
+            console.log("gets here")
         }
 
         if(this.didBirdCollide()) {
             this.bird.x += 0.006;
             this.speed = 0;
-            this.gravity *= 1.125;
+            this.gravity *= 1.1;
             this.gameOver = true;
         }
     }
 
     isBirdAboveGround() {
-        return this.bird.y < this.groundY - this.bird.size * this.bird.sizeRatio;
+        return this.bird.y - Game.getRotateTransform(this.getBirdAngle(), this.bird.size, this.bird.height) < this.groundY - this.bird.height - Game.getRotateTransform(this.getBirdAngle(), this.bird.size, this.bird.height) * 2 ;
+    }
+
+    getBirdAngle() {
+        return this.gameOver ? Math.atan(this.forceOnGameOver / (this.speedBuf * 20)) : (this.speed === 0 ? Math.atan(this.bird.force / (this.speedBuf * 20)) : Math.atan(this.bird.force / (this.speed * 20))); //Math.PI * 0.5;
     }
 
     didBirdCollide() {
+        let rotateTransform = Game.getRotateTransform(this.getBirdAngle(), this.bird.size, this.bird.height);
+
+        let birdX1 = this.bird.x + rotateTransform;
+        let birdY1 = this.bird.y - rotateTransform;
+        let birdX2 = this.bird.x + this.bird.size - rotateTransform;
+        let birdY2 = this.bird.y + this.bird.height + rotateTransform;
+
         for(let i = 0; i < this.tubes.length; i++) {
-            let birdX1 = this.bird.x;
-            let birdY1 = this.bird.y;
-            let birdX2 = this.bird.x + this.bird.size;
-            let birdY2 = this.bird.y + this.bird.height;
             let tubeX1 = this.tubes[i].x;
             let tubeY1 = this.tubes[i].isTopOrientation ? 0 : this.tubes[i].y;
             let tubeX2 = this.tubes[i].x + this.tubes[i].size;
@@ -83,6 +95,10 @@ class Game {
             }
         }
         return false;
+    }
+
+    static getRotateTransform(angle, width, height) {
+        return (1-Math.cos(angle)) * (width * 0.5 - height * 0.5);
     }
 
     updateGroundX(passedTime) {
