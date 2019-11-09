@@ -57,7 +57,6 @@ class Game {
         if(this.didBirdCollide()) {
             this.bird.x += 0.006;
             this.speed = 0;
-            this.gravity *= 1.1;
             this.gameOver = true;
         }
     }
