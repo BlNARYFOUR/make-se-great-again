@@ -654,11 +654,11 @@ ui = function () {
         if(components.gameScreen.bird.isFlying) {
             let passedTime = time - components.gameScreen.bird.startedFlying;
 
-            if(75 < passedTime) {
+            if(62.5 < passedTime) {
                 components.gameScreen.bird.wingState++;
                 components.gameScreen.bird.startedFlying = time;
 
-                if(2 < components.gameScreen.bird.wingState) {
+                if(3 < components.gameScreen.bird.wingState) {
                     components.gameScreen.bird.wingState = 0;
                     components.gameScreen.bird.wingFlapCount++;
 

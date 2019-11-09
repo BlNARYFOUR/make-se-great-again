@@ -24,7 +24,7 @@ class Game {
     }
 
     static getForceMultiplier() {
-        return 320;
+        return 300;
     }
 
     static getIdleFlyTime() {
@@ -56,6 +56,7 @@ class Game {
 
         if(this.didBirdCollide()) {
             this.bird.x += 0.006;
+            this.gravity *= 1.05;
             this.speed = 0;
             this.gameOver = true;
         }

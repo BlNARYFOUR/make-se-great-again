@@ -22,6 +22,7 @@ const loads = {
     bird_0: createImageObj("bird_00.png"),
     bird_1: createImageObj("bird_01.png"),
     bird_2: createImageObj("bird_02.png"),
+    bird_3: createImageObj("bird_01.png"),
     birdHint: createImageObj("hint.png")
 };
 
