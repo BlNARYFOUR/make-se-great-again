@@ -249,8 +249,8 @@ function onKeyDown(e) {
                 opacity = 1;
             }
 
-            game.applyBirdFlying();
             ui.startBirdAnimation();
+            game.applyBirdFlying();
         }
     }
 }

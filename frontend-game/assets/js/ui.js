@@ -637,7 +637,7 @@ ui = function () {
 
     let startBirdAnimation = function () {
             components.gameScreen.bird.isFlying = true;
-            components.gameScreen.bird.wingState = 0;
+            //components.gameScreen.bird.wingState = 3;
             components.gameScreen.bird.wingFlapCount = 0;
             components.gameScreen.bird.startedFlying = new Date().getTime();
     };
@@ -654,7 +654,7 @@ ui = function () {
         if(components.gameScreen.bird.isFlying) {
             let passedTime = time - components.gameScreen.bird.startedFlying;
 
-            if(62.5 < passedTime) {
+            if(35 < passedTime) {
                 components.gameScreen.bird.wingState++;
                 components.gameScreen.bird.startedFlying = time;
 
@@ -662,8 +662,8 @@ ui = function () {
                     components.gameScreen.bird.wingState = 0;
                     components.gameScreen.bird.wingFlapCount++;
 
-                    if(1 < components.gameScreen.bird.wingFlapCount) {
-                        components.gameScreen.bird.wingState = 1;
+                    if(2 < components.gameScreen.bird.wingFlapCount) {
+                        components.gameScreen.bird.wingState = 3;
                         components.gameScreen.bird.isFlying = false;
                     }
                 }

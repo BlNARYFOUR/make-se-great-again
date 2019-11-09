@@ -51,7 +51,6 @@ class Game {
             this.gameOver = true;
         } else {
             this.forceOnGameOver = this.bird.force;
-            console.log("gets here")
         }
 
         if(this.didBirdCollide()) {
