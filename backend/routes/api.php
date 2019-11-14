@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\HighscoreController;
 use Illuminate\Http\Request;
 
@@ -17,4 +18,4 @@ use Illuminate\Http\Request;
 Route::get('/highscores', [HighscoreController::class, 'get'])->name('highscores.get');
 Route::post('/highscores', [HighscoreController::class, 'post'])->name('highscores.post');
 
-Route::get('/games', [GamesController::class, 'get'])->name('games.get');
+Route::get('/games', [GameController::class, 'get'])->name('games.get');
