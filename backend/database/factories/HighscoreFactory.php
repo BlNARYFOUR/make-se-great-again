@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Highscore;
+use App\Models\Highscore;
 use Faker\Generator as Faker;
 use phpDocumentor\Reflection\Types\Integer;
 

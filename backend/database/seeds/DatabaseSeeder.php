@@ -1,6 +1,6 @@
 <?php
 
-use App\Highscore;
+use App\Models\Highscore;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

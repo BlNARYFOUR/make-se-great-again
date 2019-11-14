@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Highscore;
+use App\Models\Highscore;
 use App\Http\Requests\HighscoreCreateRequest;
 use App\Http\Resources\HighscoreResource;
 use http\Env\Response;
