@@ -152,6 +152,7 @@ function gameOverLoop(canvas, prevTime, flashContinue, animationStarted = false)
     const time = new Date().getTime();
     const passedTime = time - prevTime;
     let timeToPass = time;
+
     ui.resizeCanvas(canvas);
     ui.drawBasicStaticBackground(canvas, game.getGroundY());
     ui.drawTubes(canvas, game.getTubes(), groundY);
@@ -170,6 +171,7 @@ function gameOverLoop(canvas, prevTime, flashContinue, animationStarted = false)
     } else if(!animationStarted) {
         animationStarted = true;
     } else {
+        ui.drawPane(canvas, ui.components.gameOverScreen.pane);
         ui.drawTitle(canvas, ui.components.gameOverScreen.title, opacity);
         opacity += 1 / (500 / passedTime);
     }

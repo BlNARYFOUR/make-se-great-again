@@ -514,13 +514,15 @@ ui = function () {
         );
     };
 
-    let drawPane = function (canvas, component) {
+    let drawPane = function (canvas, component, offsetY = 0) {
+        offsetY = offsetY * canvas.width;
+
         let ctx = canvas.getContext("2d");
 
         ctx.fillStyle = "rgb(78,68,58)";
         ctx.fillRect(
             component.left(canvas) - canvas.width * 0.0275,
-            component.top(canvas) - canvas.width * 0.0275,
+            component.top(canvas) - canvas.width * 0.0275 + offsetY,
             component.width(canvas) + canvas.width * 0.055,
             component.height(canvas)+ canvas.width * 0.055
         );
@@ -528,7 +530,7 @@ ui = function () {
         ctx.fillStyle = "rgb(223,216,144)";
         ctx.fillRect(
             component.left(canvas) - canvas.width * 0.02,
-            component.top(canvas) - canvas.width * 0.02,
+            component.top(canvas) - canvas.width * 0.02 + offsetY,
             component.width(canvas) + canvas.width * 0.04,
             component.height(canvas)+ canvas.width * 0.04
         );
@@ -536,7 +538,7 @@ ui = function () {
         ctx.fillStyle = "rgb(207,189,107)";
         ctx.fillRect(
             component.left(canvas) - canvas.width * 0.014,
-            component.top(canvas) - canvas.width * 0.014,
+            component.top(canvas) - canvas.width * 0.014 + offsetY,
             component.width(canvas) + canvas.width * 0.028,
             component.height(canvas)+ canvas.width * 0.028
         );
@@ -544,7 +546,7 @@ ui = function () {
         ctx.fillStyle = "rgb(223,216,144)";
         ctx.fillRect(
             component.left(canvas) - canvas.width * 0.008,
-            component.top(canvas) - canvas.width * 0.008,
+            component.top(canvas) - canvas.width * 0.008 + offsetY,
             component.width(canvas) + canvas.width * 0.016,
             component.height(canvas) + canvas.width * 0.016
         );
