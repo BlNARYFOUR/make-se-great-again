@@ -15,7 +15,6 @@ class CreateConnectionsTable extends Migration
     {
         Schema::create('connections', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('gameConnectionId');
             $table->string('gameName');
             $table->timestamps();
         });

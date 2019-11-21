@@ -13,7 +13,7 @@ use Ratchet\ConnectionInterface;
 
 class GameConnection
 {
-    private static $nextId = 0;
+    private static $nextId = 1;
 
     private $id;
     private $name;
