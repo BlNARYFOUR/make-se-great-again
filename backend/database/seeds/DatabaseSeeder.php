@@ -13,6 +13,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+        $this->call(FileTableSeeder::class);
+        $this->call(CodeBlockTableSeeder::class);
+        $this->call(CodeFillTableSeeder::class);
+
         factory(Highscore::class, 25)->create();
     }
 }
