@@ -866,8 +866,6 @@ ui = function () {
 
     let disableRetryButton = function () {
         components.gameOverScreen.restartButton.enabled = false;
-        console.log("DISABLE");
-        console.log("DISABLE");
     };
 
     let checkButtonBounds = function(canvas, button, mouseX, mouseY) {
