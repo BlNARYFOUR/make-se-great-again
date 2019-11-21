@@ -1,6 +1,6 @@
 "use strict";
 
-let ws = new WebSocket("ws://server.make-se-great:4321");
+let ws = new WebSocket(ENV.wsConnection);
 
 ws.addEventListener("open", onWSOpen);
 ws.addEventListener("close", onWSClose);
