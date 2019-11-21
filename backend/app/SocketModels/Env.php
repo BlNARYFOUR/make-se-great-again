@@ -39,11 +39,11 @@ class Env
     }
 
     function markDeadGameConnection($connection) {
-        $players = array_filter($this->gameConnections, array(new ConnectionFilter($connection), 'equals'));
+        $gameConnections = array_filter($this->gameConnections, array(new ConnectionFilter($connection), 'equals'));
 
-        foreach ($players as $p) {
-            if($p instanceof GameConnection) {
-                $this->getGameConnectionById($p->getId())->setDead(true);
+        foreach ($gameConnections as $gc) {
+            if($gc instanceof GameConnection) {
+                $this->getGameConnectionById($gc->getId())->setDead(true);
             }
         }
 
@@ -62,7 +62,7 @@ class Env
 
             if($gameConnection instanceof GameConnection) {
                 if($gameConnection->isDead()) {
-                    Connection::where('gameConnectionId', '=', $gameConnection->getId())->delete();
+                    Connection::destroy($gameConnection->getId());
                     array_splice($this->gameConnections, $i, 1);
                 }
             }
@@ -93,7 +93,7 @@ class Env
         if($gc instanceof GameConnection) {
             $c = new Connection();
 
-            $c->gameConnectionId = $gc->getId();
+            $c->id = $gc->getId();
             $c->gameName = $gc->getName();
 
             $c->save();

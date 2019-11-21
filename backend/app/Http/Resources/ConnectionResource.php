@@ -15,7 +15,7 @@ class ConnectionResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=> $this->gameConnectionId,
+            'id'=> $this->id,
             'name' => $this->gameName
         ];
     }
