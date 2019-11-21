@@ -95,15 +95,33 @@ ui = function () {
                 }
             },
             submitScoreButton: {
-                text: "Submit Score",
+                text: "SAVE",
                 width: function (canvas) {
-                    return canvas.width * 0.325;
+                    return components.gameOverScreen.pane.width(canvas) / 2;
                 },
                 height: function (canvas) {
                     return canvas.height * 0.105;
                 },
                 left: function (canvas) {
-                    return (canvas.width - components.startScreen.playButton.width(canvas)) * 0.5;
+                    return components.gameOverScreen.pane.left(canvas) - canvas.width * 0.0275;
+                },
+                top: function (canvas) {
+                    return canvas.height * 0.66;
+                },
+                fontSize: function (canvas) {
+                    return canvas.height * 0.08;
+                }
+            },
+            restartButton: {
+                text: "RETRY",
+                width: function (canvas) {
+                    return components.gameOverScreen.pane.width(canvas) / 2;
+                },
+                height: function (canvas) {
+                    return canvas.height * 0.105;
+                },
+                left: function (canvas) {
+                    return components.gameOverScreen.pane.left(canvas) + components.gameOverScreen.pane.width(canvas) - components.gameOverScreen.restartButton.width(canvas) + canvas.width * 0.0275;
                 },
                 top: function (canvas) {
                     return canvas.height * 0.66;
@@ -421,9 +439,11 @@ ui = function () {
         });
     };
 
-    let drawTitle = function (canvas, component, opacity = 1) {
+    let drawTitle = function (canvas, component, opacity = 1, offsetY = 0) {
         let ctx = canvas.getContext("2d");
         let fontSize = canvas.height * 0.06;
+
+        offsetY = offsetY * canvas.height;
 
         ctx.globalAlpha = opacity;
         ctx.fillStyle = "white";
@@ -432,35 +452,33 @@ ui = function () {
         ctx.fillText(
             component.text,
             - canvas.width * 0.006 + component.left(canvas),
-            - canvas.height * 0.006 + component.top(canvas),
+            - canvas.height * 0.006 + component.top(canvas) + offsetY,
             canvas.width
         );
         ctx.fillText(
             component.text,
             - canvas.width * 0.006 + component.left(canvas),
-            canvas.height * 0.006 + component.top(canvas),
+            canvas.height * 0.006 + component.top(canvas) + offsetY,
             canvas.width
         );
         ctx.fillText(
             component.text,
             canvas.width * 0.006 + component.left(canvas),
-            canvas.height * 0.006 + component.top(canvas),
+            canvas.height * 0.006 + component.top(canvas) + offsetY,
             canvas.width
         );
         ctx.fillText(
             component.text,
             canvas.width * 0.006 + component.left(canvas),
-            - canvas.height * 0.006 + component.top(canvas),
+            - canvas.height * 0.006 + component.top(canvas) + offsetY,
             canvas.width
         );
 
         ctx.fillStyle = "rgb(243,180,4)";
-        ctx.font = fontSize + "px Flappy Better, sans-serif";
-        ctx.textAlign = "center";
         ctx.fillText(
             component.text,
             component.left(canvas),
-            component.top(canvas),
+            component.top(canvas) + offsetY,
             canvas.width
         );
 
@@ -469,19 +487,21 @@ ui = function () {
         ctx.strokeText(
             component.text,
             component.left(canvas),
-            component.top(canvas),
+            component.top(canvas) + offsetY,
             canvas.width
         );
         ctx.globalAlpha = 1;
     };
 
-    let drawButton = function (canvas, component) {
+    let drawButton = function (canvas, component, offsetY = 0) {
+        offsetY = canvas.height * offsetY;
+
         let ctx = canvas.getContext("2d");
 
         ctx.fillStyle = "rgb(78,68,58)";
         ctx.fillRect(
             component.left(canvas),
-            component.top(canvas),
+            component.top(canvas) + offsetY,
             component.width(canvas),
             component.height(canvas)
         );
@@ -489,7 +509,7 @@ ui = function () {
         ctx.fillStyle = "rgb(223,216,144)";
         ctx.fillRect(
             component.left(canvas) + canvas.width * 0.0075,
-            component.top(canvas) + canvas.width * 0.0075,
+            component.top(canvas) + canvas.width * 0.0075 + offsetY,
             component.width(canvas) - canvas.width * 0.015,
             component.height(canvas) - canvas.width * 0.015
         );
@@ -497,7 +517,7 @@ ui = function () {
         ctx.fillStyle = "rgb(242,96,0)";
         ctx.fillRect(
             component.left(canvas) + canvas.width * 0.015,
-            component.top(canvas) + canvas.width * 0.015,
+            component.top(canvas) + canvas.width * 0.015 + offsetY,
             component.width(canvas) - canvas.width * 0.03,
             component.height(canvas) - canvas.width * 0.03
         );
@@ -509,15 +529,17 @@ ui = function () {
         ctx.fillText(
             component.text,
             component.left(canvas) + component.width(canvas) * 0.5,
-            component.top(canvas) + component.height(canvas) * 0.5 + component.fontSize(canvas) * 0.25,
+            component.top(canvas) + component.height(canvas) * 0.5 + component.fontSize(canvas) * 0.25 + offsetY,
             component.width(canvas)
         );
     };
 
-    let drawPane = function (canvas, component, offsetY = 0) {
-        offsetY = offsetY * canvas.width;
+    let drawPane = function (canvas, component, offsetY = 0, opacity = 1) {
+        offsetY = offsetY * canvas.height;
 
         let ctx = canvas.getContext("2d");
+
+        ctx.globalAlpha = opacity;
 
         ctx.fillStyle = "rgb(78,68,58)";
         ctx.fillRect(
@@ -550,6 +572,8 @@ ui = function () {
             component.width(canvas) + canvas.width * 0.016,
             component.height(canvas) + canvas.width * 0.016
         );
+
+        ctx.globalAlpha = 1;
     };
 
     let drawStartScreen = function (canvas, highScores, groundY) {
@@ -635,6 +659,81 @@ ui = function () {
                 components.startScreen.highScoreList.width(canvas) * 0.41
             );
         });
+    };
+
+    let drawGameOverPane = function (canvas, score, opacity) {
+        ui.drawPane(canvas, ui.components.gameOverScreen.pane, 0, opacity);
+
+        let ctx = canvas.getContext("2d");
+
+        ctx.globalAlpha = opacity;
+
+        let itemHeight = canvas.height * 0.075;
+
+        ctx.fillStyle = "rgb(207,189,107)";
+        ctx.font = itemHeight*0.99 + "px Flappy Regular, sans-serif";
+        ctx.textAlign = "left";
+
+        ctx.fillStyle = "rgb(78,68,58)";
+        ctx.fillText(
+            "Your score",
+            canvas.width * 0.3,
+            canvas.height * 0.41,
+            components.startScreen.highScoreList.width(canvas) * 0.52
+        );
+
+        ctx.font = itemHeight*0.925 + "px Flappy Regular, sans-serif";
+        ctx.fillStyle = "black";
+        ctx.textAlign = "right";
+        ctx.fillText(
+            score,
+            canvas.width * 0.7 - canvas.width * 0.008,
+            canvas.height * 0.41 - canvas.width * 0.003,
+            components.startScreen.highScoreList.width(canvas) * 0.41
+        );
+
+        ctx.fillText(
+            score,
+            canvas.width * 0.7 - canvas.width * 0.008,
+            canvas.height * 0.41 + canvas.width * 0.003,
+            components.startScreen.highScoreList.width(canvas) * 0.41
+        );
+
+        ctx.fillText(
+            score,
+            canvas.width * 0.7 - canvas.width * 0.014,
+            canvas.height * 0.41 - canvas.width * 0.003,
+            components.startScreen.highScoreList.width(canvas) * 0.41
+        );
+
+        ctx.fillText(
+            score,
+            canvas.width * 0.7 - canvas.width * 0.014,
+            canvas.height * 0.41 + canvas.width * 0.003,
+            components.startScreen.highScoreList.width(canvas) * 0.41
+        );
+        ctx.fillText(
+            score,
+            canvas.width * 0.7 - canvas.width * 0.011,
+            canvas.height * 0.41 - canvas.width * 0.003,
+            components.startScreen.highScoreList.width(canvas) * 0.41
+        );
+        ctx.fillText(
+            score,
+            canvas.width * 0.7 - canvas.width * 0.011,
+            canvas.height * 0.41 + canvas.width * 0.003,
+            components.startScreen.highScoreList.width(canvas) * 0.41
+        );
+
+        ctx.fillStyle = "white";
+        ctx.fillText(
+            score,
+            canvas.width * 0.7 - canvas.width * 0.011,
+            canvas.height * 0.41,
+            components.startScreen.highScoreList.width(canvas) * 0.41
+        );
+
+        ctx.globalAlpha = 1;
     };
 
     let startBirdAnimation = function () {
@@ -767,6 +866,24 @@ ui = function () {
         components.startScreen.playButton.enabled = false;
     };
 
+    let enableSaveButton = function () {
+        components.gameOverScreen.submitScoreButton.enabled = true;
+    };
+
+    let disableSaveButton = function () {
+        components.gameOverScreen.submitScoreButton.enabled = false;
+    };
+
+    let enableRetryButton = function () {
+        components.gameOverScreen.restartButton.enabled = true;
+    };
+
+    let disableRetryButton = function () {
+        components.gameOverScreen.restartButton.enabled = false;
+        console.log("DISABLE");
+        console.log("DISABLE");
+    };
+
     let checkButtonBounds = function(canvas, button, mouseX, mouseY) {
         return button.left(canvas) <= mouseX && mouseX <= (button.left(canvas) + button.width(canvas))
             && button.top(canvas) <= mouseY && mouseY <= (button.top(canvas) + button.height(canvas));
@@ -777,10 +894,15 @@ ui = function () {
         "resizeCanvas": resizeCanvas,
         "checkButtonBounds": checkButtonBounds,
         "enableStartButton": enableStartButton,
+        "enableSaveScoreButton": enableSaveButton,
+        "enableRetryButton": enableRetryButton,
         "disableStartButton": disableStartButton,
+        "disableSaveScoreButton": disableSaveButton,
+        "disableRetryButton": disableRetryButton,
         "setLoads": setLoads,
         "startBirdAnimation": startBirdAnimation,
         "drawStartScreen": drawStartScreen,
+        "drawGameOverPane": drawGameOverPane,
         "drawGroundPatch": drawGroundPatch,
         "drawGround": drawGround,
         "drawTube": drawTube,

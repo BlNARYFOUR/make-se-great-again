@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", init);
 
 let game = null;
 
+let retry = false;
+
+let offset = 0;
+let offset2 = 0;
 let opacity = 1.0;
 let flash = 1.0;
 
@@ -31,9 +35,17 @@ function init(e) {
 
     const buttons = [
         {
-            "component": ui.components.startScreen.playButton,
-            "action": startTheGame
+            component: ui.components.startScreen.playButton,
+            action: startTheGame
         },
+        {
+            component: ui.components.gameOverScreen.submitScoreButton,
+            action: saveHighScore
+        },
+        {
+            component: ui.components.gameOverScreen.restartButton,
+            action: startTheGame
+        }
     ];
 
     preLoaderAndDrawBeginScreen(loads, canvas, buttons);
@@ -67,11 +79,18 @@ function preLoaderAndDrawBeginScreen(loads, canvas, buttons) {
     }
 }
 
-function startTheGame(canvas, highScores) {
+function startTheGame(canvas) {
+    retry = true;
+
     ui.disableStartButton();
+
     document.body.style.cursor = "default";
 
     requestAnimationFrame(() => beginOverlayLoop(canvas, new Date().getTime(), 0));
+}
+
+function saveHighScore(canvas) {
+    console.log("SAVE HIGHSCORE");
 }
 
 function beginOverlayLoop(canvas, prevTime, opacity) {
@@ -120,7 +139,7 @@ function gameLoop(canvas, prevTime, passedTimeAnimation, prevGroundX) {
     opacity -= 1 / (200 / passedTime);
     opacity = opacity < 0 ? 0 : opacity;
 
-    doUiStuff(canvas, opacity, game.enabled);
+    doGameUiStuff(canvas, opacity, game.enabled);
 
     passedTimeAnimation += passedTime;
 
@@ -140,6 +159,7 @@ function gameLoop(canvas, prevTime, passedTimeAnimation, prevGroundX) {
         if(game.getGroundY() <= (game.getBirdY() + game.bird.height + Game.getRotateTransform(game.getBirdAngle(), game.bird.size, game.bird.height)) && game.speed === 0 ) {
             console.log("GAME OVER");
             opacity = 0;
+            retry = false;
             requestAnimationFrame(() => gameOverLoop(canvas, passedTimeAnimation, flash));
             return;
         }
@@ -167,19 +187,40 @@ function gameOverLoop(canvas, prevTime, flashContinue, animationStarted = false)
     if(passedTime < 500 && !animationStarted) {
         timeToPass = prevTime;
         ui.drawScore(canvas, game.score);
-        ui.components.gameOverScreen.title.topToHave = ui.components.gameOverScreen.title.top;
     } else if(!animationStarted) {
+        opacity = 0;
+        offset = 0.5;
+        offset2 = -0.15;
         animationStarted = true;
     } else {
-        ui.drawPane(canvas, ui.components.gameOverScreen.pane);
-        ui.drawTitle(canvas, ui.components.gameOverScreen.title, opacity);
-        opacity += 1 / (500 / passedTime);
+        ui.drawGameOverPane(canvas, game.score, opacity);
+        ui.drawButton(canvas, ui.components.gameOverScreen.submitScoreButton, offset);
+        ui.drawButton(canvas, ui.components.gameOverScreen.restartButton, offset);
+        ui.drawTitle(canvas, ui.components.gameOverScreen.title, opacity, offset2);
+
+        opacity += 1 / (250 / passedTime);
+        opacity = 1 < opacity ? 1 : opacity;
+        offset -= 0.5 / (500 / passedTime);
+        offset = offset < 0 ? 0 : offset;
+        offset2 += 0.15 / (500 / passedTime);
+        offset2 = 0 < offset2 ? 0 : offset2;
+
+        if(offset === 0) {
+            ui.enableSaveScoreButton();
+            ui.enableRetryButton();
+            console.log("GETS HERE")
+        }
     }
 
-    requestAnimationFrame(() => gameOverLoop(canvas, timeToPass, flashContinue, animationStarted));
+    if(!retry) {
+        requestAnimationFrame(() => gameOverLoop(canvas, timeToPass, flashContinue, animationStarted));
+    } else {
+        ui.disableSaveScoreButton();
+        ui.disableRetryButton();
+    }
 }
 
-function doUiStuff(canvas, opacity, gameActivated) {
+function doGameUiStuff(canvas, opacity, gameActivated) {
     opacity = gameActivated ? opacity : 1;
 
     ui.resizeCanvas(canvas);
