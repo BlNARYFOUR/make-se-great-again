@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
-    function get() {
-        $res = File::all();
+    function getByGameId($gameId) {
+        $res = File::where('game_id', '=', $gameId)->get();
         return FileResource::collection($res);
     }
 }

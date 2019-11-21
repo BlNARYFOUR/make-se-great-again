@@ -23,9 +23,10 @@ Route::get('/highscores', [HighscoreController::class, 'get'])->name('highscores
 Route::post('/highscores', [HighscoreController::class, 'post'])->name('highscores.post');
 
 Route::get('/games', [GameController::class, 'get'])->name('games.get');
+Route::get('/games/{name}', [GameController::class, 'getByName'])->name('games.getbyname');
 
 Route::get('/connections', [ConnectionController::class, 'get'])->name('connections.get');
 
 Route::get('/codeBlocks', [CodeBlockController::class, 'get'])->name('codeblocks.get');
 Route::get('/codeFills', [CodeFillController::class, 'get'])->name('codefill.get');
-Route::get('/files', [FileController::class, 'get'])->name('file.get');
+Route::get('/files/{id}', [FileController::class, 'getByGameId'])->name('file.getbygameid');
