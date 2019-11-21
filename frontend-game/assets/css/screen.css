@@ -55,11 +55,13 @@ input[type="text"]
     left: calc(50vw - 15vh);
     top: calc(50vh - 2vh);
     opacity: 0;
+    display: none;
 }
 
 input[type="text"].active {
+    display: block;
     opacity: 1;
-    transition: all 250ms;
+    transition: opacity 250ms;
 }
 
 @media screen and (orientation:portrait) {
