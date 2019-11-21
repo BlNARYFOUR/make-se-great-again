@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\CodeBlockController;
+use App\Http\Controllers\CodeFillController;
 use App\Http\Controllers\ConnectionController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\HighscoreController;
 use Illuminate\Http\Request;
@@ -22,3 +25,7 @@ Route::post('/highscores', [HighscoreController::class, 'post'])->name('highscor
 Route::get('/games', [GameController::class, 'get'])->name('games.get');
 
 Route::get('/connections', [ConnectionController::class, 'get'])->name('connections.get');
+
+Route::get('/codeBlocks', [CodeBlockController::class, 'get'])->name('codeblocks.get');
+Route::get('/codeFills', [CodeFillController::class, 'get'])->name('codefill.get');
+Route::get('/files', [FileController::class, 'get'])->name('file.get');

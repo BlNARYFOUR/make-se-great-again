@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CodeFill;
 use Illuminate\Database\Seeder;
 
 class CodeFillTableSeeder extends Seeder
@@ -21,5 +22,9 @@ class CodeFillTableSeeder extends Seeder
             ["code" => "speed = speed;", "exec_id" => 3, "code_block_id" => 4],
             ["code" => "this.speed = 5;", "exec_id" => 4, "code_block_id" => 4],
         ];
+
+        foreach ($codeFills as $fill) {
+            CodeFill::create($fill);
+        }
     }
 }
