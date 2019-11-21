@@ -81,8 +81,8 @@ function preLoaderAndDrawBeginScreen(loads, canvas, buttons) {
 
 function startTheGame(canvas) {
     retry = true;
-
     ui.disableStartButton();
+    document.querySelector("#userName").classList.remove("active");
 
     document.body.style.cursor = "default";
 
@@ -192,6 +192,7 @@ function gameOverLoop(canvas, prevTime, flashContinue, animationStarted = false)
         offset = 0.5;
         offset2 = -0.15;
         animationStarted = true;
+        document.querySelector("#userName").classList.add("active");
     } else {
         ui.drawGameOverPane(canvas, game.score, opacity);
         ui.drawButton(canvas, ui.components.gameOverScreen.submitScoreButton, offset);
@@ -208,7 +209,6 @@ function gameOverLoop(canvas, prevTime, flashContinue, animationStarted = false)
         if(offset === 0) {
             ui.enableSaveScoreButton();
             ui.enableRetryButton();
-            console.log("GETS HERE")
         }
     }
 

@@ -109,7 +109,7 @@ ui = function () {
                     return canvas.height * 0.66;
                 },
                 fontSize: function (canvas) {
-                    return canvas.height * 0.08;
+                    return canvas.height * 0.0675;
                 }
             },
             restartButton: {
@@ -127,7 +127,7 @@ ui = function () {
                     return canvas.height * 0.66;
                 },
                 fontSize: function (canvas) {
-                    return canvas.height * 0.08;
+                    return canvas.height * 0.0675;
                 }
             },
             title: {
@@ -671,65 +671,51 @@ ui = function () {
         let itemHeight = canvas.height * 0.075;
 
         ctx.fillStyle = "rgb(207,189,107)";
-        ctx.font = itemHeight*0.99 + "px Flappy Regular, sans-serif";
+        ctx.font = itemHeight*0.7 + "px Flappy Regular, sans-serif";
         ctx.textAlign = "left";
 
         ctx.fillStyle = "rgb(78,68,58)";
         ctx.fillText(
             "Your score",
-            canvas.width * 0.3,
-            canvas.height * 0.41,
+            canvas.width * 0.32,
+            canvas.height * 0.415,
             components.startScreen.highScoreList.width(canvas) * 0.52
         );
 
-        ctx.font = itemHeight*0.925 + "px Flappy Regular, sans-serif";
+        ctx.font = itemHeight * 0.9 + "px Flappy Regular, sans-serif";
         ctx.fillStyle = "black";
         ctx.textAlign = "right";
-        ctx.fillText(
-            score,
-            canvas.width * 0.7 - canvas.width * 0.008,
-            canvas.height * 0.41 - canvas.width * 0.003,
-            components.startScreen.highScoreList.width(canvas) * 0.41
-        );
 
         ctx.fillText(
             score,
-            canvas.width * 0.7 - canvas.width * 0.008,
-            canvas.height * 0.41 + canvas.width * 0.003,
-            components.startScreen.highScoreList.width(canvas) * 0.41
-        );
-
-        ctx.fillText(
-            score,
-            canvas.width * 0.7 - canvas.width * 0.014,
-            canvas.height * 0.41 - canvas.width * 0.003,
-            components.startScreen.highScoreList.width(canvas) * 0.41
-        );
-
-        ctx.fillText(
-            score,
-            canvas.width * 0.7 - canvas.width * 0.014,
-            canvas.height * 0.41 + canvas.width * 0.003,
+            canvas.width * 0.68 - canvas.width * 0.003,
+            canvas.height * 0.415 - canvas.width * 0.003,
             components.startScreen.highScoreList.width(canvas) * 0.41
         );
         ctx.fillText(
             score,
-            canvas.width * 0.7 - canvas.width * 0.011,
-            canvas.height * 0.41 - canvas.width * 0.003,
+            canvas.width * 0.68 - canvas.width * 0.003,
+            canvas.height * 0.415 + canvas.width * 0.003,
             components.startScreen.highScoreList.width(canvas) * 0.41
         );
         ctx.fillText(
             score,
-            canvas.width * 0.7 - canvas.width * 0.011,
-            canvas.height * 0.41 + canvas.width * 0.003,
+            canvas.width * 0.68 + canvas.width * 0.003,
+            canvas.height * 0.415 - canvas.width * 0.003,
+            components.startScreen.highScoreList.width(canvas) * 0.41
+        );
+        ctx.fillText(
+            score,
+            canvas.width * 0.68 + canvas.width * 0.003,
+            canvas.height * 0.415 + canvas.width * 0.003,
             components.startScreen.highScoreList.width(canvas) * 0.41
         );
 
         ctx.fillStyle = "white";
         ctx.fillText(
             score,
-            canvas.width * 0.7 - canvas.width * 0.011,
-            canvas.height * 0.41,
+            canvas.width * 0.68,
+            canvas.height * 0.415,
             components.startScreen.highScoreList.width(canvas) * 0.41
         );
 

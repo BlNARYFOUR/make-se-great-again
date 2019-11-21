@@ -35,17 +35,49 @@ canvas {
     box-sizing: border-box;
     width: 90vh;
     height: 90vh;
-    /*border: 2px black solid;*/
     display: block;
     margin: auto;
+}
+
+input[type="text"]
+{
+    background: rgba(0, 0, 0, 0);
+    border: none;
+    outline: none;
+    border-bottom: rgb(162, 144, 81) solid 4px;
+    font-size: 5.5vh;
+    font-family: "Flappy Regular", sans-serif;
+    width: 30vh;
+    height: 5vh;
+    text-align: center;
+    color: rgb(78,68,58);
+    position: absolute;
+    left: calc(50vw - 15vh);
+    top: calc(50vh - 2vh);
+    opacity: 0;
+}
+
+input[type="text"].active {
+    opacity: 1;
+    transition: all 250ms;
 }
 
 @media screen and (orientation:portrait) {
     body {
         padding-top: calc((100vh - 90vw) / 2);
     }
+
     canvas {
         width: 90vw;
         height: 90vw;
+    }
+
+    input[type="text"]
+    {
+        font-size: 5.5vw;
+        width: 30vw;
+        height: 5vw;
+        left: calc(50vw - 15vw);
+        top: calc(50vh - 2vw);
     }
 }
