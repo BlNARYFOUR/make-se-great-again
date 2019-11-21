@@ -1,9 +1,9 @@
 <template>
   <div @click="selected" class="code_block">
-    <div
+    <div v-html="code"
       class="code"
       :class="{ adjustable: adjustable, empty: !code, selected: is_selected }"
-    >{{ code }}</div>
+    ></div>
   </div>
 </template>
 

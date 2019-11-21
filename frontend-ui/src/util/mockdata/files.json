@@ -1,17 +1,12 @@
 [
     {
         "id": 1,
-        "name": "File1",
+        "name": "Bird.js",
         "game_id": 1
     },
     {
         "id": 2,
-        "name": "File2",
-        "game_id": 1
-    },
-    {
-        "id": 3,
-        "name": "File3",
+        "name": "Game.js",
         "game_id": 1
     }
 ]
