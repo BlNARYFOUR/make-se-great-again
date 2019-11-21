@@ -25,15 +25,24 @@
 .selected_game {
     font-size: 2rem;
 
-    select {
+    select, .option {
         border: none;
         font-size: 2rem;
-        background-color: transparent;
+        background-color: map-get($color, background--light);
         color: map-get($color, text--light);
         -webkit-appearance: none;
         -moz-appearance: none;
         text-indent: 1px;
         text-overflow: '';
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .refresh{
+        display: inline-block;
+        margin-left: 1rem;
 
         &:hover {
             cursor: pointer;

@@ -3,10 +3,14 @@
     <div class="selected_game">
       Selected game:
       <select>
-        <option value="flappyBird">Flappy Bird</option>
-        <option disabled="disabled" value="mario">Super Mario</option>
-        <option disabled="disabled" value="breakout">Breakout</option>
+        <option
+          class="option"
+          v-for="game in available_games"
+          :key="game.id"
+          :value="game.id"
+        >{{game.name}} ({{ game.id }})</option>
       </select>
+      <p @click="getAvailableGames()" class="refresh">&#8635</p>
     </div>
     <div class="action_buttons">
       <button class="button__reset" @click="reset">Reset</button>
@@ -16,7 +20,11 @@
       <div class="files">
         <tabs @changed="tabChanged">
           <tab :name="file.name" v-for="file in files" :key="file.id">
-            <File @showCodeFills="showCodeFills" v-bind="file" :selected_code_block_id="selected_code_block.id"></File>
+            <File
+              @showCodeFills="showCodeFills"
+              v-bind="file"
+              :selected_code_block_id="selected_code_block.id"
+            ></File>
           </tab>
         </tabs>
       </div>
@@ -24,7 +32,11 @@
         <div class="title_code_fill">{{ tabTitle }}</div>
         <ul class="code_fills">
           <li class="code" v-for="code_fill in usable_code_fills" :key="code_fill.id">
-            <CodeFill @selectCodeFill="selectCodeFill" v-bind="code_fill" :selected_code_fill_id="selected_code_fill_id"></CodeFill>
+            <CodeFill
+              @selectCodeFill="selectCodeFill"
+              v-bind="code_fill"
+              :selected_code_fill_id="selected_code_fill_id"
+            ></CodeFill>
           </li>
         </ul>
       </div>
@@ -46,18 +58,22 @@ export default {
   },
   data() {
     return {
+      apiUrl: "http://localhost:8000/api/",
       files: [],
       code_fills: [],
       usable_code_fills: [],
       selected_code_block: {},
       selected_code_fill: {},
-      selected_tab: '',
-      selected_code_fill_id: 0
+      selected_tab: "",
+      selected_code_fill_id: 0,
+      available_games: []
     };
   },
   computed: {
     tabTitle() {
-      return Object.keys(this.selected_code_block).length !== 0 ? this.selected_tab : 'Select a CodeBlock!';
+      return Object.keys(this.selected_code_block).length !== 0
+        ? this.selected_tab
+        : "Select a CodeBlock!";
     }
   },
   methods: {
@@ -66,9 +82,9 @@ export default {
       this.usable_code_fills = this.code_fills.filter(
         fill => fill.code_block_id === codeBlock.id
       );
-      if(typeof this.selected_code_block.code_fill_id !== 'undefined') {
-            this.selected_code_fill_id = this.selected_code_block.code_fill_id;
-        }
+      if (typeof this.selected_code_block.code_fill_id !== "undefined") {
+        this.selected_code_fill_id = this.selected_code_block.code_fill_id;
+      }
     },
     selectCodeFill(codeFill) {
       this.selected_code_fill = codeFill;
@@ -85,6 +101,11 @@ export default {
     },
     reset() {
       location.reload();
+    },
+    getAvailableGames() {
+      fetch(`${this.apiUrl}connections`)
+        .then(response => response.json())
+        .then(json => (this.available_games = json.data));
     }
   },
   created() {
@@ -93,10 +114,7 @@ export default {
     window.onbeforeunload = function() {
       return "Are you sure you want to reset the game?";
     };
-
-    fetch('http://localhost:8000/api/highscores')
-    .then(respone => respone.json())
-    .then(json => console.log(json.data));
+    this.available_games = this.getAvailableGames();
   }
 };
 </script>
