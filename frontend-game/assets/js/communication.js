@@ -29,7 +29,11 @@ function onWSError(e) {
 }
 
 function onWSMessage(e) {
-    const data = e.data;
+    const data = JSON.parse(e.data);
 
     console.log("Message received:", data);
+
+    if(data.address === "msega.actions.connect") {
+        document.querySelector('#gameId').innerText = data.id;
+    }
 }
