@@ -21,6 +21,8 @@ class WebSocketController extends Controller implements  MessageComponentInterfa
         if(is_null($this::$env)) {
             $this::$env = new Env();
         }
+
+        echo "Server started...\n";
     }
 
     function onOpen(ConnectionInterface $conn)
