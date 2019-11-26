@@ -1,8 +1,8 @@
 <template>
   <div class="file">
     <ul class="codeBlocks">
-      <li class="block" v-for="block in code_blocks" :key="block.id">
-        <CodeBlock @selected="showCodeFills" v-bind="block" :selected_code_block_id="selected_code_block_id"></CodeBlock>
+      <li class="block" v-for="block in codeBlocks" :key="block.id">
+        <CodeBlock @selected="showCodeFills" v-bind="block" :selected_code_block_id="selectedCodeBlockId"></CodeBlock>
       </li>
     </ul>
   </div>
@@ -30,23 +30,23 @@ export default {
       type: Number,
       required: true,
     },
-    selected_fill_block: {
+    selectedFillBlock: {
       type: Object,
       required: false
     },
-    selected_code_block_id: {
+    selectedCodeBlockId: {
       type: Number,
       required: false
     },
   },
   data() {
     return {
-      code_blocks: Array
+      codeBlocks: Array
     }
   },
   methods:{
     showCodeFills(id) {
-      this.code_blocks.forEach(block => {
+      this.codeBlocks.forEach(block => {
         if(block.id === id) {
           this.$emit('showCodeFills', block);
         }
@@ -54,7 +54,7 @@ export default {
     }
   },
   created() {
-    this.code_blocks = jsonblocks.filter(block => block.file_id == this.id);
+    this.codeBlocks = jsonblocks.filter(block => block.file_id == this.id);
   }
 };
 </script>

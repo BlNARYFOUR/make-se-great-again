@@ -1,6 +1,6 @@
 <template>
   <div @click="select" class="code_fill">
-    <div class="code" :class="{ selected: is_selected }">{{ code }}</div>
+    <div class="code" :class="{ selected: isSelected }">{{ code }}</div>
   </div>
 </template>
 
@@ -9,7 +9,7 @@ export default {
   name: "CodeFill",
   data() {
     return {
-      is_selected: false,
+      isSelected: false,
     };
   },
   props: {
@@ -21,22 +21,22 @@ export default {
       type: String,
       required: true
     },
-    exec_id: {
+    execId: {
       type: Number,
       required: true
     },
-    code_block_id: {
+    codeBlockId: {
       type: Number,
       required: true
     },
-    selected_code_fill_id: Number,
+    selectedCodeBlockId: Number,
   },
   watch: {
       selected_code_fill_id(id) {
           if(id === this.id) {
-              this.is_selected = true;
-          } else if (this.is_selected) {
-              this.is_selected = false;
+              this.isSelected = true;
+          } else if (this.isSelected) {
+              this.isSelected = false;
           }
       }
   },
@@ -46,8 +46,8 @@ export default {
     }
   },
   created() {
-    if(this.selected_code_fill_id === this.id) {
-      this.is_selected = true;
+    if(this.selectedCodeBlockId === this.id) {
+      this.isSelected = true;
     }
   }
 };
