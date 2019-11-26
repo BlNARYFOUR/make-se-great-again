@@ -24,6 +24,7 @@
                         <File
                                 @showCodeFills="showCodeFills"
                                 v-bind="file"
+                                :gameId="file.game_id"
                                 :selectedCodeBlockId="selectedCodeBlock.id"
                         />
                     </tab>
@@ -59,6 +60,7 @@
         },
         data() {
             return {
+                //TODO: Extract apiUrl to external file
                 apiUrl: "http://localhost:8000/api/",
                 files: [],
                 codeFills: [],
@@ -120,6 +122,7 @@
             },
             getFiles(id) {
                 this.fetchData(`${this.apiUrl}files/${id}`, files => {
+                    console.log(files);
                     this.files = files;
                 });
             },
@@ -133,6 +136,7 @@
                     this.selectedGameId = game.id;
                 });
             },
+            //TODO: Extract API calls to external file
             fetchData(url, callback) {
                 fetch(url)
                     .then(response => response.json())

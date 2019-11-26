@@ -26,18 +26,12 @@ export default {
       type: String,
       required: true,
     },
-    game_id: {
+    gameId: {
       type: Number,
       required: true,
     },
-    selectedFillBlock: {
-      type: Object,
-      required: false
-    },
-    selectedCodeBlockId: {
-      type: Number,
-      required: false
-    },
+    selectedFillBlock: {},
+    selectedCodeBlockId: Number,
   },
   data() {
     return {
