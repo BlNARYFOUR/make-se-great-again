@@ -1,60 +1,60 @@
 <template>
-  <div @click="selected" class="code_block">
-    <div v-html="code"
-      class="code"
-      :class="{ adjustable: adjustable, empty: !code, selected: is_selected }"
-    ></div>
-  </div>
+    <div @click="selected" class="code_block">
+        <div v-html="code"
+             class="code"
+             :class="{ adjustable: adjustable, empty: !code, selected: isSelected }"
+        ></div>
+    </div>
 </template>
 
 <script>
-export default {
-  name: "CodeBlock",
-  data() {
-    return {
-      is_selected: false,
+    export default {
+        name: "CodeBlock",
+        data() {
+            return {
+                isSelected: false,
+            };
+        },
+        props: {
+            id: {
+                type: Number,
+                required: true
+            },
+            code: {
+                required: true,
+                validator: type => typeof type === "string" || type === null
+            },
+            adjustable: {
+                type: Boolean,
+                required: true
+            },
+            fileId: {
+                type: Number,
+                required: true
+            },
+            codeFillId: Number,
+            selectedCodeBlockId: Number
+        },
+        watch: {
+            selectedCodeBlockId(id) {
+                if (id === this.id) {
+                    this.isSelected = true;
+                } else if (this.isSelected) {
+                    this.isSelected = false;
+                }
+            }
+        },
+        methods: {
+            selected() {
+                this.isSelected = true;
+                if (this.adjustable) {
+                    this.$emit("selected", this.id);
+                }
+            }
+        }
     };
-  },
-  props: {
-    id: {
-      type: Number,
-      required: true
-    },
-    code: {
-      required: true,
-      validator: type => typeof type === "string" || type === null
-    },
-    adjustable: {
-      type: Boolean,
-      required: true
-    },
-    file_id: {
-      type: Number,
-      required: true
-    },
-      code_fill_id: Number,
-      selected_code_block_id: Number
-  },
-  watch: {
-      selected_code_block_id(id) {
-          if(id === this.id) {
-              this.is_selected = true;
-          } else if (this.is_selected) {
-              this.is_selected = false;
-          }
-      }
-  },
-  methods: {
-    selected() {
-      this.is_selected = true;
-      if (this.adjustable) {
-        this.$emit("selected", this.id);
-      }
-    }
-  }
-};
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/styles/components/codeBlock";
+    @import "../assets/styles/components/codeBlock";
 </style>

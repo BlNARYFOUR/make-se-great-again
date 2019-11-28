@@ -1,8 +1,8 @@
 <template>
   <div class="file">
     <ul class="codeBlocks">
-      <li class="block" v-for="block in code_blocks" :key="block.id">
-        <CodeBlock @selected="showCodeFills" v-bind="block" :selected_code_block_id="selected_code_block_id"></CodeBlock>
+      <li class="block" v-for="block in codeBlocks" :key="block.id">
+        <CodeBlock @selected="showCodeFills" v-bind="block" :fileId="block.file_id" :selectedCodeBlockId="selectedCodeBlockId"></CodeBlock>
       </li>
     </ul>
   </div>
@@ -11,6 +11,7 @@
 <script>
 import jsonblocks from "@/util/mockdata/codeBlocks.json"
 import CodeBlock from "@/components/CodeBlock"
+import apiHandlers from "@/util/apiHandler";
 
 export default {
   name: "File",
@@ -26,35 +27,34 @@ export default {
       type: String,
       required: true,
     },
-    game_id: {
+    gameId: {
       type: Number,
       required: true,
     },
-    selected_fill_block: {
-      type: Object,
-      required: false
-    },
-    selected_code_block_id: {
-      type: Number,
-      required: false
-    },
+    selectedFillBlock: {},
+    selectedCodeBlockId: Number,
   },
   data() {
     return {
-      code_blocks: Array
+      codeBlocks: Array
     }
   },
   methods:{
     showCodeFills(id) {
-      this.code_blocks.forEach(block => {
+      this.codeBlocks.forEach(block => {
         if(block.id === id) {
           this.$emit('showCodeFills', block);
         }
       });
+    },
+    getCodeBlocksByFileId(id) {
+        apiHandlers.getCodeBlocksByFileId(id)
+          .then(data => this.codeBlocks = data)
+          .catch(err => console.log('getCodeBlocksByFileId', err));
     }
   },
   created() {
-    this.code_blocks = jsonblocks.filter(block => block.file_id == this.id);
+    this.getCodeBlocksByFileId(this.id);
   }
 };
 </script>
