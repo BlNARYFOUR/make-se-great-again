@@ -11,6 +11,7 @@
 <script>
 import jsonblocks from "@/util/mockdata/codeBlocks.json"
 import CodeBlock from "@/components/CodeBlock"
+import apiHandlers from "@/util/apiHandler";
 
 export default {
   name: "File",
@@ -45,11 +46,15 @@ export default {
           this.$emit('showCodeFills', block);
         }
       });
+    },
+    getCodeBlocksByFileId(id) {
+        apiHandlers.getCodeBlocksByFileId(id)
+          .then(data => this.codeBlocks = data)
+          .catch(err => console.log('getCodeblocksByfileId', err));
     }
   },
   created() {
-    // TODO: MAke api call to backend.
-    this.codeBlocks = jsonblocks.filter(block => block.file_id == this.id);
+    this.getCodeBlocksByFileId(this.id);
   }
 };
 </script>

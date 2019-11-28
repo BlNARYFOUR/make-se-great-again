@@ -19,6 +19,10 @@ const apiHandlers = {
         return fetchData(`${apiUrl}games/${name}`);
     },
 
+    getCodeBlocksByFileId(fileId) {
+        return fetchData(`${apiUrl}codeBlocks/${fileId}`);
+    }
+
     // fetchData(url, callback) {
     //     fetch(url)
     //         .then(response => response.json())
