@@ -28,5 +28,8 @@ Route::get('/games/{name}', [GameController::class, 'getByName'])->name('games.g
 Route::get('/connections', [ConnectionController::class, 'get'])->name('connections.get');
 
 Route::get('/codeBlocks', [CodeBlockController::class, 'get'])->name('codeblocks.get');
+Route::get('/codeBlocks/{fileId}', [CodeBlockController::class, 'getByFileId'])->name('codeblocks.getbyfileid');
+
 Route::get('/codeFills', [CodeFillController::class, 'get'])->name('codefill.get');
+
 Route::get('/files/{id}', [FileController::class, 'getByGameId'])->name('file.getbygameid');

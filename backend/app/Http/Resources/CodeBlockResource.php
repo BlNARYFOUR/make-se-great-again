@@ -17,7 +17,7 @@ class CodeBlockResource extends JsonResource
         return [
             'id' => $this->id,
             'code' => $this->code,
-            'adjustable' => $this->adjustable,
+            'adjustable' => $this->adjustable == 0 ? false : true,
             'file_id' => $this->file_id
         ];
     }
