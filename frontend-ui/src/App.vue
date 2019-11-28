@@ -19,7 +19,7 @@
         </div>
         <div class="container">
             <div class="files">
-                <tabs @changed="tabChanged">
+                <tabs @changed="tabChanged" :options="{ defaultTabHash: 'empty-tab' }">
                     <tab :name="file.name" v-for="file in files" :key="file.id">
                         <File
                                 @showCodeFills="showCodeFills"
@@ -27,6 +27,9 @@
                                 :gameId="file.game_id"
                                 :selectedCodeBlockId="selectedCodeBlock.id"
                         />
+                    </tab>
+                    <tab v-if="files.length === 0" id="empty-tab" name="Default">
+                        Please select a game!
                     </tab>
                 </tabs>
             </div>
@@ -127,6 +130,8 @@
                 apiHandlers.getFilesByGameId(id)
                     .then(data => this.files = data)
                     .catch(err => console.log('getFilesByGameId', err))
+                console.log(this.files.size);
+
             },
             getCodeFills() {
                 apiHandlers.getCodeFills()
@@ -143,7 +148,6 @@
         },
         created() {
             this.getAvailableGames();
-
             window.onbeforeunload = function () {
                 return "Are you sure you want to reset the game?";
             };
