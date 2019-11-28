@@ -48,6 +48,7 @@ export default {
     }
   },
   created() {
+    // TODO: MAke api call to backend.
     this.codeBlocks = jsonblocks.filter(block => block.file_id == this.id);
   }
 };

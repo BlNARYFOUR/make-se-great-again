@@ -49,6 +49,7 @@
 <script>
     import File from "@/components/File";
     import CodeFill from "@/components/CodeFill";
+    import apiHandlers from "@/util/apiHandler";
     // import jsonFiles from "@/util/mockdata/files.json";
     // import jsonCodefills from "@/util/mockdata/codeFills.json";
 
@@ -60,8 +61,6 @@
         },
         data() {
             return {
-                //TODO: Extract apiUrl to external file
-                apiUrl: "http://localhost:8000/api/",
                 files: [],
                 codeFills: [],
                 usableCodeFills: [],
@@ -83,10 +82,10 @@
         },
         watch: {
             selectedGame(selectedGame) {
-                this.getSelectedGameId(selectedGame.name);
+                this.getSelectedGameIdByName(selectedGame.name);
             },
             selectedGameId(id) {
-                this.getFiles(id);
+                this.getFilesByGameId(id);
             }
         },
         methods: {
@@ -116,33 +115,26 @@
                 location.reload();
             },
             getAvailableGames() {
-                this.fetchData(`${this.apiUrl}connections`, availableGames => {
-                    this.availableGames = availableGames;
-                });
+                apiHandlers.getAvailableGames()
+                    .then(data => this.availableGames = data)
+                    .catch(err => console.log('getAvailableGames',err));
             },
-            getFiles(id) {
-                this.fetchData(`${this.apiUrl}files/${id}`, files => {
-                    console.log(files);
-                    this.files = files;
-                });
+            getFilesByGameId(id) {
+                apiHandlers.getFilesByGameId(id)
+                    .then(data => this.files = data)
+                    .catch(err => console.log('getFilesByGameId', err))
             },
             getCodeFills() {
-                this.fetchData(`${this.apiUrl}codeFills`, fills => {
-                    this.codeFills = fills;
-                });
+                apiHandlers.getCodeFills()
+                    .then(data => this.codeFills = data)
+                    .catch(err => console.log('getCodeFills', err));
             },
-            getSelectedGameId(name) {
-                this.fetchData(`${this.apiUrl}games/${name}`, game => {
-                    this.selectedGameId = game.id;
-                });
+            getSelectedGameIdByName(name) {
+                apiHandlers.getSelectedGameIdByName(name)
+                    .then(data => this.selectedGameId = data.id)
+                    .catch(err => console.log('getSelectedGameByIdName', err));
             },
-            //TODO: Extract API calls to external file
-            fetchData(url, callback) {
-                fetch(url)
-                    .then(response => response.json())
-                    .then(json => callback(json.data))
-                    .catch(err => console.log(err));
-            }
+            
         },
         created() {
             this.getAvailableGames();
