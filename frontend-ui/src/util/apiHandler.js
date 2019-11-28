@@ -11,7 +11,7 @@ const apiHandlers = {
         return fetchData(`${apiUrl}files/${id}`);
     },
 
-    getCodefills() {
+    getCodeFills() {
         return fetchData(`${apiUrl}codeFills`);
     },
 

@@ -2,7 +2,7 @@
   <div class="file">
     <ul class="codeBlocks">
       <li class="block" v-for="block in codeBlocks" :key="block.id">
-        <CodeBlock @selected="showCodeFills" v-bind="block" :selected_code_block_id="selectedCodeBlockId"></CodeBlock>
+        <CodeBlock @selected="showCodeFills" v-bind="block" :fileId="block.file_id" :selectedCodeBlockId="selectedCodeBlockId"></CodeBlock>
       </li>
     </ul>
   </div>
@@ -50,7 +50,7 @@ export default {
     getCodeBlocksByFileId(id) {
         apiHandlers.getCodeBlocksByFileId(id)
           .then(data => this.codeBlocks = data)
-          .catch(err => console.log('getCodeblocksByfileId', err));
+          .catch(err => console.log('getCodeBlocksByFileId', err));
     }
   },
   created() {

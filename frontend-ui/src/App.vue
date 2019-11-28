@@ -37,6 +37,8 @@
                         <CodeFill
                                 @selectCodeFill="selectCodeFill"
                                 v-bind="codeFill"
+                                :codeBlockId="codeFill.code_block_id"
+                                :execId="codeFill.exec_id"
                                 :selectedCodeFillId="selectedCodeFillId"
                         />
                     </li>
@@ -86,6 +88,8 @@
             },
             selectedGameId(id) {
                 this.getFilesByGameId(id);
+                // TODO: Get codefills by gameid
+                this.getCodeFills();
             }
         },
         methods: {
@@ -94,16 +98,16 @@
                 this.usableCodeFills = this.codeFills.filter(
                     fill => fill.code_block_id === codeBlock.id
                 );
-                if (typeof this.selectedCodeBlock.code_fill_id !== "undefined") {
-                    this.selectedCodeFillId = this.selectedCodeBlock.code_fill_id;
+                if (typeof this.selectedCodeBlock.codeFillId !== "undefined") {
+                    this.selectedCodeFillId = this.selectedCodeBlock.codeFillId;
                 }
             },
             selectCodeFill(codeFill) {
                 this.selectedCodeFill = codeFill;
-                if (this.selectedCodeBlock.id === codeFill.code_block_id) {
+                if (this.selectedCodeBlock.id === codeFill.codeBlockId) {
                     this.selectedCodeBlock.code = codeFill.code;
-                    this.selectedCodeBlock.code_fill_id = codeFill.id;
-                    this.selectedCodeFillId = this.selectedCodeBlock.code_fill_id;
+                    this.selectedCodeBlock.codeFillId = codeFill.id;
+                    this.selectedCodeFillId = this.selectedCodeBlock.codeFillId;
                 }
             },
             tabChanged(selectedTab) {
@@ -126,7 +130,8 @@
             },
             getCodeFills() {
                 apiHandlers.getCodeFills()
-                    .then(data => this.codeFills = data)
+                    .then(data => {
+                        this.codeFills = data})
                     .catch(err => console.log('getCodeFills', err));
             },
             getSelectedGameIdByName(name) {
