@@ -13,11 +13,11 @@ class CreateGamesTable extends Migration
      */
     public function up()
     {
-        Schema::create('games', function (Blueprint $table) {
+        /*Schema::create('games', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 50)->unique();
             $table->timestamps();
-        });
+        });*/
     }
 
     /**
@@ -27,6 +27,6 @@ class CreateGamesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('games');
+        //Schema::dropIfExists('games');
     }
 }

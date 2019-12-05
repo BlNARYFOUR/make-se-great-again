@@ -94,7 +94,7 @@ class Env
             $c = new Connection();
 
             $c->id = $gc->getId();
-            $c->gameName = $gc->getName();
+            $c->game_name = $gc->getName();
 
             $c->save();
         }
