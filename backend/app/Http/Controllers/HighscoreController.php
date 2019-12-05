@@ -13,7 +13,7 @@ class HighscoreController extends Controller
 {
     public function get()
     {
-        $res =  Highscore::orderBy('score', 'DESC')->get();
+        $res =  Highscore::orderBy('score', 'DESC')->limit(10)->get();
         return HighscoreResource::collection($res);
     }
 
