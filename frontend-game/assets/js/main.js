@@ -5,11 +5,15 @@ document.addEventListener("DOMContentLoaded", init);
 let game = null;
 
 let retry = false;
+let saveScore = false;
 
 let offset = 0;
 let offset2 = 0;
-let opacity = 1.0;
+let opacity = 0;
 let flash = 1.0;
+
+let highScores = [];
+let scoresUpdated = false;
 
 const speed = 40;
 const gravity = 3.5;
@@ -48,6 +52,7 @@ function init(e) {
         }
     ];
 
+    scores.getHighScoreList((data) => {showHighScores(data.data, canvas);});
     preLoaderAndDrawBeginScreen(loads, canvas, buttons);
 }
 
@@ -57,15 +62,35 @@ function createImageObj(fileName) {
     return img;
 }
 
+function showHighScores(highScoreList, canvas) {
+    saveHighScores(highScoreList);
+    if (opacity <= 0 && (game === null || (game !== null && !game.enabled))) {
+        drawBeginScreen(canvas, highScores);
+    }
+}
+
+function saveHighScores(highScoreList) {
+    highScores = highScoreList.slice(0,5);
+
+    while(highScores.length < 5) {
+        highScores.push({name: "-", score: "xxx"});
+    }
+}
+
+function drawBeginScreen(canvas, highScoreList = getEmptyHighScores()) {
+    ui.drawStartScreen(canvas, highScoreList, groundY);
+    ui.enableStartButton();
+}
+
 function preLoaderAndDrawBeginScreen(loads, canvas, buttons) {
     let loaded = Object.values(loads).length;
 
     function onLoad(e) {
         loaded--;
         if (loaded === 0) {
+
             ui.setLoads(loads);
-            ui.drawStartScreen(canvas, getHighScores(), groundY);
-            ui.enableStartButton();
+            drawBeginScreen(canvas);
             activateInputEvents(canvas, buttons);
         }
     }
@@ -90,7 +115,15 @@ function startTheGame(canvas) {
 }
 
 function saveHighScore(canvas) {
-    console.log("SAVE HIGHSCORE");
+    saveScore = true;
+
+    scores.saveScore(game.score, (data) => scores.getHighScoreList((d) => showHighScores(d.data, canvas)));
+
+    document.querySelector("#userName").classList.remove("active");
+
+    document.body.style.cursor = "default";
+
+    requestAnimationFrame(() => beginOverlayLoop(canvas, new Date().getTime(), 0));
 }
 
 function beginOverlayLoop(canvas, prevTime, opacity) {
@@ -105,9 +138,31 @@ function beginOverlayLoop(canvas, prevTime, opacity) {
         game = new Game(speed, gravity, birdBeginX, birdBeginY, birdSize, groundY);
         opacity = 1.0;
         flash = 1.0;
-        requestAnimationFrame(() => gameLoop(canvas, new Date().getTime(), 500, 0));
+        if(saveScore) {
+            requestAnimationFrame(() => startScreenLoop(canvas, new Date().getTime()));
+        }else {
+            requestAnimationFrame(() => gameLoop(canvas, new Date().getTime(), 500, 0));
+        }
     } else {
         requestAnimationFrame(() => beginOverlayLoop(canvas, time, opacity));
+    }
+}
+
+function startScreenLoop(canvas, prevTime) {
+    const time = new Date().getTime();
+    const passedTime = time - prevTime;
+
+    opacity -= 1 / (200 / passedTime);
+    opacity = opacity < 0 ? 0 : opacity;
+
+    ui.drawStartScreen(canvas, highScores, groundY);
+    ui.drawOverlay(canvas, "black", opacity);
+
+    if(0 < opacity) {
+        requestAnimationFrame(() => startScreenLoop(canvas, time));
+    } else {
+        saveScore = false;
+        ui.enableStartButton();
     }
 }
 
@@ -157,9 +212,9 @@ function gameLoop(canvas, prevTime, passedTimeAnimation, prevGroundX) {
         flash = flash < 0 ? 0 : flash;
 
         if(game.getGroundY() <= (game.getBirdY() + game.bird.height + Game.getRotateTransform(game.getBirdAngle(), game.bird.size, game.bird.height)) && game.speed === 0 ) {
-            console.log("GAME OVER");
             opacity = 0;
             retry = false;
+            saveScore = false;
             requestAnimationFrame(() => gameOverLoop(canvas, passedTimeAnimation, flash));
             return;
         }
@@ -212,7 +267,7 @@ function gameOverLoop(canvas, prevTime, flashContinue, animationStarted = false)
         }
     }
 
-    if(!retry) {
+    if(!retry && !saveScore) {
         requestAnimationFrame(() => gameOverLoop(canvas, timeToPass, flashContinue, animationStarted));
     } else {
         ui.disableSaveScoreButton();
@@ -298,18 +353,18 @@ function onKeyDown(e) {
     }
 }
 
-function getHighScores() {
+function getEmptyHighScores() {
     function HighScore(name, score) {
         this.name = name;
         this.score = score;
     }
 
     return [
-        new HighScore("Why is this username so long like wtf just why", 1098),
-        new HighScore("Bob", 76),
-        new HighScore("Maria", 54),
-        new HighScore("Jane", 32),
-        new HighScore("Jesus", 10),
+        new HighScore("-", "xxx"),
+        new HighScore("-", "xxx"),
+        new HighScore("-", "xxx"),
+        new HighScore("-", "xxx"),
+        new HighScore("-", "xxx"),
     ];
 }
 
