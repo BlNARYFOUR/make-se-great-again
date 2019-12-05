@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CodeBlockTableSeeder::class);
         $this->call(CodeFillTableSeeder::class);
 
-        factory(Highscore::class, 25)->create();
+        factory(Highscore::class, 1)->create();
     }
 }
