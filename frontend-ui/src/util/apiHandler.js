@@ -15,22 +15,17 @@ const apiHandlers = {
         return fetchData(`${apiUrl}codeFills`);
     },
 
+    getCodeFillsByGameId(gameId) {
+        return fetchData(`${apiUrl}codeFills/${gameId}`);
+    },
+
     getSelectedGameIdByName(name) {
         return fetchData(`${apiUrl}games/${name}`);
     },
 
     getCodeBlocksByFileId(fileId) {
         return fetchData(`${apiUrl}codeBlocks/${fileId}`);
-    }
-
-    // fetchData(url, callback) {
-    //     fetch(url)
-    //         .then(response => response.json())
-    //         .then(json => callback(json.data))
-    //         .catch(err => console.error(err));
-    // }
-
-    
+    }    
 };
 
 const fetchData = (query) => {

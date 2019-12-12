@@ -66,8 +66,11 @@
         },
         data() {
             return {
+                // All files which are loaded for the selected game.
                 files: [],
+                // All CodeFills from all the files.
                 codeFills: [],
+                // All CodeFills for selected CodeBlock.
                 usableCodeFills: [],
                 selectedCodeBlock: {},
                 selectedCodeFill: {},
@@ -89,10 +92,10 @@
             selectedGame(selectedGame) {
                 this.getSelectedGameIdByName(selectedGame.name);
             },
-            selectedGameId(id) {
-                this.getFilesByGameId(id);
+            selectedGameId(gameId) {
+                this.getFilesByGameId(gameId);
                 // TODO: Get codefills by gameid
-                this.getCodeFills();
+                this.getCodeFillsByGameId(gameId);
             }
         },
         methods: {
@@ -129,12 +132,11 @@
             getFilesByGameId(id) {
                 apiHandlers.getFilesByGameId(id)
                     .then(data => this.files = data)
-                    .catch(err => console.log('getFilesByGameId', err))
-                console.log(this.files.size);
+                    .catch(err => console.log('getFilesByGameId', err));
 
             },
-            getCodeFills() {
-                apiHandlers.getCodeFills()
+            getCodeFillsByGameId(gameID) {
+                apiHandlers.getCodeFillsByGameId(gameID)
                     .then(data => {
                         this.codeFills = data})
                     .catch(err => console.log('getCodeFills', err));
