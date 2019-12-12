@@ -36,13 +36,9 @@ export default {
       type: Number,
       required: true
     },
+    codeBlocks: Array,
     selectedFillBlock: {},
     selectedCodeBlockId: Number
-  },
-  data() {
-    return {
-      codeBlocks: Array
-    };
   },
   methods: {
     // Show codeFills for the selected blockId.
@@ -52,17 +48,7 @@ export default {
           this.$emit("showCodeFills", block);
         }
       });
-    },
-    // Get all codeBlocks for selected file.
-    getCodeBlocksByFileId(id) {
-      apiHandlers
-        .getCodeBlocksByFileId(id)
-        .then(data => (this.codeBlocks = data))
-        .catch(err => console.log("getCodeBlocksByFileId", err));
     }
-  },
-  created() {
-    this.getCodeBlocksByFileId(this.id);
   }
 };
 </script>

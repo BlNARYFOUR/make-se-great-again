@@ -22,8 +22,12 @@ const apiHandlers = {
         return fetchData(`${apiUrl}games/${name}`);
     },
 
-    getCodeBlocksByFileId(fileId) {
-        return fetchData(`${apiUrl}codeBlocks/${fileId}`);
+    // getCodeBlocksByFileId(fileId) {
+    //     return fetchData(`${apiUrl}codeBlocks/${fileId}`);
+    // },
+
+    getCodeBlocksByGameId(gameId) {
+        return fetchData(`${apiUrl}codeBlocks/${gameId}`);
     }
 };
 
