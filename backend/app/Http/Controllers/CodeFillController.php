@@ -13,11 +13,11 @@ class CodeFillController extends Controller
         return CodeFillResource::collection($res);
     }
 
-    function getByGameId($game_id) {
+    function getByGameId($gameId) {
         $res = DB::table('code_fills')
             ->join('code_blocks', 'code_fills.code_block_id' , '=', 'code_blocks.id')
             ->join('files', 'files.id', '=', 'code_blocks.file_id')
-            ->where('files.game_id', '=', $game_id)
+            ->where('files.game_id', '=', $gameId)
             ->select('code_fills.*')
             ->get();
 
