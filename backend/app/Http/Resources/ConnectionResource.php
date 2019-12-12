@@ -16,7 +16,7 @@ class ConnectionResource extends JsonResource
     {
         return [
             'id'=> $this->id,
-            'name' => $this->gameName
+            'name' => $this->game_name
         ];
     }
 }
