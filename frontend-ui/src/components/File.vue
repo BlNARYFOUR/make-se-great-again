@@ -2,15 +2,20 @@
   <div class="file">
     <ul class="codeBlocks">
       <li class="block" v-for="block in codeBlocks" :key="block.id">
-        <CodeBlock @selected="showCodeFills" v-bind="block" :fileId="block.file_id" :selectedCodeBlockId="selectedCodeBlockId"></CodeBlock>
+        <CodeBlock
+          @selected="showCodeFills"
+          v-bind="block"
+          :fileId="block.file_id"
+          :selectedCodeBlockId="selectedCodeBlockId"
+        ></CodeBlock>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import jsonblocks from "@/util/mockdata/codeBlocks.json"
-import CodeBlock from "@/components/CodeBlock"
+import jsonblocks from "@/util/mockdata/codeBlocks.json";
+import CodeBlock from "@/components/CodeBlock";
 import apiHandlers from "@/util/apiHandler";
 
 export default {
@@ -21,36 +26,39 @@ export default {
   props: {
     id: {
       type: Number,
-      required: true,
+      required: true
     },
     name: {
       type: String,
-      required: true,
+      required: true
     },
     gameId: {
       type: Number,
-      required: true,
+      required: true
     },
     selectedFillBlock: {},
-    selectedCodeBlockId: Number,
+    selectedCodeBlockId: Number
   },
   data() {
     return {
       codeBlocks: Array
-    }
+    };
   },
-  methods:{
+  methods: {
+    // Show codeFills for the selected blockId.
     showCodeFills(id) {
       this.codeBlocks.forEach(block => {
-        if(block.id === id) {
-          this.$emit('showCodeFills', block);
+        if (block.id === id) {
+          this.$emit("showCodeFills", block);
         }
       });
     },
+    // Get all codeBlocks for selected file.
     getCodeBlocksByFileId(id) {
-        apiHandlers.getCodeBlocksByFileId(id)
-          .then(data => this.codeBlocks = data)
-          .catch(err => console.log('getCodeBlocksByFileId', err));
+      apiHandlers
+        .getCodeBlocksByFileId(id)
+        .then(data => (this.codeBlocks = data))
+        .catch(err => console.log("getCodeBlocksByFileId", err));
     }
   },
   created() {

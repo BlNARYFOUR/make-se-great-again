@@ -76,6 +76,7 @@
                 selectedCodeFill: {},
                 selectedTab: "",
                 selectedCodeFillId: 0,
+                // The different games that can be connected with.
                 availableGames: [],
                 selectedGame: {},
                 selectedGameId: 0
@@ -89,33 +90,40 @@
             }
         },
         watch: {
+            // Everytime the selectedGame get's updated, this method runs to update the selectedGameId.
             selectedGame(selectedGame) {
                 this.getSelectedGameIdByName(selectedGame.name);
             },
+            // Everytime the selectedGameId updates (after selecting new game to connect), the files and codeFills are updated.
             selectedGameId(gameId) {
                 this.getFilesByGameId(gameId);
-                // TODO: Get codefills by gameid
                 this.getCodeFillsByGameId(gameId);
             }
         },
         methods: {
             showCodeFills(codeBlock) {
                 this.selectedCodeBlock = codeBlock;
+                // Get the usableCodeFills by checking the codeBlockId of the codeFill.
                 this.usableCodeFills = this.codeFills.filter(
                     fill => fill.code_block_id === codeBlock.id
                 );
+                // When switching to another file or codeBlock, 
+                // this makes sure the selected codeFill is still selected when returning to the codeBlock.
                 if (typeof this.selectedCodeBlock.codeFillId !== "undefined") {
                     this.selectedCodeFillId = this.selectedCodeBlock.codeFillId;
                 }
             },
             selectCodeFill(codeFill) {
                 this.selectedCodeFill = codeFill;
+                // If the codeBlockId in the codeFill is the same, 
+                // set the codeBlock with the code from the codeFill.
                 if (this.selectedCodeBlock.id === codeFill.codeBlockId) {
                     this.selectedCodeBlock.code = codeFill.code;
                     this.selectedCodeBlock.codeFillId = codeFill.id;
                     this.selectedCodeFillId = this.selectedCodeBlock.codeFillId;
                 }
             },
+            // Executed when file tab changes.
             tabChanged(selectedTab) {
                 this.usableCodeFills = null;
                 this.selectedTab = selectedTab.tab.name;
@@ -124,6 +132,7 @@
             reset() {
                 location.reload();
             },
+            // Get the games that are currently being played.
             getAvailableGames() {
                 apiHandlers.getAvailableGames()
                     .then(data => this.availableGames = data)
@@ -133,7 +142,6 @@
                 apiHandlers.getFilesByGameId(id)
                     .then(data => this.files = data)
                     .catch(err => console.log('getFilesByGameId', err));
-
             },
             getCodeFillsByGameId(gameID) {
                 apiHandlers.getCodeFillsByGameId(gameID)
@@ -141,12 +149,12 @@
                         this.codeFills = data})
                     .catch(err => console.log('getCodeFills', err));
             },
+            // Used to get the gameId based on the selected game name.
             getSelectedGameIdByName(name) {
                 apiHandlers.getSelectedGameIdByName(name)
                     .then(data => this.selectedGameId = data.id)
                     .catch(err => console.log('getSelectedGameByIdName', err));
             },
-            
         },
         created() {
             this.getAvailableGames();

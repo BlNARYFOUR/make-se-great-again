@@ -2,7 +2,6 @@
 const apiUrl = "http://localhost:8000/api/";
 
 const apiHandlers = {
-
     getAvailableGames() {
         return fetchData(`${apiUrl}connections`);
     },
@@ -25,15 +24,15 @@ const apiHandlers = {
 
     getCodeBlocksByFileId(fileId) {
         return fetchData(`${apiUrl}codeBlocks/${fileId}`);
-    }    
+    }
 };
 
 const fetchData = (query) => {
     return new Promise((resolve, reject) => {
         fetch(query)
-        .then(response => response.json())
-        .then(json => resolve(json.data))
-        .catch(err => reject(err));
+            .then(response => response.json())
+            .then(json => resolve(json.data))
+            .catch(err => reject(err));
     });
 };
 

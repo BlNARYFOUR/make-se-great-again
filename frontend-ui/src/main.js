@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import {Tabs, Tab} from 'vue-tabs-component';
+import { Tabs, Tab } from 'vue-tabs-component';
 
 Vue.config.productionTip = false
 
@@ -11,4 +11,3 @@ new Vue({
   render: h => h(App),
 }).$mount('#app')
 
- 
