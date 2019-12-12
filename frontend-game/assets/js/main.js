@@ -52,8 +52,14 @@ function init(e) {
         }
     ];
 
+    document.querySelector("#formName").addEventListener("submit", (e) => submitNameForm(e, canvas));
     scores.getHighScoreList((data) => {showHighScores(data.data, canvas);});
     preLoaderAndDrawBeginScreen(loads, canvas, buttons);
+}
+
+function submitNameForm(e, canvas) {
+    e.preventDefault();
+    saveHighScore(canvas);
 }
 
 function createImageObj(fileName) {
@@ -63,13 +69,13 @@ function createImageObj(fileName) {
 }
 
 function showHighScores(highScoreList, canvas) {
-    saveHighScores(highScoreList);
+    fillHighScores(highScoreList);
     if (opacity <= 0 && (game === null || (game !== null && !game.enabled))) {
         drawBeginScreen(canvas, highScores);
     }
 }
 
-function saveHighScores(highScoreList) {
+function fillHighScores(highScoreList) {
     highScores = highScoreList.slice(0,5);
 
     while(highScores.length < 5) {
