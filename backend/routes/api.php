@@ -31,5 +31,6 @@ Route::get('/codeBlocks', [CodeBlockController::class, 'get'])->name('codeblocks
 Route::get('/codeBlocks/{fileId}', [CodeBlockController::class, 'getByFileId'])->name('codeblocks.getbyfileid');
 
 Route::get('/codeFills', [CodeFillController::class, 'get'])->name('codefill.get');
+Route::get('/codeFills/{game_id}', [CodeFillController::class, 'getByGameId'])->name('codefill.getbygameid');
 
 Route::get('/files/{id}', [FileController::class, 'getByGameId'])->name('file.getbygameid');
