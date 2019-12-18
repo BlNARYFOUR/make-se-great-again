@@ -13,7 +13,7 @@ let opacity = 0;
 let flash = 1.0;
 
 let highScores = [];
-let scoresUpdated = false;
+let inSaveScoreScreen = false;
 
 const speed = 40;
 const gravity = 3.5;
@@ -59,7 +59,10 @@ function init(e) {
 
 function submitNameForm(e, canvas) {
     e.preventDefault();
-    saveHighScore(canvas);
+
+    if(inSaveScoreScreen) {
+        saveHighScore(canvas);
+    }
 }
 
 function createImageObj(fileName) {
@@ -123,6 +126,8 @@ function startTheGame(canvas) {
 function saveHighScore(canvas) {
     saveScore = true;
 
+    inSaveScoreScreen = false;
+    ui.disableSaveScoreButton();
     scores.saveScore(game.score, (data) => scores.getHighScoreList((d) => showHighScores(d.data, canvas)));
 
     document.querySelector("#userName").classList.remove("active");
@@ -267,7 +272,8 @@ function gameOverLoop(canvas, prevTime, flashContinue, animationStarted = false)
         offset2 += 0.15 / (500 / passedTime);
         offset2 = 0 < offset2 ? 0 : offset2;
 
-        if(offset === 0) {
+        if(offset === 0 && !inSaveScoreScreen) {
+            inSaveScoreScreen = true;
             ui.enableSaveScoreButton();
             ui.enableRetryButton();
         }
