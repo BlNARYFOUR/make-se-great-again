@@ -107,12 +107,45 @@ export default {
     }
   },
   methods: {
+    // Get the games that are currently being played.
+    getAvailableGames() {
+      apiHandlers
+        .getAvailableGames()
+        .then(data => (this.availableGames = data))
+        .catch(err => console.log("getAvailableGames", err));
+    },
+    // Used to get the gameId based on the selected game name.
+    getSelectedGameIdByName(name) {
+      apiHandlers
+        .getSelectedGameIdByName(name)
+        .then(data => (this.selectedGameId = data.id))
+        .catch(err => console.log("getSelectedGameByIdName", err));
+    },
+    getFilesByGameId(id) {
+      apiHandlers
+        .getFilesByGameId(id)
+        .then(data => (this.files = data))
+        .catch(err => console.log("getFilesByGameId", err));
+    },
     getCodeBlocksByGameId(gameId) {
         apiHandlers.getCodeBlocksByGameId(gameId)
         .then(data => this.codeBlocks = data)
         .catch(err => console.log('getcodeBlockByGameId', err));
     },
-
+    getCodeFillsByGameId(gameID) {
+      apiHandlers
+        .getCodeFillsByGameId(gameID)
+        .then(data => {
+          this.codeFills = data;
+        })
+        .catch(err => console.log("getCodeFills", err));
+    },
+    showCodeBlocks(files) {
+      // Get the usableCodeBlocks by checking the FileId of the codeBlock.
+        this.usableCodeBlocks = this.codeBlocks.filter(
+            codeBlock => codeBlock.file_id === files[0].id
+        );
+    },
     showCodeFills(codeBlock) {
       this.selectedCodeBlock = codeBlock;
       // Get the usableCodeFills by checking the codeBlockId of the codeFill.
@@ -125,15 +158,6 @@ export default {
         this.selectedCodeFillId = this.selectedCodeBlock.codeFillId;
       }
     },
-    showCodeBlocks(files) {
-      // Get the usableCodeBlocks by checking the FileId of the codeBlock.
-        this.usableCodeBlocks = this.codeBlocks.filter(
-            codeBlock => codeBlock.file_id === files[0].id
-        );
-    },
-    getCodeBlocks(codeBlocks) {
-        this.codeBlocks = codeBlocks;
-    },
     selectCodeFill(codeFill) {
       this.selectedCodeFill = codeFill;
       // If the codeBlockId in the codeFill is the same,
@@ -141,6 +165,7 @@ export default {
       if (this.selectedCodeBlock.id === codeFill.codeBlockId) {
         this.selectedCodeBlock.code = codeFill.code;
         this.selectedCodeBlock.codeFillId = codeFill.id;
+        this.selectedCodeBlock.codeFillexecId = codeFill.execId;
         this.selectedCodeFillId = this.selectedCodeBlock.codeFillId;
       }
     },
@@ -156,42 +181,10 @@ export default {
     },
     deploy() {
         console.log("DEPLOYED!");
-        console.log(this.files);
-        this.files.forEach(file => {
-            console.log("FILE: " + file.name);
-            file.codeBlocks.forEach(codeBlock => {
-                console.log(codeBlock.code);
-            });
-        });
+        // console.log(this.codeBlocks);
+        let data = this.codeBlocks.filter(codeBlock => codeBlock.adjustable);
+        console.log(data);
     },
-    // Get the games that are currently being played.
-    getAvailableGames() {
-      apiHandlers
-        .getAvailableGames()
-        .then(data => (this.availableGames = data))
-        .catch(err => console.log("getAvailableGames", err));
-    },
-    getFilesByGameId(id) {
-      apiHandlers
-        .getFilesByGameId(id)
-        .then(data => (this.files = data))
-        .catch(err => console.log("getFilesByGameId", err));
-    },
-    getCodeFillsByGameId(gameID) {
-      apiHandlers
-        .getCodeFillsByGameId(gameID)
-        .then(data => {
-          this.codeFills = data;
-        })
-        .catch(err => console.log("getCodeFills", err));
-    },
-    // Used to get the gameId based on the selected game name.
-    getSelectedGameIdByName(name) {
-      apiHandlers
-        .getSelectedGameIdByName(name)
-        .then(data => (this.selectedGameId = data.id))
-        .catch(err => console.log("getSelectedGameByIdName", err));
-    }
   },
   created() {
     this.getAvailableGames();

@@ -22,7 +22,7 @@ export default {
       required: true
     },
     code: {
-        // Check if code is of typ String or null.
+      // Check if code is of typ String or null.
       required: true,
       validator: type => typeof type === "string" || type === null
     },
@@ -35,6 +35,7 @@ export default {
       required: true
     },
     codeFillId: Number,
+    codeFillExecId: Number,
     selectedCodeBlockId: Number
   },
   watch: {
