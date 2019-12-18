@@ -1,32 +1,110 @@
 [
     {
         "id": 1,
+        "code": "function onKeydown(e) { </br> </br> <div class='tab-1'> document.removeEventListener('keydown', onKeyDown);</div> </br> <div class='tab-1'>if (game !== null && !game.gameOver) { </div>",
+        "adjustable": false,
+        "file_id": 1
+    },
+    {
+        "id": 2,
         "code": null,
         "adjustable": true,
         "file_id": 1
     },
     {
-        "id": 2,
-        "code": "this.color = color;",
-        "adjustable": false,
-        "file_id": 1
-    },
-    {
         "id": 3,
-        "code": "} <br> <br> function setSpeed(speed) {",
+        "code": "<div class='tab-3'>ui.startBirdAnimation(); </br> game.applyBirdflying(); </br> </div> <div class='tab-2'>}</div> <div class='tab-1'>}</div> }",
         "adjustable": false,
         "file_id": 1
     },
     {
         "id": 4,
+        "code": "const minHeight = 0.075;",
+        "adjustable": false,
+        "file_id": 1
+    },
+    {
+        "id": 5,
         "code": null,
         "adjustable": true,
         "file_id": 1
     },
     {
-        "id": 5,
-        "code": "}",
+        "id": 6,
+        "code": "let height = minHeight + Math.random() * (game.getGroundY() - minHeight * 2 - spaceBetween); </br></br> game.spawnTube(height, true, width); </br> game.spawnTube(height + spaceBetween, false, width);",
         "adjustable": false,
         "file_id": 1
+    },
+    {
+        "id": 7,
+        "code": null,
+        "adjustable": true,
+        "file_id": 2
+    },
+    {
+        "id": 8,
+        "code": null,
+        "adjustable": true,
+        "file_id": 2
+    },
+    {
+        "id": 9,
+        "code": null,
+        "adjustable": true,
+        "file_id": 2
+    },
+    {
+        "id": 10,
+        "code": null,
+        "adjustable": true,
+        "file_id": 2
+    },
+    {
+        "id": 11,
+        "code": "const game = new Game(birdSize, speed, gravity, ScoreMultiplier);",
+        "adjustable": false,
+        "file_id": 2
+    },
+    {
+        "id": 12,
+        "code": "game.begin();",
+        "adjustable": false,
+        "file_id": 2
+    },
+    {
+        "id": 13,
+        "code": "function Bird (x, y, size) { </br> <div class='tab-1'>this.size = size; </br> this.x = x; </br> this.y = y; </br></div>",
+        "adjustable": false,
+        "file_id": 3
+    },
+    {
+        "id": 14,
+        "code": null,
+        "adjustable": true,
+        "file_id": 3
+    },
+    {
+        "id": 15,
+        "code": "}",
+        "adjustable": false,
+        "file_id": 3
+    },{
+        "id": 16,
+        "code": "function Tube (y, isTopOrientation, size) { </br> <div class='tab-1'>this.size = size; </br> this.y = y; </br> this.isTopOrientation = isTopOrientation; </br></div>",
+        "adjustable": false,
+        "file_id": 3
+    },
+    {
+        "id": 17,
+        "code": null,
+        "adjustable": true,
+        "file_id": 3
+    },
+    {
+        "id": 18,
+        "code": "<div class='tab-1'>this.x = 1; </br> this.hasScored = false;</div> }",
+        "adjustable": false,
+        "file_id": 3
     }
+
 ]

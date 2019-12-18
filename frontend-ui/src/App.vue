@@ -53,8 +53,9 @@
 import File from "@/components/File";
 import CodeFill from "@/components/CodeFill";
 import apiHandlers from "@/util/apiHandler";
-// import jsonFiles from "@/util/mockdata/files.json";
-// import jsonCodefills from "@/util/mockdata/codeFills.json";
+import jsonFiles from "@/util/mockdata/files.json";
+import jsonCodefills from "@/util/mockdata/codeFills.json";
+import jsonCodeBlocks from "@/util/mockdata/codeBlocks.json";
 
 export default {
   name: "app",
@@ -108,9 +109,10 @@ export default {
   },
   methods: {
     getCodeBlocksByGameId(gameId) {
-        apiHandlers.getCodeBlocksByGameId(gameId)
-        .then(data => this.codeBlocks = data)
-        .catch(err => console.log('getcodeBlockByGameId', err));
+        // apiHandlers.getCodeBlocksByGameId(gameId)
+        // .then(data => this.codeBlocks = data)
+        // .catch(err => console.log('getcodeBlockByGameId', err));
+        this.codeBlocks = jsonCodeBlocks;
     },
 
     showCodeFills(codeBlock) {
@@ -131,9 +133,9 @@ export default {
             codeBlock => codeBlock.file_id === files[0].id
         );
     },
-    getCodeBlocks(codeBlocks) {
-        this.codeBlocks = codeBlocks;
-    },
+    // getCodeBlocks(codeBlocks) {
+    //     this.codeBlocks = jsonCodeBlocks;
+    // },
     selectCodeFill(codeFill) {
       this.selectedCodeFill = codeFill;
       // If the codeBlockId in the codeFill is the same,
@@ -157,11 +159,11 @@ export default {
     deploy() {
         console.log("DEPLOYED!");
         console.log(this.files);
-        this.files.forEach(file => {
-            console.log("FILE: " + file.name);
-            file.codeBlocks.forEach(codeBlock => {
-                console.log(codeBlock.code);
-            });
+        this.codeBlocks.forEach(codeBlock => {
+            console.log("BLOCK: " + codeBlock.code);
+            // file.codeBlocks.forEach(codeBlock => {
+            //     console.log(codeBlock.code);
+            // });
         });
     },
     // Get the games that are currently being played.
@@ -172,18 +174,20 @@ export default {
         .catch(err => console.log("getAvailableGames", err));
     },
     getFilesByGameId(id) {
-      apiHandlers
-        .getFilesByGameId(id)
-        .then(data => (this.files = data))
-        .catch(err => console.log("getFilesByGameId", err));
+      // apiHandlers
+      //   .getFilesByGameId(id)
+      //   .then(data => (this.files = data))
+      //   .catch(err => console.log("getFilesByGameId", err));
+      this.files = jsonFiles;
     },
     getCodeFillsByGameId(gameID) {
-      apiHandlers
-        .getCodeFillsByGameId(gameID)
-        .then(data => {
-          this.codeFills = data;
-        })
-        .catch(err => console.log("getCodeFills", err));
+      // apiHandlers
+      //   .getCodeFillsByGameId(gameID)
+      //   .then(data => {
+      //     this.codeFills = data;
+      //   })
+      //   .catch(err => console.log("getCodeFills", err));
+      this.codeFills = jsonCodefills;
     },
     // Used to get the gameId based on the selected game name.
     getSelectedGameIdByName(name) {

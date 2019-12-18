@@ -1,62 +1,152 @@
 [
     {
         "id": 1,
-        "code": "color = red;",
+        "code": "if(e.code === 'Space') {",
         "exec_id": 1,
-        "code_block_id": 1
+        "code_block_id": 2
     },
     {
         "id": 2,
-        "code": "setColor(color) {",
+        "code": "if(e.code = 'Space') {",
         "exec_id": 2,
-        "code_block_id": 1
+        "code_block_id": 2
     },
     {
         "id": 3,
-        "code": "function (color) {",
+        "code": "if(e.code === 'KeyJ') {",
         "exec_id": 3,
-        "code_block_id": 1
+        "code_block_id": 2
     },
     {
         "id": 4,
-        "code": "function setColor(color) {",
-        "exec_id": 4,
-        "code_block_id": 1
+        "code": "const spaceBetween = 0 + 0.1 / (game.level * 0.001 + 0.999);",
+        "exec_id": 1,
+        "code_block_id": 5
     },
     {
         "id": 5,
-        "code": "speed = 5;",
-        "exec_id": 1,
-        "code_block_id": 4
+        "code": "const spaceBetween = 0.125 + 0.1 / (game.level * 0.001 + 0.999);",
+        "exec_id": 2,
+        "code_block_id": 5
     },
     {
         "id": 6,
-        "code": "this.speed = 17;",
-        "exec_id": 2,
-        "code_block_id": 4
+        "code": "const spaceBetween = 0.0001 + 0.1 / (game.level * 0.001 + 0.999);",
+        "exec_id": 3,
+        "code_block_id": 5
     },
     {
         "id": 7,
-        "code": "speed = speed;",
-        "exec_id": 3,
-        "code_block_id": 4
+        "code": "const birdSize = 0.4;",
+        "exec_id": 1,
+        "code_block_id": 7
     },
     {
         "id": 8,
-        "code": "this.speed = 5;",
-        "exec_id": 5,
-        "code_block_id": 4
+        "code": "const birdSize = 0.0865;",
+        "exec_id": 2,
+        "code_block_id": 7
     },
     {
         "id": 9,
-        "code": "Code fill test9",
-        "exec_id": 1,
-        "code_block_id": 0
+        "code": "const birdSize = 0.025;",
+        "exec_id": 3,
+        "code_block_id": 7
     },
     {
         "id": 10,
-        "code": "Code fill test10",
+        "code": "const speed = 40;",
+        "exec_id": 1,
+        "code_block_id": 8
+    },
+    {
+        "id": 11,
+        "code": "const speed = 10;",
         "exec_id": 2,
-        "code_block_id": 0
+        "code_block_id": 8
+    },
+    {
+        "id": 12,
+        "code": "const speed = 100;",
+        "exec_id": 3,
+        "code_block_id": 8
+    },
+    {
+        "id": 13,
+        "code": "const gravity = 10;",
+        "exec_id": 1,
+        "code_block_id": 9
+    },
+    {
+        "id": 14,
+        "code": "const gravity = -5;",
+        "exec_id": 2,
+        "code_block_id": 9
+    },
+    {
+        "id": 15,
+        "code": "const gravity = 3.5;",
+        "exec_id": 3,
+        "code_block_id": 9
+    },
+    {
+        "id": 16,
+        "code": "const gravity = -3.5;",
+        "exec_id": 4,
+        "code_block_id": 9
+    },
+    {
+        "id": 17,
+        "code": "const scoreMultiplier = -3",
+        "exec_id": 1,
+        "code_block_id": 10
+    },
+    {
+        "id": 18,
+        "code": "const scoreMultiplier = 0.5",
+        "exec_id": 2,
+        "code_block_id": 10
+    },
+    {
+        "id": 19,
+        "code": "const scoreMultiplier = 0.1",
+        "exec_id": 3,
+        "code_block_id": 10
+    },
+    {
+        "id": 20,
+        "code": "this.color = red;",
+        "exec_id": 1,
+        "code_block_id": 14
+    },
+    {
+        "id": 21,
+        "code": "this.color = yellow;",
+        "exec_id": 2,
+        "code_block_id": 14
+    },
+    {
+        "id": 22,
+        "code": "this.color = blue;",
+        "exec_id": 3,
+        "code_block_id": 14
+    },
+    {
+        "id": 23,
+        "code": "this.color = white;",
+        "exec_id": 1,
+        "code_block_id": 17
+    },
+    {
+        "id": 24,
+        "code": "this.color = green;",
+        "exec_id": 2,
+        "code_block_id": 17
+    },
+    {
+        "id": 25,
+        "code": "this.color = purple;",
+        "exec_id": 3,
+        "code_block_id": 17
     }
 ]
