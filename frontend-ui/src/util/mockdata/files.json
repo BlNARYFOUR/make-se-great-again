@@ -1,16 +1,13 @@
 [
     {
-        "id": 1,
         "name": "Main.js",
         "game_id": 1
     },
     {
-        "id": 2,
         "name": "Game.js",
         "game_id": 1
     },
     {
-        "id": 3,
         "name": "UI.js",
         "game_id": 1
     }
