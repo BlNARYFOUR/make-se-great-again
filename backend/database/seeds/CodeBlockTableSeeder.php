@@ -10,16 +10,15 @@ class CodeBlockTableSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        $codeblocks = [
-            [ 'code' => null, 'adjustable' => true, 'file_id' => 1 ],
-            [ 'code' => "this.color = color;", 'adjustable' => false, 'file_id' => 1 ],
-            [ 'code' => "} <br> <br> function setSpeed(speed) {", 'adjustable' => false, 'file_id' => 1 ],
-            [ 'code' => null, 'adjustable' => true, 'file_id' => 1 ],
-            [ 'code' => "}", 'adjustable' => false, 'file_id' => 1 ],
-        ];
+        $json = File::get( "database/data/codeBlocks.json" );
+        $codeBlocks = json_decode( $json );
 
-        foreach ( $codeblocks as $block ) {
-            CodeBlock::create( $block );
+        foreach ( $codeBlocks as $block ) {
+            CodeBlock::create( array(
+                'code'       => $block->code,
+                'adjustable' => $block->adjustable,
+                'file_id'    => $block->file_id
+            ) );
         }
     }
 }

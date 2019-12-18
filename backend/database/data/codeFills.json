@@ -1,0 +1,127 @@
+[
+    {
+        "code": "if(e.code === 'Space') {",
+        "exec_id": 1,
+        "code_block_id": 2
+    },
+    {
+        "code": "if(e.code = 'Space') {",
+        "exec_id": 2,
+        "code_block_id": 2
+    },
+    {
+        "code": "if(e.code === 'KeyJ') {",
+        "exec_id": 3,
+        "code_block_id": 2
+    },
+    {
+        "code": "const spaceBetween = 0 + 0.1 / (game.level * 0.001 + 0.999);",
+        "exec_id": 1,
+        "code_block_id": 5
+    },
+    {
+        "code": "const spaceBetween = 0.125 + 0.1 / (game.level * 0.001 + 0.999);",
+        "exec_id": 2,
+        "code_block_id": 5
+    },
+    {
+        "code": "const spaceBetween = 0.0001 + 0.1 / (game.level * 0.001 + 0.999);",
+        "exec_id": 3,
+        "code_block_id": 5
+    },
+    {
+        "code": "const birdSize = 0.4;",
+        "exec_id": 1,
+        "code_block_id": 7
+    },
+    {
+        "code": "const birdSize = 0.0865;",
+        "exec_id": 2,
+        "code_block_id": 7
+    },
+    {
+        "code": "const birdSize = 0.025;",
+        "exec_id": 3,
+        "code_block_id": 7
+    },
+    {
+        "code": "const speed = 40;",
+        "exec_id": 1,
+        "code_block_id": 8
+    },
+    {
+        "code": "const speed = 10;",
+        "exec_id": 2,
+        "code_block_id": 8
+    },
+    {
+        "code": "const speed = 100;",
+        "exec_id": 3,
+        "code_block_id": 8
+    },
+    {
+        "code": "const gravity = 10;",
+        "exec_id": 1,
+        "code_block_id": 9
+    },
+    {
+        "code": "const gravity = -5;",
+        "exec_id": 2,
+        "code_block_id": 9
+    },
+    {
+        "code": "const gravity = 3.5;",
+        "exec_id": 3,
+        "code_block_id": 9
+    },
+    {
+        "code": "const gravity = -3.5;",
+        "exec_id": 4,
+        "code_block_id": 9
+    },
+    {
+        "code": "const scoreMultiplier = -3",
+        "exec_id": 1,
+        "code_block_id": 10
+    },
+    {
+        "code": "const scoreMultiplier = 0.5",
+        "exec_id": 2,
+        "code_block_id": 10
+    },
+    {
+        "code": "const scoreMultiplier = 0.1",
+        "exec_id": 3,
+        "code_block_id": 10
+    },
+    {
+        "code": "this.color = red;",
+        "exec_id": 1,
+        "code_block_id": 14
+    },
+    {
+        "code": "this.color = yellow;",
+        "exec_id": 2,
+        "code_block_id": 14
+    },
+    {
+        "code": "this.color = blue;",
+        "exec_id": 3,
+        "code_block_id": 14
+    },
+    {
+        "code": "this.color = white;",
+        "exec_id": 1,
+        "code_block_id": 17
+    },
+    {
+        "code": "this.color = green;",
+        "exec_id": 2,
+        "code_block_id": 17
+    },
+    {
+        "code": "this.color = purple;",
+        "exec_id": 3,
+        "code_block_id": 17
+    }
+]

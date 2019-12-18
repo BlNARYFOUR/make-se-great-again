@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\File;
 
 class FileTableSeeder extends Seeder
 {
@@ -12,13 +11,14 @@ class FileTableSeeder extends Seeder
      */
     public function run()
     {
-        $files = [
-            ['name' => 'Game.js', 'game_id' => 1],
-            ['name' => 'Bird.js', 'game_id' => 1],
-        ];
+        $json = File::get("database/data/files.json");
+        $files = json_decode($json);
 
         foreach ($files as $file) {
-            File::create($file);
+            App\Models\File::create(array(
+                'name' => $file->name,
+                'game_id' => $file->game_id
+            ));
         }
     }
 }
