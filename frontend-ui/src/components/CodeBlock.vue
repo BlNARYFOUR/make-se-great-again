@@ -34,8 +34,14 @@ export default {
       type: Number,
       required: true
     },
-    codeFillId: Number,
-    codeFillExecId: Number,
+    codeFillId: {
+      type: Number,
+      default: null
+    },
+    codeFillExecId: {
+      type: Number,
+      default: null
+    },
     selectedCodeBlockId: Number
   },
   watch: {

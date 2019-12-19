@@ -66,7 +66,7 @@ export default {
     return {
       // All files which are loaded for the selected game.
       files: [],
-      
+
       // All CodeFills from the selected game.
       codeFills: [],
       // All CodeFills for selected CodeBlock.
@@ -79,11 +79,14 @@ export default {
       // All CodeBlocks from the selected File.
       usableCodeBlocks: [],
       selectedCodeBlock: {},
-      
+
       selectedTab: "",
       // The different games that can be connected with.
       availableGames: [],
       selectedGame: {},
+      // This Id references to the gameType id eg. HowestBird => 1, Mario Bros => 2...adjustable
+      // This Id is used to get the correct game data, and is not to be confused with the
+      // selectectedGame.id
       selectedGameId: 0
     };
   },
@@ -128,9 +131,10 @@ export default {
         .catch(err => console.log("getFilesByGameId", err));
     },
     getCodeBlocksByGameId(gameId) {
-        apiHandlers.getCodeBlocksByGameId(gameId)
-        .then(data => this.codeBlocks = data)
-        .catch(err => console.log('getcodeBlockByGameId', err));
+      apiHandlers
+        .getCodeBlocksByGameId(gameId)
+        .then(data => (this.codeBlocks = data))
+        .catch(err => console.log("getcodeBlockByGameId", err));
     },
     getCodeFillsByGameId(gameID) {
       apiHandlers
@@ -142,9 +146,9 @@ export default {
     },
     showCodeBlocks(files) {
       // Get the usableCodeBlocks by checking the FileId of the codeBlock.
-        this.usableCodeBlocks = this.codeBlocks.filter(
-            codeBlock => codeBlock.file_id === files[0].id
-        );
+      this.usableCodeBlocks = this.codeBlocks.filter(
+        codeBlock => codeBlock.file_id === files[0].id
+      );
     },
     showCodeFills(codeBlock) {
       this.selectedCodeBlock = codeBlock;
@@ -165,7 +169,7 @@ export default {
       if (this.selectedCodeBlock.id === codeFill.codeBlockId) {
         this.selectedCodeBlock.code = codeFill.code;
         this.selectedCodeBlock.codeFillId = codeFill.id;
-        this.selectedCodeBlock.codeFillexecId = codeFill.execId;
+        this.selectedCodeBlock.codeFillExecId = codeFill.execId;
         this.selectedCodeFillId = this.selectedCodeBlock.codeFillId;
       }
     },
@@ -180,11 +184,23 @@ export default {
       location.reload();
     },
     deploy() {
-        console.log("DEPLOYED!");
-        // console.log(this.codeBlocks);
-        let data = this.codeBlocks.filter(codeBlock => codeBlock.adjustable);
-        console.log(data);
-    },
+      console.log("DEPLOYED!");
+      let data = this.codeBlocks.filter(codeBlock => codeBlock.adjustable);
+      let dataToSend = [];
+      for(let i = 0; i < data.length; i++) {
+        dataToSend.push({
+          'id' : data[i].id,
+          'codeFillId' : data[i].codeFillId ? data[i].codeFillId : null,
+          'codeFillExecId' : data[i].codeFillExecId ? data[i].codeFillExecId : null
+        });
+      };
+      apiHandlers
+        .updateConnection(data, this.selectedGame.id)
+        .then(data => {
+          console.log('Server response: ', data.message);
+        })
+        .catch(err => console.log("Server error response: ", err));
+    }
   },
   created() {
     this.getAvailableGames();
