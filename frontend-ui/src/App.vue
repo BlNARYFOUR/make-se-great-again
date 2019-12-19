@@ -195,9 +195,10 @@ export default {
         });
       };
       apiHandlers
-        .updateConnection(data, this.selectedGame.id)
-        .then(data => {
-          console.log('Server response: ', data.message);
+        .updateConnection(dataToSend, this.selectedGame.id)
+        .then(res => {
+          console.log('Server response: ', res.message);
+          console.log('Data send: ', res.send);
         })
         .catch(err => console.log("Server error response: ", err));
     }
