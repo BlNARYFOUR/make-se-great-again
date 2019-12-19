@@ -26,6 +26,7 @@ Route::get('/games', [GameController::class, 'get'])->name('games.get');
 Route::get('/games/{name}', [GameController::class, 'getByName'])->name('games.getbyname');
 
 Route::get('/connections', [ConnectionController::class, 'get'])->name('connections.get');
+Route::post('/connections/{id}/update', [ConnectionController::class, 'update'])->name('connections.update');
 
 Route::get('/codeBlocks', [CodeBlockController::class, 'get'])->name('codeblocks.get');
 Route::get('/codeBlocks/{gameId}', [CodeBlockController::class, 'getByGameId'])->name('codeblocks.getbygameid');
