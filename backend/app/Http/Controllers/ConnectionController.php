@@ -18,6 +18,6 @@ class ConnectionController extends Controller
         $data = $request->getContent();
         $data = json_decode($data);
 
-        return \response()->json(['message' => 'Connection update succesfully!']);
+        return \response()->json(['message' => 'Connection update succesfully!', 'send' => $data]);
     }
 }
