@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\MessageHandler;
 use App\Models\Connection;
+use App\Models\Deploy;
 use App\SocketModels\Env;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -16,7 +17,8 @@ class WebSocketController extends Controller implements  MessageComponentInterfa
 
     public function __construct()
     {
-        Connection::truncate();
+        Deploy::truncate();
+        Connection::query()->delete();
 
         if(is_null($this::$env)) {
             $this::$env = new Env();

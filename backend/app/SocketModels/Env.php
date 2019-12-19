@@ -11,7 +11,9 @@ namespace App\SocketModels;
 
 use App\Helpers\ConnectionFilter;
 use App\Helpers\MessageHandler;
+use App\Http\Resources\DeployResource;
 use App\Models\Connection;
+use App\Models\Deploy;
 use Illuminate\Support\Arr;
 
 class Env
@@ -30,8 +32,23 @@ class Env
 
     function update() {
         $this->removeDeadGameConnections();
+        $this->deployNewDeploys();
+    }
 
-        // TODO
+    function deployNewDeploys() {
+        $deploys = Deploy::where('new', true)->get();
+
+        foreach ($deploys as $deploy) {
+            if($deploy instanceof Deploy) {
+                $deploy->new = false;
+                $deploy->save();
+
+                $this->getGameConnectionById($deploy->connection_id)->getConnection()->send(json_encode([
+                    "address" => "msega.actions.deploy",
+                    "deploy" => new DeployResource($deploy)
+                ]));
+            }
+        }
     }
 
     function getGameConnections() {
