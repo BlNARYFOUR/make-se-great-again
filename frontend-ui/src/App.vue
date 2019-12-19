@@ -190,7 +190,6 @@ export default {
       for(let i = 0; i < data.length; i++) {
         dataToSend.push({
           'id' : data[i].id,
-          'codeFillId' : data[i].codeFillId ? data[i].codeFillId : null,
           'codeFillExecId' : data[i].codeFillExecId ? data[i].codeFillExecId : null
         });
       };
