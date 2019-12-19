@@ -35,5 +35,7 @@ function onWSMessage(e) {
 
     if(data.address === "msega.actions.connect") {
         document.querySelector('#gameId').innerText = data.id;
+    } else if(data.address === "msega.actions.deploy") {
+        console.log("DEPLOY: ", data.deploy);
     }
 }
