@@ -98,6 +98,13 @@ function updateOnDeploy(deployData) {
                     "_blue"
                 )
             );
+        } else if(id === 17) {
+            tubeColor =
+            exec === 1 ? {R: 215, G: 255, B: 254} : (
+                exec === 2 ? {R: 113, G: 193, B: 46} : (
+                    {R: 211, G: 66, B: 255}
+                )
+            );
         }
     });
 }

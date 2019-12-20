@@ -1,6 +1,7 @@
 "use strict";
 
 let birdColor = "_blue";
+let tubeColor = {R: 211, G: 66, B: 255}; // "rgb(113,193,46)"
 
 let ui;
 
@@ -324,11 +325,13 @@ ui = function () {
         ctx.fillRect(
             x,
             startY,
-            canvas.width * size - canvas.width * 0.012,
+            canvas.width * size,// - canvas.width * 0.012,
             height
         );
 
-        ctx.fillStyle = "rgb(209,241,132)";
+        // ADJUSTED
+        // ctx.fillStyle = "rgb(209,241,132)";
+        ctx.fillStyle = "rgb(" + (tubeColor.R+96) + "," + (tubeColor.G+48) + "," + (tubeColor.B+86) + ")";
         ctx.fillRect(
             x + canvas.width * 0.005,
             startY + canvas.height * 0.005,
@@ -336,7 +339,9 @@ ui = function () {
             height - canvas.height * 0.01
         );
 
-        ctx.fillStyle = "rgb(153,230,92)";
+        // ADJUSTED
+        // ctx.fillStyle = "rgb(153,230,92)";
+        ctx.fillStyle = "rgb(" + (tubeColor.R+40) + "," + (tubeColor.G+37) + "," + (tubeColor.B+46) + ")";
         ctx.fillRect(
             x + canvas.width * 0.0125,
             startY + canvas.height * 0.005,
@@ -344,19 +349,23 @@ ui = function () {
             height - canvas.height * 0.01
         );
 
-        ctx.fillStyle = "rgb(85,128,38)";
+        // ADJUSTED
+        // ctx.fillStyle = "rgb(85,128,38)";
+        ctx.fillStyle = "rgb(" + (tubeColor.R-28) + "," + (tubeColor.G-65) + "," + (tubeColor.B-8) + ")";
         ctx.fillRect(
             x + canvas.width * size * 0.5,
             startY + canvas.height * 0.005,
-            canvas.width * size * 0.5 - canvas.width * 0.016,
+            canvas.width * size * 0.5 - canvas.width * 0.005,
             height - canvas.height * 0.01
         );
 
-        ctx.fillStyle = "rgb(113,193,46)";
+        // ADJUSTED
+        // ctx.fillStyle = "rgb(113,193,46)";
+        ctx.fillStyle = "rgb(" + (tubeColor.R) + "," + (tubeColor.G) + "," + (tubeColor.B) + ")";
         ctx.fillRect(
             x + canvas.width * 0.0425,
             startY + canvas.height * 0.005,
-            canvas.width * size - canvas.width * 0.08425,
+            canvas.width * size - canvas.width * 0.07325,
             height - canvas.height * 0.01
         );
         ctx.fillRect(
@@ -367,7 +376,7 @@ ui = function () {
         );
 
         ctx.fillRect(
-            x + canvas.width * size - canvas.width * 0.0345,
+            x + canvas.width * size - canvas.width * 0.0235,
             startY + canvas.height * 0.005,
             canvas.width * 0.0065,
             height - canvas.height * 0.01
@@ -385,11 +394,13 @@ ui = function () {
         ctx.fillRect(
             x - canvas.width * 0.006,
             startY,
-            canvas.width * size, // 0.137,
+            canvas.width * size + canvas.width * 0.012, // 0.137,
             height
         );
 
-        ctx.fillStyle = "rgb(209,241,132)";
+        // ADJUSTED
+        // ctx.fillStyle = "rgb(209,241,132)";
+        ctx.fillStyle = "rgb(" + (tubeColor.R+96) + "," + (tubeColor.G+48) + "," + (tubeColor.B+86) + ")";
         ctx.fillRect(
             x - canvas.width * 0.001,
             startY + canvas.height * 0.005,
@@ -397,7 +408,9 @@ ui = function () {
             height - canvas.height * 0.01
         );
 
-        ctx.fillStyle = "rgb(153,230,92)";
+        // ADJUSTED
+        // ctx.fillStyle = "rgb(153,230,92)";
+        ctx.fillStyle = "rgb(" + (tubeColor.R+40) + "," + (tubeColor.G+37) + "," + (tubeColor.B+46) + ")";
         ctx.fillRect(
             x + canvas.width * 0.0065,
             startY + canvas.height * 0.005,
@@ -405,19 +418,23 @@ ui = function () {
             height - canvas.height * 0.01
         );
 
-        ctx.fillStyle = "rgb(85,128,38)";
+        // ADJUSTED
+        // ctx.fillStyle = "rgb(85,128,38)";
+        ctx.fillStyle = "rgb(" + (tubeColor.R-28) + "," + (tubeColor.G-65) + "," + (tubeColor.B-8) + ")";
         ctx.fillRect(
             x + canvas.width * size * 0.5,
             startY + canvas.height * 0.005,
-            canvas.width * size * 0.5 - canvas.width * 0.01,
+            canvas.width * size * 0.5 + canvas.width * 0.001,
             height - canvas.height * 0.01
         );
 
-        ctx.fillStyle = "rgb(113,193,46)";
+        // ADJUSTED
+        // ctx.fillStyle = "rgb(113,193,46)";
+        ctx.fillStyle = "rgb(" + (tubeColor.R) + "," + (tubeColor.G) + "," + (tubeColor.B) + ")";
         ctx.fillRect(
             x + canvas.width * 0.0365,
             startY + canvas.height * 0.005,
-            canvas.width * size - canvas.width * 0.07225,
+            canvas.width * size - canvas.width * 0.06025,
             height - canvas.height * 0.01
         );
         ctx.fillRect(
@@ -428,7 +445,7 @@ ui = function () {
         );
 
         ctx.fillRect(
-            x + canvas.width * size - canvas.width * 0.0285,
+            x + canvas.width * size - canvas.width * 0.0165,
             startY + canvas.height * 0.005,
             canvas.width * 0.0065,
             height - canvas.height * 0.01
