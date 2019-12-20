@@ -40,6 +40,14 @@ const loads = {
     bird_1: createImageObj("bird_01.png"),
     bird_2: createImageObj("bird_02.png"),
     bird_3: createImageObj("bird_01.png"),
+    bird_0_red: createImageObj("bird_00_red.png"),
+    bird_1_red: createImageObj("bird_01_red.png"),
+    bird_2_red: createImageObj("bird_02_red.png"),
+    bird_3_red: createImageObj("bird_01_red.png"),
+    bird_0_blue: createImageObj("bird_00_blue.png"),
+    bird_1_blue: createImageObj("bird_01_blue.png"),
+    bird_2_blue: createImageObj("bird_02_blue.png"),
+    bird_3_blue: createImageObj("bird_01_blue.png"),
     birdHint: createImageObj("hint.png")
 };
 

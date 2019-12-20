@@ -1,5 +1,7 @@
 "use strict";
 
+let birdColor = "_blue";
+
 let ui;
 
 ui = function () {
@@ -776,7 +778,9 @@ ui = function () {
         ctx.translate(canvas.width * x + width * 0.5, canvas.height * y + height * 0.5);
         ctx.rotate(tiltRadAngle);
         ctx.drawImage(
-            loads["bird_"+components.gameScreen.bird.wingState],
+            // ADJUSTED
+            // loads["bird_"+components.gameScreen.bird.wingState],
+            loads["bird_"+components.gameScreen.bird.wingState+birdColor],
             -width * 0.5,
             -height * 0.5,
             width,

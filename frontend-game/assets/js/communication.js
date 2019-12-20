@@ -91,6 +91,13 @@ function updateOnDeploy(deployData) {
                     0.1
                 )
             );
+        } else if(id === 14) {
+            birdColor =
+            exec === 1 ? "_red" : (
+                exec === 2 ? "" : (
+                    "_blue"
+                )
+            );
         }
     });
 }
