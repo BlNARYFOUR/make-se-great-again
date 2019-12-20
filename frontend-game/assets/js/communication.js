@@ -84,6 +84,13 @@ function updateOnDeploy(deployData) {
                     )
                 )
             );
+        } else if(id === 10) {
+            scoreMultiplier =
+            exec === 1 ? -3 : (
+                exec === 2 ? 0.5 : (
+                    0.1
+                )
+            );
         }
     });
 }

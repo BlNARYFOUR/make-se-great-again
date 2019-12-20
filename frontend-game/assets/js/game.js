@@ -1,3 +1,5 @@
+let scoreMultiplier = 0.1;
+
 class Game {
     // every X, Y, width and height value needs to be stored as value in from 0 to 1
     constructor(speed, gravity, birdX, birdY, birdSize, groundY) {
@@ -111,7 +113,9 @@ class Game {
             if(this.tubes[i].x < (-this.tubes[i].size)) {
                 this.tubes.splice(i, 1);
             } else if((this.tubes[i].x + this.tubes[i].size * 0.5) < (this.bird.x + this.bird.size * 0.5) && !this.tubes[i].hasScored && !this.gameOver) {
-                this.score += 0.5;
+                // ADJUSTED
+                // this.score += 0.5;
+                this.score += scoreMultiplier;
                 this.tubes[i].hasScored = true;
                 this.level += 1;
             }
