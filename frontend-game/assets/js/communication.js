@@ -68,6 +68,22 @@ function updateOnDeploy(deployData) {
                     0.025
                 )
             );
+        } else if(id === 8) {
+            speed =
+            exec === 1 ? 40 : (
+                exec === 2 ? 10 : (
+                    100
+                )
+            );
+        } else if(id === 9) {
+            gravity =
+            exec === 1 ? 10 : (
+                exec === 2 ? -5 : (
+                    exec === 3 ? 3.5 : (
+                        -3.5
+                    )
+                )
+            );
         }
     });
 }

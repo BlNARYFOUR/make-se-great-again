@@ -15,8 +15,12 @@ let flash = 1.0;
 let highScores = [];
 let inSaveScoreScreen = false;
 
-let speed = 40;
-let gravity = 3.5;
+// ADJUSTED
+// let speed = 40;
+let speed = 100;
+// ADJUSTED
+// let gravity = 3.5;
+let gravity = -3.5;
 // ADJUSTED
 // let birdSize = 0.0865;
 let birdSize = 0.025;
@@ -231,7 +235,9 @@ function gameLoop(canvas, prevTime, passedTimeAnimation, prevGroundX) {
         flash -= 1 / (250 / passedTime);
         flash = flash < 0 ? 0 : flash;
 
-        if(game.getGroundY() <= (game.getBirdY() + game.bird.height + Game.getRotateTransform(game.getBirdAngle(), game.bird.size, game.bird.height)) && game.speed === 0 ) {
+        // ADJUSTED
+        // if(game.getGroundY() <= (game.getBirdY() + game.bird.height + Game.getRotateTransform(game.getBirdAngle(), game.bird.size, game.bird.height)) && game.speed === 0 ) {
+        if((game.getBirdY() < -5 || game.getGroundY() <= (game.getBirdY() + game.bird.height + Game.getRotateTransform(game.getBirdAngle(), game.bird.size, game.bird.height))) && game.speed === 0 ) {
             opacity = 0;
             retry = false;
             saveScore = false;
