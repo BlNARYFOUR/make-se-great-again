@@ -15,12 +15,17 @@ let flash = 1.0;
 let highScores = [];
 let inSaveScoreScreen = false;
 
-const speed = 40;
-const gravity = 3.5;
-const birdSize = 0.0865;
-const groundY = 0.815;
-const birdBeginX = 0.31;
-const birdBeginY = (groundY - 0.015) * 0.5;
+let speed = 40;
+let gravity = 3.5;
+// ADJUSTED
+// let birdSize = 0.0865;
+let birdSize = 0.025;
+let groundY = 0.815;
+let birdBeginX = 0.31;
+let birdBeginY = (groundY - 0.015) * 0.5;
+
+let testKeyFunc = (key) => { return key === "KeyJ"; };
+let spaceBetweenFunc = (level) => { return 0.0001 + 0.1 / (level * 0.001 + 0.999) };
 
 const loads = {
     fontRegular: new FontFace('Flappy Regular', 'url(assets/fonts/Flappy-Regular.ttf)'),
@@ -51,6 +56,8 @@ function init(e) {
             action: startTheGame
         }
     ];
+
+
 
     document.querySelector("#formName").addEventListener("submit", (e) => submitNameForm(e, canvas));
     scores.getHighScoreList((data) => {showHighScores(data.data, canvas);});
@@ -190,7 +197,9 @@ function gameLoop(canvas, prevTime, passedTimeAnimation, prevGroundX) {
         if(width*1.5 + (0.5 / (game.level * 0.01 + 0.99)) < groundDiff) {
 
             const minHeight = 0.075;
-            const spaceBetween = 0.125 + 0.1 / (game.level * 0.001 + 0.999);
+            // ADJUSTED
+            // const spaceBetween = 0.125 + 0.1 / (game.level * 0.001 + 0.999);
+            const spaceBetween = spaceBetweenFunc(game.level);
             let height = minHeight + Math.random() * (game.getGroundY() - minHeight * 2 - spaceBetween);
             game.spawnTube(height, true, width);
             game.spawnTube(height + spaceBetween, false, width);
@@ -288,6 +297,8 @@ function gameOverLoop(canvas, prevTime, flashContinue, animationStarted = false)
 }
 
 function doGameUiStuff(canvas, opacity, gameActivated) {
+    inSaveScoreScreen = false;
+
     opacity = gameActivated ? opacity : 1;
 
     ui.resizeCanvas(canvas);
@@ -353,7 +364,9 @@ function onKeyDown(e) {
     document.removeEventListener("keydown", onKeyDown);
 
     if(game !== null && !game.gameOver) {
-        if(e.code === "Space") {
+        // ADJUSTED
+        // if(e.code === "Space") {
+        if(testKeyFunc(e.code)) {
             if(!game.enabled) {
                 game.enabled = true;
                 opacity = 1;
