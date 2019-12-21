@@ -1,20 +1,26 @@
 <template>
   <div id="app">
-    <div class="selected_game">
-      Selected game:
-      <select v-model="selectedGame">
-        <option
-          class="option"
-          v-for="game in availableGames"
-          :key="game.name"
-          :value="game"
-        >{{game.name}} ({{ game.id }})</option>
-      </select>
-      <p @click="getAvailableGames()" class="refresh">&#8635;</p>
-    </div>
-    <div class="action_buttons">
-      <button class="button__reset" @click="reset">Reset</button>
-      <button class="button__deploy" @click="deploy">Deploy</button>
+    <header>
+      <h2>GameCoder</h2>
+      <img src="./assets/images/LogoHowest.png" alt="Howest Logo" >
+    </header>
+    <div class="controls">
+      <div class="selected_game">
+        Selected game:
+        <select v-model="selectedGame">
+          <option
+            class="option"
+            v-for="game in availableGames"
+            :key="game.id"
+            :value="game"
+          >{{game.name.split('_').join(' ')}} ({{ game.id }})</option>
+        </select>
+        <p @click="getAvailableGames()" class="refresh">&#8635;</p>
+      </div>
+      <div class="action_buttons">
+        <button class="button__reset" @click="reset">Reset</button>
+        <button class="button__deploy" @click="deploy">Deploy</button>
+      </div>
     </div>
     <div class="container">
       <div class="files">
@@ -187,17 +193,17 @@ export default {
       console.log("DEPLOYED!");
       let data = this.codeBlocks.filter(codeBlock => codeBlock.adjustable);
       let dataToSend = [];
-      for(let i = 0; i < data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         dataToSend.push({
-          'id' : data[i].id,
-          'codeFillExecId' : data[i].codeFillExecId ? data[i].codeFillExecId : null
+          id: data[i].id,
+          codeFillExecId: data[i].codeFillExecId ? data[i].codeFillExecId : null
         });
-      };
+      }
       apiHandlers
         .updateConnection(dataToSend, this.selectedGame.id)
         .then(res => {
-          console.log('Server response: ', res.message);
-          console.log('Data send: ', res.send);
+          console.log("Server response: ", res.message);
+          console.log("Data send: ", res.send);
         })
         .catch(err => console.log("Server error response: ", err));
     }

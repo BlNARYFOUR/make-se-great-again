@@ -3,7 +3,7 @@
     <div
       v-html="code"
       class="code"
-      :class="{ adjustable: adjustable, empty: !code, selected: isSelected }"
+      :class="{ adjustable: adjustable, empty: !code, selected: isSelected && adjustable }"
     ></div>
   </div>
 </template>

@@ -17,5 +17,7 @@
 }
 
 .selected {
-    border-color: map-get($color, secondary);
+    // border-color: map-get($color, secondary);
+    background-color: map-get($color, secondary) !important;
+    color: map-get($color, text--dark);
 }

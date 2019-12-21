@@ -2,7 +2,6 @@
     height: 5rem;
     border: 2px solid map-get($color, text--light);
     background-color: map-get($color, primary);
-    color: map-get($color, text--light);
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
@@ -14,7 +13,9 @@
     }
 
     &.selected {
-        border-color: map-get($color, secondary);
+        // border-color: map-get($color, secondary);
+        background-color: map-get($color, secondary);
+        color: map-get($color, text--dark);
     }
 }
 

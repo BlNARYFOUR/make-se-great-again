@@ -35,8 +35,9 @@
 }
 
 .tabs-component-panels {
-    padding: 2em;
+    overflow-y: auto;
+    padding: 1em;
     height: 100%;
     background-color: map-get($color, background--dark);
-    border: 1px solid map-get($color, text--light);
+    box-shadow: $box-shadow;
 }

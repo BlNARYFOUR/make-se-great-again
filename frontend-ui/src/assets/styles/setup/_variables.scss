@@ -1,7 +1,13 @@
 $color: (
     primary: #44C8F5,
-    secondary: #F57FC5,
-    background--light: #707070,
+    secondary: #6dfb82,
+    danger: #ff6565,   
+    background--light: #ffffff,
     background--dark: #464646,
     text--light: #ffffff,
+    text--dark: #464646
 );
+
+$box-shadow:  4px 4px 10px 0px rgba(153,153,153,1);
+$font-family: "vag", sans-serif;
+$font-family-code: "Code New Roman", sans-serif;
