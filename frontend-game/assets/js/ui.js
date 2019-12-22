@@ -1,6 +1,6 @@
 "use strict";
 
-let birdColor = "_blue";
+let birdColor = "_flash";
 let tubeColor = {R: 211, G: 66, B: 255}; // "rgb(113,193,46)"
 
 let ui;

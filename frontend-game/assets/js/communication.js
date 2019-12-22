@@ -95,7 +95,9 @@ function updateOnDeploy(deployData) {
             birdColor =
             exec === 1 ? "_red" : (
                 exec === 2 ? "" : (
-                    "_blue"
+                    exec === 3 ? "_blue" : (
+                        "_flash"
+                    )
                 )
             );
         } else if(id === 17) {
