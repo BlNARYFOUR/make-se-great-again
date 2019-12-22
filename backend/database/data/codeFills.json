@@ -110,6 +110,11 @@
         "code_block_id": 14
     },
     {
+        "code": "this.color = flash;",
+        "exec_id": 4,
+        "code_block_id": 14
+    },
+    {
         "code": "this.color = white;",
         "exec_id": 1,
         "code_block_id": 17
